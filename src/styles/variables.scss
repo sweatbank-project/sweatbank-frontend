@@ -1,0 +1,30 @@
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+
+// Font Sizes and Line Heights
+$font-size-sm: 0.875rem;
+$line-height-sm: 1.5rem;
+
+$font-size-base: 1rem;
+$line-height-base: 1.5rem;
+
+$font-size-lg: 1.125rem;
+$line-height-lg: 2rem;
+
+// Borders
+$border-width: 0.0625rem;
+$border-radius: 0.5rem;
+$border-color: rgb(209, 213, 219);
+$border-hover-color: rgb(156, 163, 175);
+
+// Colors
+$accent-color: rgb(147 51 234);
+$darker-accent-color: rgb(126 34 206);
+$dark-text-color: rgb(23, 23, 23);
+
+// Content Width
+$max-content-width: 80rem;
+$half-content-width: 40rem;
