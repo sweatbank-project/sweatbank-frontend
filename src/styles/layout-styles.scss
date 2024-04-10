@@ -1,0 +1,33 @@
+@import "./variables.scss";
+
+.centered-layout {
+  @extend .horizontal-center;
+  max-width: $max-content-width;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.responsive-centered-layout {
+  @extend .centered-layout;
+  @media (min-width: $breakpoint-sm) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  @media (min-width: $breakpoint-lg) {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.horizontal-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.button {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  border-radius: $border-radius;
+}
