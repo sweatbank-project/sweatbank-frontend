@@ -1,0 +1,114 @@
+$primary-color: 'white';
+$secondary-color: 'black';
+$link-color: #0275d8;
+$hover-color: darken($link-color, 10%);
+$font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin list-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: $primary-color;
+  color: $secondary-color;
+  padding: 1rem;
+  border-bottom: 2px solid black;
+
+  .logo {
+    align-self: flex-end;
+    margin-top: auto;
+    padding-bottom: 10px;
+
+    font-family: $font-stack;
+    font-size: 1.5rem;
+    font-weight: bold;
+
+    img {
+      height: auto;
+      width: 300px;
+    }
+  }
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+
+    ul {
+      @include list-reset;
+      display: flex;
+      padding: 0;
+      margin: 0 0 1rem 0;;
+      align-items: center;
+
+      &:first-child {
+        margin-bottom: auto;
+        li {
+          a {
+            color: $link-color;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            &:hover {
+              border: none;
+            }
+          }
+        }
+      }
+
+      &:not(:first-child) {
+        margin-top: 1.5rem;
+        li {
+          margin-right: 10px;
+          a {
+            color: $link-color;
+            text-decoration: none;
+            //border: 1px solid $link-color;
+            padding: 0.5rem 0.75rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 0 5px;
+            &:hover {
+              color: $hover-color;
+              //border-color: $hover-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .icon-logout {
+    // for logout icon
+
+  }
+
+  @media screen and (max-width: 768px) {
+    header {
+      nav {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        ul {
+          flex-direction: row;
+          margin: 0 10px;
+          &:first-child {
+            order: 2;
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
