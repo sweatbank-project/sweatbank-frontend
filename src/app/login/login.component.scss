@@ -9,7 +9,6 @@
   @media (min-width: 1024px) {
     display: block;
     background-image: url("../../assets/left-banner.png");
-    // background-size: auto;
     background-size: cover;
     background-position: center;
     width: 100%;
@@ -42,16 +41,21 @@
 .content-right {
   display: flex;
   flex-direction: column;
-  margin-left: auto;
-  margin-right: auto;
+
   align-items: center;
   justify-content: center;
   height: 100vh;
   max-width: 28rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
   h2 {
     width: 100%;
     margin-top: 0;
     margin-bottom: 3rem;
+  }
+  @media (min-width: 640px) {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
@@ -74,7 +78,6 @@
   overflow: hidden;
   background-color: rgb(102, 102, 102, 0.35);
   color: white;
-  // margin-top: 2rem;
   width: 15rem;
   transition: background-color 0.3s;
 
