@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
@@ -17,13 +22,16 @@ export class LoginComponent {
   passwordVisible: boolean = false;
 
   loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl(''),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(/\./),
+    ]),
+    password: new FormControl('', [Validators.required]),
   });
 
   onSubmit(): void {
     console.log(this.loginForm.value);
-    this.loginForm.reset();
   }
 
   togglePasswordVisibility() {

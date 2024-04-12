@@ -15,7 +15,10 @@
         <div class="form-group">
           <label for="email" class="form-label">Email address</label>
           <input type="email" class="form-input" id="email" name="email" formControlName="email">
-          <p>Error message</p>
+          @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
+          {
+          <span>Please enter a valid email address</span>
+          }
         </div>
         <div class="form-group">
           <label for="password" class="form-label">Your password</label>
@@ -24,13 +27,14 @@
               formControlName="password">
             <fa-icon [icon]="passwordVisible ? faEye : faEyeSlash" (click)="togglePasswordVisibility()"></fa-icon>
           </div>
-          <p>Error message</p>
+          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <span>Password is required</span>
+          }
           <a class="forgot-password-link" href="/">Forget your password</a>
         </div>
         <button type="submit" class="submit-button">Sign in</button>
         <p class="signup-message">Don't have an account? <a href="/">Sign up</a>
         </p>
-
       </form>
     </div>
   </div>
