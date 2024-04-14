@@ -1,0 +1,21 @@
+<label for="makes">Choose a car:</label>
+<select name="makes" id="makes" (change)="onMakeSelect($event)">
+  @for (car of carData.car_makes; track car.make) {
+  <option value="" disabled selected hidden>-</option>
+  <option [value]="car.make">{{car.make}}</option>
+  }
+</select>
+<hr>
+<label for="models">Choose a model:</label>
+@if (selectedMake) {
+<select name="models" id="models">
+  @for (model of selectedMake.models; track model) {
+  <option [value]="model">{{model}}</option>
+  }
+</select>
+}
+@else {
+<select disabled>
+  <option value="" disabled selected hidden>-</option>
+</select>
+}
