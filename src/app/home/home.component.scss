@@ -51,14 +51,21 @@
   color: black;
 }
 
-.progressbar li.active:before,
-.progressbar li.current:before {
+.progressbar li.active:before {
   border-color: #55b776;
   background: green;
 }
 
+.progressbar li.current:before {
+  border-color: yellow;
+  background: yellow;
+}
+
 .progressbar li.active + li:after {
-  background-color: #55b776;
+  background-color: green;
+}
+.progressbar li.current + li:after {
+  background-color: #7d7d7d;
 }
 
 .progressbar {

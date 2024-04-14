@@ -1,8 +1,8 @@
 <div class="container">
   <div class="progressbar-wrapper">
     <ul class="progressbar">
-      <li #activeStep step="1">Personal information</li>
-      <li #activeStep step="2">Leasing application</li>
+      <li class="current" #activeStep step="1">Leasing application</li>
+      <li #activeStep step="2">Personal information</li>
       <li #activeStep step="3">Salary</li>
       <li #activeStep step="4">Summary</li>
     </ul>
@@ -10,6 +10,78 @@
   <div class="tabs_inner">
     <form id="application" name="application" enctype="multipart/form-data" method="POST">
       <section #activeStepSection step="1" class="form-step">
+        <div class="form-group">
+          <label for="makes">Choose a car</label>
+          <select name="makes" id="makes" (change)="onMakeSelect($event)">
+            @for (car of carData.car_makes; track car.make) {
+              <option value="" disabled selected hidden>-</option>
+              <option [value]="car.make">{{car.make}}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="models">Choose a model</label>
+          @if (selectedMake) {
+            <select name="models" id="models">
+              @for (model of selectedMake.models; track model) {
+                <option [value]="model">{{model}}</option>
+              }
+            </select>
+          }
+          @else {
+            <select disabled>
+              <option value="" disabled selected hidden>-</option>
+            </select>
+          }
+        </div>
+        <div class="form-group">
+          <label for="yearOfManufacture">Year of manufacture</label>
+          <select id="yearOfManufacture" name="yearOfManufacture">
+            <option value="">Select year of manufacture</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="costOfTheVehicle">Cost of the vehicle</label>
+          <input type="text" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price">
+        </div>
+        <div class="form-group">
+          <label for="downPayment">Down payment</label>
+          <input type="text" id="downPayment" name="downPayment" placeholder="Enter down payment">
+        </div>
+        <div class="form-group">
+          <label for="leasingPeriod">Leasing period (in years)</label>
+          <select id="leasingPeriod" name="leasingPeriod">
+            <option value="">Select leasing period</option>
+            <option value="2011">1 year</option>
+            <option value="2012">2 years</option>
+            <option value="2013">3 years</option>
+            <option value="2014">4 years</option>
+            <option value="2015">5 years</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sellerName">Seller name</label>
+          <input type="text" id="sellerName" name="sellerName" placeholder="Enter sellers name">
+        </div>
+        <div class="form-button-bar">
+          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(2)">Forward</button>
+        </div>
+      </section>
+      <section #activeStepSection step="2" class="form-step d-none">
         <div class="form-group">
           <label for="education">Education</label>
           <select id="education" name="education">
@@ -85,21 +157,8 @@
           </select>
         </div>
         <div class="form-button-bar">
-          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(2)">Foward</button>
-        </div>
-      </section>
-      <section #activeStepSection step="2" class="form-step d-none">
-        <div class="form-group">
-          <label for="make">Make</label>
-          <select id="make" name="make">
-            <option value="">Select make</option>
-            <option value="1">BMW</option>
-            <option value="2">Audi</option>
-          </select>
-        </div>
-        <div class="form-button-bar">
           <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(1)">Back</button>
-          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(3)">Foward</button>
+          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(3)">Forward</button>
         </div>
       </section>
       <section #activeStepSection step="3" class="form-step d-none">
@@ -109,7 +168,7 @@
         </div>
         <div class="form-button-bar">
           <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(2)">Back</button>
-          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(4)">Foward</button>
+          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(4)">Forward</button>
         </div>
       </section>
       <section #activeStepSection step="4" class="form-step d-none">
