@@ -1,8 +1,181 @@
-<div class="progressbar-wrapper">
-  <ul class="progressbar">
-    <li class="active">Step 1</li>
-    <li>Step 2</li>
-    <li>Step 3</li>
-    <li>Step 4</li>
-  </ul>
-</div>
+<div class="container">
+  <div class="progressbar-wrapper">
+    <ul class="progressbar">
+      <li class="current" #activeStep step="1">Leasing application</li>
+      <li #activeStep step="2">Personal information</li>
+      <li #activeStep step="3">Salary</li>
+      <li #activeStep step="4">Summary</li>
+    </ul>
+  </div>
+  <div class="tabs_inner">
+    <form id="application" name="application" enctype="multipart/form-data" method="POST">
+      <section #activeStepSection step="1" class="form-step">
+        <div class="form-group">
+          <label for="makes">Choose a car</label>
+          <select name="makes" id="makes" (change)="onMakeSelect($event)">
+            @for (car of carData.car_makes; track car.make) {
+              <option value="" disabled selected hidden>-</option>
+              <option [value]="car.make">{{car.make}}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="models">Choose a model</label>
+          @if (selectedMake) {
+            <select name="models" id="models">
+              @for (model of selectedMake.models; track model) {
+                <option [value]="model">{{model}}</option>
+              }
+            </select>
+          }
+          @else {
+            <select disabled>
+              <option value="" disabled selected hidden>-</option>
+            </select>
+          }
+        </div>
+        <div class="form-group">
+          <label for="yearOfManufacture">Year of manufacture</label>
+          <select id="yearOfManufacture" name="yearOfManufacture">
+            <option value="">Select year of manufacture</option>
+            <option value="2011">2011</option>
+            <option value="2012">2012</option>
+            <option value="2013">2013</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="costOfTheVehicle">Cost of the vehicle</label>
+          <input type="text" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price">
+        </div>
+        <div class="form-group">
+          <label for="downPayment">Down payment</label>
+          <input type="text" id="downPayment" name="downPayment" placeholder="Enter down payment">
+        </div>
+        <div class="form-group">
+          <label for="leasingPeriod">Leasing period (in years)</label>
+          <select id="leasingPeriod" name="leasingPeriod">
+            <option value="">Select leasing period</option>
+            <option value="2011">1 year</option>
+            <option value="2012">2 years</option>
+            <option value="2013">3 years</option>
+            <option value="2014">4 years</option>
+            <option value="2015">5 years</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sellerName">Seller name</label>
+          <input type="text" id="sellerName" name="sellerName" placeholder="Enter sellers name">
+        </div>
+        <div class="form-button-bar">
+          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(2)">Forward</button>
+        </div>
+      </section>
+      <section #activeStepSection step="2" class="form-step d-none">
+        <div class="form-group">
+          <label for="education">Education</label>
+          <select id="education" name="education">
+            <option value="">Select education</option>
+            <option value="1">Primary</option>
+            <option value="2">Secondary</option>
+            <option value="3">Vocational</option>
+            <option value="4">College</option>
+            <option value="5">Higher</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="positionHeld">Position held</label>
+          <select id="positionHeld" name="positionHeld">
+            <option value="">Select position held</option>
+            <option value="1">Worker, Specialist/Office worker</option>
+            <option value="2">Superior specialist</option>
+            <option value="3">Middle manager</option>
+            <option value="4">Executive</option>
+            <option value="5">Higher</option>
+            <option value="6">Owner</option>
+            <option value="7">Student</option>
+            <option value="8">Pensioner</option>
+            <option value="9">At home</option>
+            <option value="10">Unemployed</option>
+            <option value="11">Private entepreneur</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="jobTitle">Job title</label>
+          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title">
+        </div>
+        <div class="form-group">
+          <label for="timeEmployed">Time employed</label>
+          <select id="timeEmployed" name="timeEmployed">
+            <option value="">Select time</option>
+            <option value="1">Trial period</option>
+            <option value="2">Up to 1 year</option>
+            <option value="3">Up to 2 year</option>
+            <option value="4">Up to 3 year</option>
+            <option value="5">Up to 4 year</option>
+            <option value="6">Up to 5 year</option>
+            <option value="7">More then 5 years</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="businessAreaOfYourEmployer">Business area of your employer</label>
+          <select id="businessAreaOfYourEmployer" name="businessAreaOfYourEmployer">
+            <option value="">Select business area</option>
+            <option value="1">Agriculture, forestry, fishery (hunting)</option>
+            <option value="2">Construction</option>
+            <option value="3">Industry (food processing, textile, timber, paper, chemical, metal etc.)</option>
+            <option value="4">Trade, personal service (wholesale and retail trade, hotels, restaurants)</option>
+            <option value="5">Transport, haulage, communications</option>
+            <option value="6">Financial intermediation (insurance, financial interm. assistance services)</option>
+            <option value="7">Education, culture</option>
+            <option value="8">Real estate activities</option>
+            <option value="9">Information Technologies</option>
+            <option value="10">Legal assistance, auditing and other business</option>
+            <option value="11">Health and social care</option>
+            <option value="12">Public administration and national defence</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="maritalStatus">Marital status</label>
+          <select id="maritalStatus" name="maritalStatus">
+            <option value="">Select marital status</option>
+            <option value="1">Single</option>
+            <option value="2">Married</option>
+            <option value="3">Common law marriage</option>
+            <option value="4">Divorced</option>
+            <option value="5">Widow/Widower</option>
+          </select>
+        </div>
+        <div class="form-button-bar">
+          <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(1)">Back</button>
+          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(3)">Forward</button>
+        </div>
+      </section>
+      <section #activeStepSection step="3" class="form-step d-none">
+        <div class="form-group">
+          <label for="monthlyIncomeAfterTaxes">Monthly income after taxes</label>
+          <input type="text" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income">
+        </div>
+        <div class="form-button-bar">
+          <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(2)">Back</button>
+          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(4)">Forward</button>
+        </div>
+      </section>
+      <section #activeStepSection step="4" class="form-step d-none">
+        <div class="form-button-bar">
+          <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(3)">Back</button>
+          <button class="button btn-navigate-form-step" type="submit">Send application</button>
+        </div>
+      </section>
+    </form>
+  </div>
