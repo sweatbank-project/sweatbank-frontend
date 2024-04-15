@@ -1,86 +1,100 @@
-main {
+.container {
   display: flex;
-  min-height: 100%;
-  overflow: hidden;
-  padding-top: 4rem;
-  @media (min-width: 640px) {
-    padding-top: 7rem;
-    padding-bottom: 7rem;
+  height: 100vh;
+  flex-direction: row;
+}
+
+.container-left {
+  display: none;
+  @media (min-width: 1024px) {
+    display: block;
+    background-image: url("../../assets/left-banner.png");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
   }
 }
 
-.container {
+.content-left {
   display: flex;
-  min-height: 100%;
   flex-direction: column;
-}
-
-.content {
+  color: white;
   margin-left: auto;
   margin-right: auto;
   align-items: center;
-  display: flex;
-  width: 100%;
-  max-width: 40rem;
-  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  max-width: 28rem;
+  h1 {
+    width: 100%;
+  }
+  p {
+    font-size: 1.25rem;
+    margin: 0;
+  }
 }
 
-.form-container {
-  box-sizing: border-box;
+.container-right {
   width: 100%;
-  margin-left: -1rem;
-  margin-right: -1rem;
-  margin-top: 2.5rem;
-  flex: 1 1 auto;
-  background-color: white;
-  padding: 2.5rem 1rem;
-  box-shadow: 0 25px 50px -12px rgb(17 24 39 / 0.1);
-  @media (min-width: 640px) {
-    max-width: 37rem;
-    margin-left: 0;
-    margin-right: 0;
-    flex: none;
-    border-radius: 2.5rem;
-    padding: 6rem;
+}
+
+.content-right {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  max-width: 28rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  h2 {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 3rem;
   }
+  @media (min-width: 640px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.app-logo {
+  width: 28rem;
+  height: auto;
 }
 
 .submit-button {
   cursor: pointer;
   padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.5rem;
-  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  border-radius: 2rem;
   display: inline-flex;
   justify-content: center;
   border: 0;
-  font-weight: 600;
+  font-weight: 200;
   position: relative;
   overflow: hidden;
-  background-color: rgb(147 51 234);
+  background-color: rgb(102, 102, 102, 0.35);
   color: white;
-  margin-top: 2rem;
-  width: 100%;
+  width: 15rem;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: rgb(126 34 206);
+    background-color: rgb(102, 102, 102);
   }
 }
-
-.form-inputs {
-  > *:not(:first-child) {
-    margin-top: 1.5rem;
-  }
+form {
+  width: 100%;
 }
 
 .form-label {
-  margin-bottom: 0.5rem;
   display: block;
+  box-sizing: border-box;
+  width: 100%;
   font-size: 0.875rem;
-  line-height: 1.5rem;
-  font-weight: 600;
-  color: rgb(23, 23, 23);
+  color: rgb(102, 102, 102);
 }
 
 .form-input {
@@ -89,16 +103,62 @@ main {
   width: 100%;
   appearance: none;
   border-radius: 0.5rem;
-  border: 0.0625rem solid rgb(209, 213, 219);
+  border: 0.0625rem solid rgb(102, 102, 102, 0.35);
   background-color: white;
   padding: 0.5rem 0.75rem;
-  color: rgb(23, 23, 23);
+  color: rgb(17, 17, 17);
   font-size: 0.875rem;
   line-height: 1.5rem;
   &:focus {
-    border-color: rgb(147 51 234);
-    box-shadow: 0 0 0 1px rgb(147 51 234);
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+    border-color: rgb(102, 102, 102);
+    box-shadow: 0 0 0 0.0625rem rgb(102, 102, 102);
+    outline: 0.13rem solid transparent;
+    outline-offset: 0.13rem;
+  }
+}
+
+.input-container {
+  position: relative;
+
+  fa-icon {
+    position: absolute;
+    top: 0.625rem;
+    right: 1rem;
+    stroke: rgb(102, 102, 102);
+    color: rgb(102, 102, 102);
+    cursor: pointer;
+  }
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  span {
+    margin: 0;
+    font-size: 0.75rem;
+    color: rgb(238, 29, 82);
+  }
+}
+
+.forgot-password-link {
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: end;
+  color: rgb(17, 17, 17);
+  width: 100%;
+  :visited {
+    color: rgb(17, 17, 17);
+  }
+}
+
+.signup-message {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  a {
+    color: rgb(17, 17, 17);
+    :visited {
+      color: rgb(17, 17, 17);
+    }
   }
 }
