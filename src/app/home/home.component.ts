@@ -1,14 +1,17 @@
 import { CarData, CarModel, carData } from './data';
 import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
-import { FooterComponent } from "../footer/footer.component";
-import { HeaderComponent } from "../header/header.component";
+import {HeaderComponent} from "../header/header.component";
+import {FooterComponent} from "../footer/footer.component";
 
 @Component({
-    selector: 'app-home',
-    standalone: true,
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss',
-    imports: [FooterComponent, HeaderComponent]
+  selector: 'app-home',
+  standalone: true,
+  imports: [
+    HeaderComponent,
+    FooterComponent
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
@@ -22,6 +25,27 @@ export class HomeComponent {
     if (make) {
       this.selectedMake =
         this.carData.car_makes.find((car) => car.make === make) || null;
+    }
+  }
+
+  onMakeStudentSelect(event: any) {
+    const jobTitleInputs = document.querySelectorAll('.jobTitleInput') as NodeListOf<HTMLInputElement>;
+    jobTitleInputs.forEach((input: HTMLInputElement) => {
+      if (event.target.value === 'student') {
+        input.style.display = 'none';
+      } else {
+        input.style.display = '';
+      }
+    });
+  }
+
+  handleObligationsChange(event: any) {
+    const obligationsChange = document.getElementById('table') as HTMLInputElement;
+
+    if (event.target.value === 'Yes') {
+      obligationsChange.style.display = '';
+    } else {
+      obligationsChange.style.display = 'none';
     }
   }
 
