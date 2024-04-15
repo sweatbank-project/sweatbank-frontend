@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container">
   <div class="progressbar-wrapper">
     <ul class="progressbar">
@@ -14,24 +15,24 @@
           <label for="makes">Choose a car</label>
           <select name="makes" id="makes" (change)="onMakeSelect($event)">
             @for (car of carData.car_makes; track car.make) {
-              <option value="" disabled selected hidden>-</option>
-              <option [value]="car.make">{{car.make}}</option>
+            <option value="" disabled selected hidden>-</option>
+            <option [value]="car.make">{{car.make}}</option>
             }
           </select>
         </div>
         <div class="form-group">
           <label for="models">Choose a model</label>
           @if (selectedMake) {
-            <select name="models" id="models">
-              @for (model of selectedMake.models; track model) {
-                <option [value]="model">{{model}}</option>
-              }
-            </select>
+          <select name="models" id="models">
+            @for (model of selectedMake.models; track model) {
+            <option [value]="model">{{model}}</option>
+            }
+          </select>
           }
           @else {
-            <select disabled>
-              <option value="" disabled selected hidden>-</option>
-            </select>
+          <select disabled>
+            <option value="" disabled selected hidden>-</option>
+          </select>
           }
         </div>
         <div class="form-group">
@@ -164,7 +165,8 @@
       <section #activeStepSection step="3" class="form-step d-none">
         <div class="form-group">
           <label for="monthlyIncomeAfterTaxes">Monthly income after taxes</label>
-          <input type="text" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income">
+          <input type="text" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes"
+            placeholder="Enter your monthly income">
         </div>
         <div class="form-button-bar">
           <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(2)">Back</button>
@@ -179,3 +181,4 @@
       </section>
     </form>
   </div>
+  <app-footer></app-footer>

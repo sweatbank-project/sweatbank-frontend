@@ -1,12 +1,14 @@
 import { CarData, CarModel, carData } from './data';
 import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { FooterComponent } from "../footer/footer.component";
+import { HeaderComponent } from "../header/header.component";
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+    selector: 'app-home',
+    standalone: true,
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.scss',
+    imports: [FooterComponent, HeaderComponent]
 })
 export class HomeComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
