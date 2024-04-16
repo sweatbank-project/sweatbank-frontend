@@ -10,10 +10,6 @@ export interface CarData {
 export const carData: CarData = {
   car_makes: [
     {
-      make: '-',
-      models: ['Integra', 'MDX', 'RDX', 'TLX', 'ZDX'],
-    },
-    {
       make: 'Acura',
       models: ['Integra', 'MDX', 'RDX', 'TLX', 'ZDX'],
     },

@@ -9,22 +9,25 @@
     </ul>
   </div>
   <div class="tabs_inner">
-    <form id="application" name="application" enctype="multipart/form-data" method="POST">
+    <form id="application" name="application" enctype="multipart/form-data" method="POST" [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
       <section #activeStepSection step="1" class="form-step">
         <div class="form-group mb-2">
           <label for="makes">Choose a car</label>
-          <select name="makes" id="makes" (change)="onMakeSelect($event)" class="form-control">
+          <select name="makes" id="makes" (change)="onMakeSelect($event)" class="form-control" formControlName="makes">
             @for (car of carData.car_makes; track car.make) {
               <option value="" disabled selected hidden>-</option>
               <option [value]="car.make">{{car.make}}</option>
             }
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('makes')?.invalid && applicationForm.get('makes')?.touched)
+          {
+            <div style="color: red;">Please select vehicle make</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="models">Choose a model</label>
           @if (selectedMake) {
-            <select name="models" id="models" class="form-control">
+            <select name="models" id="models" class="form-control" formControlName="models">
               @for (model of selectedMake.models; track model) {
                 <option [value]="model">{{model}}</option>
               }
@@ -35,11 +38,14 @@
               <option value="" disabled selected hidden>-</option>
             </select>
           }
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('models')?.invalid && applicationForm.get('models')?.touched)
+          {
+            <div style="color: red;">Please select vehicle model</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="yearOfManufacture">Year of manufacture</label>
-          <select id="yearOfManufacture" name="yearOfManufacture" class="form-control">
+          <select id="yearOfManufacture" name="yearOfManufacture" class="form-control" formControlName="yearOfManufacture">
             <option value="">Select year of manufacture</option>
             <option value="2011">2011</option>
             <option value="2012">2012</option>
@@ -56,21 +62,30 @@
             <option value="2023">2023</option>
             <option value="2024">2024</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('yearOfManufacture')?.invalid && applicationForm.get('yearOfManufacture')?.touched)
+          {
+            <div style="color: red;">Please select year of manufacture</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="costOfTheVehicle">Cost of the vehicle</label>
-          <input type="number" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
-          <div style="color: red;">Error</div>
+          <input type="number" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price" class="form-control" formControlName="costOfTheVehicle">
+          @if(applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched)
+          {
+            <div style="color: red;">Please enter cost of the vehicle</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="downPayment">Down payment</label>
-          <input type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control">
-          <div style="color: red;">Error</div>
+          <input type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" class="form-control" formControlName="downPayment">
+          @if(applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched)
+          {
+            <div style="color: red;">Please enter cost of the vehicle</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="leasingPeriod">Leasing period (in years)</label>
-          <select id="leasingPeriod" name="leasingPeriod" class="form-control">
+          <select id="leasingPeriod" name="leasingPeriod" class="form-control" formControlName="leasingPeriod">
             <option value="">Select leasing period</option>
             <option value="1">1 year</option>
             <option value="2">2 years</option>
@@ -78,21 +93,27 @@
             <option value="4">4 years</option>
             <option value="5">5 years</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('leasingPeriod')?.invalid && applicationForm.get('leasingPeriod')?.touched)
+          {
+            <div style="color: red;">Please select leasing period</div>
+          }
         </div>
         <div class="form-group mb-2 mb-2">
           <label for="sellerName">Seller name</label>
-          <input type="text" id="sellerName" name="sellerName" placeholder="Enter seller's name" class="form-control">
-          <div style="color: red;">Error</div>
+          <input type="text" id="sellerName" name="sellerName" placeholder="Enter seller's name" class="form-control" formControlName="sellerName">
+          @if(applicationForm.get('sellerName')?.invalid && applicationForm.get('sellerName')?.touched)
+          {
+            <div style="color: red;">Please enter seller's name</div>
+          }
         </div>
         <div class="form-button-bar d-flex justify-content-end">
-          <button class="btn btn-success" type="button" (click)="navigateToStep(2)" disabled>Forward <i class="bi bi-chevron-right"></i></button>
+          <button class="btn btn-success" type="button" (click)="navigateToStep(2)" [disabled]="!section1Validator()">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="2" class="form-step d-none">
         <div class="form-group mb-2">
           <label for="education">Education</label>
-          <select id="education" name="education" class="form-control">
+          <select id="education" name="education" class="form-control" formControlName="education">
             <option value="">Select education</option>
             <option value="primary">Primary</option>
             <option value="secondary">Secondary</option>
@@ -100,11 +121,14 @@
             <option value="college">College</option>
             <option value="higher">Higher</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('education')?.invalid && applicationForm.get('education')?.touched)
+          {
+            <div style="color: red;">Please select your education</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="positionHeld">Position held</label>
-          <select id="positionHeld" name="positionHeld" class="form-control" (change)="onMakeStudentSelect($event)">
+          <select id="positionHeld" name="positionHeld" class="form-control" (change)="onMakeStudentSelect($event)" formControlName="positionHeld">
             <option value="">Select position held</option>
             <option value="worker">Worker, Specialist/Office worker</option>
             <option value="supervisorSpecialist">Superior specialist</option>
@@ -118,12 +142,18 @@
             <option value="unemployed">Unemployed</option>
             <option value="privateEnterpreneur">Private entrepreneur</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('positionHeld')?.invalid && applicationForm.get('positionHeld')?.touched)
+          {
+            <div style="color: red;">Please select your position held</div>
+          }
         </div>
         <div class="form-group mb-2 jobTitleInput">
           <label for="jobTitle">Job title</label>
-          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" class="form-control">
-          <div style="color: red;">Error</div>
+          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" class="form-control" formControlName="jobTitle">
+          @if(applicationForm.get('jobTitle')?.invalid && applicationForm.get('jobTitle')?.touched)
+          {
+            <div style="color: red;">Please enter your job title</div>
+          }
         </div>
         <div class="form-group mb-2 jobTitleInput">
           <label for="timeEmployed">Time employed</label>

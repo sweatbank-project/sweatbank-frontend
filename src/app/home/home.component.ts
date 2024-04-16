@@ -38,6 +38,56 @@ export class HomeComponent {
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
 
+
+  applicationForm = new FormGroup({
+    makes: new FormControl('', [Validators.required]),
+    models: new FormControl('', [Validators.required]),
+    yearOfManufacture: new FormControl('', [Validators.required]),
+    costOfTheVehicle: new FormControl('', [Validators.required, Validators.min(1)]),
+    leasingPeriod: new FormControl('', [Validators.required]),
+    downPayment: new FormControl('', [Validators.required, Validators.min(1)]),
+    sellerName: new FormControl('', [Validators.required]),
+    education: new FormControl('', [Validators.required]),
+    positionHeld: new FormControl('', [Validators.required]),
+    jobTitle: new FormControl('', [Validators.required]),
+  });
+
+  section1Validator(): boolean {
+    const makesControl = this.applicationForm.get('makes');
+    const modelsControl = this.applicationForm.get('models');
+    const yearOfManufactureControl = this.applicationForm.get('yearOfManufacture');
+    const costOfTheVehicleControl = this.applicationForm.get('costOfTheVehicle');
+    const leasingPeriodControl = this.applicationForm.get('leasingPeriod');
+    const downPaymentControl = this.applicationForm.get('downPayment');
+    const sellerNameControl = this.applicationForm.get('sellerName');
+
+    if (makesControl && modelsControl && yearOfManufactureControl &&
+      costOfTheVehicleControl && leasingPeriodControl && downPaymentControl &&
+      sellerNameControl) {
+      return makesControl.valid && modelsControl.valid &&
+        yearOfManufactureControl.valid && costOfTheVehicleControl.valid &&
+        leasingPeriodControl.valid && downPaymentControl.valid &&
+        sellerNameControl.valid;
+    }
+
+    return false;
+  }
+
+
+
+
+
+  onSubmit(): void {
+    console.log(this.applicationForm.value);
+  }
+
+
+
+
+
+
+
+
   onMakeSelect(event: any) {
     const make = event.target.value;
     if (make) {
