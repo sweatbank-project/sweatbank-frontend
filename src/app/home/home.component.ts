@@ -56,6 +56,11 @@ export class HomeComponent {
       businessAreaOfYourEmployer: ['', Validators.required],
       maritalStatus: ['', Validators.required],
       numberOfChildren: ['', [Validators.required, Validators.min(0)]],
+      monthlyIncomeAfterTaxes: ['', [Validators.required, Validators.min(1)]],
+
+
+
+
     });
   }
 
