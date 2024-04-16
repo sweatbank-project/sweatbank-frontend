@@ -280,10 +280,48 @@
         </table>
         <div class="form-button-bar d-flex justify-content-between">
           <button class="btn btn-primary" type="button" (click)="navigateToStep(2)"><i class="bi bi-chevron-left"></i> Back</button>
-          <button class="btn btn-success" type="button" (click)="navigateToStep(4)">Forward <i class="bi bi-chevron-right"></i></button>
+          <button class="btn btn-success" type="button" (click)="navigateToStep(4)" [disabled]="!sectionValidator(['monthlyIncomeAfterTaxes'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="4" class="form-step d-none">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Cost of vehicle</td>
+            <td>{{this.applicationForm.get('costOfTheVehicle')?.value}}EUR</td>
+          </tr>
+          <tr>
+            <td>Lease period</td>
+            <td>{{this.applicationForm.get('leasingPeriod')?.value}} years</td>
+          </tr>
+          <tr>
+            <td>Monthly income after taxes</td>
+            <td>{{this.applicationForm.get('monthlyIncomeAfterTaxes')?.value}}EUR</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{userPhoneNumber}}</td>
+          </tr>
+          <tr>
+            <td>E-mail</td>
+            <td>{{userEmail}}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{userAddress}}</td>
+          </tr>
+          <tr>
+            <td>Application date</td>
+            <td>{{currentDate}}</td>
+          </tr>
+          </tbody>
+        </table>
         <div class="form-button-bar d-flex justify-content-between">
           <button class="btn btn-primary" type="button" (click)="navigateToStep(3)"><i class="bi bi-chevron-left"></i> Back</button>
           <button class="btn btn-success" type="button">Submit <i class="bi bi-chevron-right"></i></button>

@@ -1,24 +1,8 @@
-import {
-  CarData,
-  CarModel,
-  carData
-} from './data';
-import {
-  Component,
-  ElementRef,
-  QueryList,
-  ViewChildren
-} from '@angular/core';
+import {CarData, CarModel, carData} from './data';
+import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
-import {
-  AbstractControl, FormBuilder,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators
-} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
@@ -37,6 +21,13 @@ export class HomeComponent {
 
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
+
+
+  // extra
+  userPhoneNumber = '+37061111111';
+  userEmail = "andriuha@gmail.com";
+  userAddress = "Konstitucijos pr. 20A, LT-09321 Vilnius";
+  currentDate = "16.04.2024";
 
   applicationForm: FormGroup;
 
@@ -57,10 +48,6 @@ export class HomeComponent {
       maritalStatus: ['', Validators.required],
       numberOfChildren: ['', [Validators.required, Validators.min(0)]],
       monthlyIncomeAfterTaxes: ['', [Validators.required, Validators.min(1)]],
-
-
-
-
     });
   }
 
