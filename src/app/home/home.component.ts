@@ -1,14 +1,32 @@
-import { CarData, CarModel, carData } from './data';
-import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import {
+  CarData,
+  CarModel,
+  carData
+} from './data';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
 import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators
+} from "@angular/forms";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ReactiveFormsModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
