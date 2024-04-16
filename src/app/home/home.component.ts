@@ -12,7 +12,7 @@ import {
 import {HeaderComponent} from "../header/header.component";
 import {FooterComponent} from "../footer/footer.component";
 import {
-  AbstractControl,
+  AbstractControl, FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -38,55 +38,37 @@ export class HomeComponent {
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
 
+  applicationForm: FormGroup;
 
-  applicationForm = new FormGroup({
-    makes: new FormControl('', [Validators.required]),
-    models: new FormControl('', [Validators.required]),
-    yearOfManufacture: new FormControl('', [Validators.required]),
-    costOfTheVehicle: new FormControl('', [Validators.required, Validators.min(1)]),
-    leasingPeriod: new FormControl('', [Validators.required]),
-    downPayment: new FormControl('', [Validators.required, Validators.min(1)]),
-    sellerName: new FormControl('', [Validators.required]),
-    education: new FormControl('', [Validators.required]),
-    positionHeld: new FormControl('', [Validators.required]),
-    jobTitle: new FormControl('', [Validators.required]),
-  });
-
-  section1Validator(): boolean {
-    const makesControl = this.applicationForm.get('makes');
-    const modelsControl = this.applicationForm.get('models');
-    const yearOfManufactureControl = this.applicationForm.get('yearOfManufacture');
-    const costOfTheVehicleControl = this.applicationForm.get('costOfTheVehicle');
-    const leasingPeriodControl = this.applicationForm.get('leasingPeriod');
-    const downPaymentControl = this.applicationForm.get('downPayment');
-    const sellerNameControl = this.applicationForm.get('sellerName');
-
-    if (makesControl && modelsControl && yearOfManufactureControl &&
-      costOfTheVehicleControl && leasingPeriodControl && downPaymentControl &&
-      sellerNameControl) {
-      return makesControl.valid && modelsControl.valid &&
-        yearOfManufactureControl.valid && costOfTheVehicleControl.valid &&
-        leasingPeriodControl.valid && downPaymentControl.valid &&
-        sellerNameControl.valid;
-    }
-
-    return false;
+  constructor(private fb: FormBuilder) {
+    this.applicationForm = this.fb.group({
+      makes: ['', Validators.required],
+      models: ['', Validators.required],
+      yearOfManufacture: ['', Validators.required],
+      costOfTheVehicle: ['', [Validators.required, Validators.min(1)]],
+      leasingPeriod: ['', Validators.required],
+      downPayment: ['', [Validators.required, Validators.min(1)]],
+      sellerName: ['', Validators.required],
+      education: ['', Validators.required],
+      positionHeld: ['', Validators.required],
+      jobTitle: ['', Validators.required],
+      timeEmployed: ['', Validators.required],
+      businessAreaOfYourEmployer: ['', Validators.required],
+      maritalStatus: ['', Validators.required],
+      numberOfChildren: ['', [Validators.required, Validators.min(0)]],
+    });
   }
 
-
-
-
+  sectionValidator(controlNames: string[]): boolean {
+    return controlNames.every(controlName => {
+      const control = this.applicationForm.get(controlName);
+      return control ? control.valid : false;
+    });
+  }
 
   onSubmit(): void {
     console.log(this.applicationForm.value);
   }
-
-
-
-
-
-
-
 
   onMakeSelect(event: any) {
     const make = event.target.value;
@@ -97,14 +79,38 @@ export class HomeComponent {
   }
 
   onMakeStudentSelect(event: any) {
-    const jobTitleInputs = document.querySelectorAll('.jobTitleInput') as NodeListOf<HTMLInputElement>;
-    jobTitleInputs.forEach((input: HTMLInputElement) => {
-      if (event.target.value === 'student') {
-        input.style.display = 'none';
-      } else {
-        input.style.display = '';
-      }
-    });
+    const jobTitleControl = this.applicationForm.get('jobTitle');
+    const timeEmployedControl = this.applicationForm.get('timeEmployed');
+    const businessAreaControl = this.applicationForm.get('businessAreaOfYourEmployer');
+
+    if (event.target.value === 'student') {
+      this.hideInputs('.jobTitleInput');
+      this.setValidators(jobTitleControl, null);
+      this.setValidators(timeEmployedControl, null);
+      this.setValidators(businessAreaControl, null);
+    } else {
+      this.showInputs('.jobTitleInput');
+      this.setValidators(jobTitleControl, [Validators.required]);
+      this.setValidators(timeEmployedControl, [Validators.required]);
+      this.setValidators(businessAreaControl, [Validators.required]);
+    }
+  }
+
+  private hideInputs(selector: string): void {
+    const inputs = document.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
+    inputs.forEach(input => input.style.display = 'none');
+  }
+
+  private showInputs(selector: string): void {
+    const inputs = document.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
+    inputs.forEach(input => input.style.display = '');
+  }
+
+  private setValidators(control: AbstractControl | null, validators: any): void {
+    if (control) {
+      control.setValidators(validators);
+      control.updateValueAndValidity();
+    }
   }
 
   handleObligationsChange(event: any) {
@@ -123,7 +129,6 @@ export class HomeComponent {
       const stepAttribute = parseInt(nativeElement.getAttribute('step') || '0', 10);
 
       if (stepNumber === stepAttribute) {
-        console.log(nativeElement);
         nativeElement.classList.add('current');
         nativeElement.classList.remove('active');
       } else if (stepNumber > stepAttribute) {

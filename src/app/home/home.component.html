@@ -107,7 +107,7 @@
           }
         </div>
         <div class="form-button-bar d-flex justify-content-end">
-          <button class="btn btn-success" type="button" (click)="navigateToStep(2)" [disabled]="!section1Validator()">Forward <i class="bi bi-chevron-right"></i></button>
+          <button class="btn btn-success" type="button" (click)="navigateToStep(2)" [disabled]="!sectionValidator(['makes','models','yearOfManufacture','costOfTheVehicle','leasingPeriod','downPayment','sellerName'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="2" class="form-step d-none">
@@ -157,7 +157,7 @@
         </div>
         <div class="form-group mb-2 jobTitleInput">
           <label for="timeEmployed">Time employed</label>
-          <select id="timeEmployed" name="timeEmployed" class="form-control">
+          <select id="timeEmployed" name="timeEmployed" class="form-control" formControlName="timeEmployed">
             <option value="">Select time</option>
             <option value="trialPeriod">Trial period</option>
             <option value="upTo1Year">Up to 1 year</option>
@@ -167,11 +167,14 @@
             <option value="upTo5Year">Up to 5 year</option>
             <option value="moreThen5Years">More then 5 years</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('timeEmployed')?.invalid && applicationForm.get('timeEmployed')?.touched)
+          {
+            <div style="color: red;">Please select time employed</div>
+          }
         </div>
         <div class="form-group mb-2 jobTitleInput">
           <label for="businessAreaOfYourEmployer">Business area of your employer</label>
-          <select id="businessAreaOfYourEmployer" name="businessAreaOfYourEmployer" class="form-control">
+          <select id="businessAreaOfYourEmployer" name="businessAreaOfYourEmployer" class="form-control" formControlName="businessAreaOfYourEmployer">
             <option value="">Select business area</option>
             <option value="1">Agriculture, forestry, fishery (hunting)</option>
             <option value="2">Construction</option>
@@ -186,11 +189,14 @@
             <option value="11">Health and social care</option>
             <option value="12">Public administration and national defence</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('businessAreaOfYourEmployer')?.invalid && applicationForm.get('businessAreaOfYourEmployer')?.touched)
+          {
+            <div style="color: red;">Please select business area</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="maritalStatus">Marital status</label>
-          <select id="maritalStatus" name="maritalStatus" class="form-control">
+          <select id="maritalStatus" name="maritalStatus" class="form-control" formControlName="maritalStatus">
             <option value="">Select marital status</option>
             <option value="single">Single</option>
             <option value="married">Married</option>
@@ -198,16 +204,22 @@
             <option value="divorced">Divorced</option>
             <option value="windowWindower">Widow/Widower</option>
           </select>
-          <div style="color: red;">Error</div>
+          @if(applicationForm.get('maritalStatus')?.invalid && applicationForm.get('maritalStatus')?.touched)
+          {
+            <div style="color: red;">Please select your marital status</div>
+          }
         </div>
         <div class="form-group mb-2">
           <label for="numberOfChildren">Number of children</label>
-          <input type="number" id="numberOfChildren" name="numberOfChildren" placeholder="Enter number of children" class="form-control">
-          <div style="color: red;">Error</div>
+          <input type="number" id="numberOfChildren" name="numberOfChildren" placeholder="Enter number of children" class="form-control" formControlName="numberOfChildren">
+          @if(applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched)
+          {
+            <div style="color: red;">Please enter number of children</div>
+          }
         </div>
         <div class="form-button-bar d-flex justify-content-between">
           <button class="btn btn-primary" type="button" (click)="navigateToStep(1)"><i class="bi bi-chevron-left"></i> Back</button>
-          <button class="btn btn-success" type="button" (click)="navigateToStep(3)">Forward <i class="bi bi-chevron-right"></i></button>
+          <button class="btn btn-success" type="button" (click)="navigateToStep(3)" [disabled]="!sectionValidator(['education','positionHeld','jobTitle','timeEmployed','businessAreaOfYourEmployer','maritalStatus','numberOfChildren'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="3" class="form-step d-none">
