@@ -1,108 +1,106 @@
+$body-bg: #fff;
+$body-color: #212529;
+$white: #fff;
+$font-family-base: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+$grid-breakpoints: (
+        sm: 640px,
+        md: 768px,
+        lg: 1024px,
+        xl: 1280px,
+);
 $breakpoint-mobile: 640px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
-$breakpoint-large-desktop: 1280px;
 
-$primary-color: white;
-$secondary-color: black;
-$link-color: #19578c;
-$hover-color: darken($link-color, 10%);
-$font-stack: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$theme-colors: (
+        "primary": #19578c,
+        "secondary": #000000,
+        "info": #17a2b8
+);
 
-@mixin flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+@import 'bootstrap';
+
+@function get-theme-color($key) {
+  @return map-get($theme-colors, $key);
 }
 
-@mixin list-reset {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+body {
+  color: $body-color;
+  background-color: $body-bg;
+  font-family: $font-family-base;
 }
+
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: $primary-color;
-  color: $secondary-color;
-  padding: 1rem;
-  border-bottom: 1px solid black;
+  @extend .bg-light;
+  @extend .border-bottom;
+  @extend .py-3;
+  @extend .px-4;
   background-image: url("../../assets/left-banner.png");
+}
 
-  html {
-    scroll-behavior: smooth;
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+
+  img {
+    @extend .img-fluid;
   }
+}
 
-  .logo {
-    font-family: $font-stack;
-    font-size: 1.5rem;
-    font-weight: bold;
-    img {
-      height: auto;
-      max-width: 80%;
-      width: auto;
-    }
-  }
+.hamburger {
+  @extend .d-md-none;
+  @extend .position-absolute;
+  @extend .top-0;
+  @extend .end-0;
+  @extend .p-3;
+}
 
-  .hamburger {
-    display: none;
-  }
+nav {
+  @extend .d-none;
+  @extend .d-lg-flex;
+  @extend .align-items-center;
+  @extend .justify-content-end;
 
-  nav {
-    @include flex-center;
-    ul {
-      @include list-reset;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      li {
-        margin: 0 1rem;
-        &:last-child {
-          margin-right: 0;
-        }
-        a {
-          text-decoration: none;
-          color: $link-color;
-          &:hover {
-            color: $hover-color;
-          }
-        }
+  ul {
+    @extend .list-unstyled;
+    display: flex;
+
+    li {
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
       }
-    }
-  }
-  .close-menu {
-    display: none;
-  }
-  .user-info {
-    @include list-reset;
-    @include flex-center;
-    li.name-surname {
-      padding-right: 1rem;
-      color: white;
-    }
-    li.notifications a {
-      color: deepskyblue;
-    }
-    li.contacts a {
-      color: deepskyblue;
-    }
-    li.logout a {
-      color: deepskyblue;
-    }
-    li.contacts {
-      padding-right: 1rem;
-    }
-  li {
-    list-style: none;
-    margin-right: 3rem;
-    font-size: 1.1rem;
-    &:last-child {
-      margin-right: 3rem;
+
+      a {
+        text-decoration: none;
+        color: get-theme-color("primary");
+
+        &:hover {
+          color: darken(get-theme-color("primary"), 10%);
+        }
       }
     }
   }
 }
+
+.close-menu {
+  @extend .d-none;
+}
+
+.user-info {
+  @extend .d-flex;
+  @extend .align-items-center;
+  @extend .justify-content-center;
+
+  li {
+    @extend .list-unstyled;
+    padding-right: 1rem;
+    color: $white;
+  }
+}
+
 
 @media (max-width: $breakpoint-mobile) {
   header {
@@ -126,11 +124,12 @@ header {
     }
 
     .hamburger {
-      display: block;
-      order: 2;
       position: absolute;
-      top: 1.6rem;
-      right: 1rem;
+      top: 0;
+      right: 0; // Ensure it's at the top-right corner
+      padding: 12px;
+      z-index: 1050; // Higher than most other elements
+      display: block;
 
       border: none;
       box-shadow: none;
@@ -176,8 +175,10 @@ header {
     }
 
     .user-info {
-      flex-direction: column;
-      width: 100%;
+      flex: 0 0 auto; // User info will not grow or shrink, respecting its content size
+      order: 2; // Ensures user-info is placed on the right
+      margin-left: auto; // Pushes everything to the right
+      display: flex;
       align-items: center;
     }
     li {
@@ -190,7 +191,7 @@ header {
   }
 }
 
-@media (max-width: $breakpoint-desktop - 1px) {
+@media (max-width: $breakpoint-tablet) {
   header {
     flex-direction: column;
     align-items: center;
@@ -244,31 +245,40 @@ header {
         }
       }
     }
+
     .user-info {
       flex-direction: column;
       width: 100%;
       align-items: center;
     }
+
     nav {
       display: none;
     }
   }
   @media (min-width: $breakpoint-desktop) {
     header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
       .logo {
         img {
-          max-width: 60%;
+          max-width: 80%;
         }
       }
-      .hamburger {
-        display: none;
-      }
-      nav,
+
       .user-info {
-        display: flex;
-        align-items: center;
+        margin-left: auto; // Pushes the user-info to the right
+        align-items: center; // Keeps items vertically aligned
+        display: flex; // This is crucial to enable flexbox properties
+        justify-content: flex-end;
       }
     }
   }
 }
+
+
+
+
 
