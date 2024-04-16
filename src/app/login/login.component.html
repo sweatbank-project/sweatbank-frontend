@@ -32,7 +32,12 @@
           }
           <!-- <a class="forgot-password-link" href="/">Forget your password</a> -->
         </div>
-        <button type="submit" class="submit-button">Sign in</button>
+        <button type="submit" class="submit-button">
+          @if (isLoading) {
+          <fa-icon [icon]="faSpinner" animation="spin" />
+          }
+          Sign in
+        </button>
         <!-- <p class="signup-message">Don't have an account? <a href="/">Sign up</a>
         </p> -->
       </form>

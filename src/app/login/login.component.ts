@@ -6,7 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -19,7 +23,10 @@ import { AuthService } from '../services/auth.service';
 export class LoginComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
+  faSpinner = faSpinner;
+
   passwordVisible: boolean = false;
+  isLoading = false;
 
   authService = inject(AuthService);
 
@@ -39,16 +46,16 @@ export class LoginComponent {
     const email = this.loginForm.value.email as string;
     const password = this.loginForm.value.password as string;
 
-    if (!email || !password) {
-      return;
-    }
+    this.isLoading = true;
 
     this.authService.login(email, password).subscribe(
       (resData) => {
         console.log(resData);
+        this.isLoading = false;
       },
       (error) => {
         console.log(error);
+        this.isLoading = false;
       }
     );
 
