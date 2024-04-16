@@ -49,17 +49,16 @@ export class LoginComponent {
     this.isLoading = true;
 
     this.authService.login(email, password).subscribe(
-      (resData) => {
-        console.log(resData);
+      (response) => {
+        const resData = response;
+        console.log('Response value:', resData);
         this.isLoading = false;
       },
       (error) => {
-        console.log(error);
+        console.error('Login failed:', error);
         this.isLoading = false;
       }
     );
-
-    this.loginForm.reset();
   }
 
   togglePasswordVisibility() {
