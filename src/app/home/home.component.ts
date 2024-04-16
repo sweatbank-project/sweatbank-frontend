@@ -48,6 +48,17 @@ export class HomeComponent {
       maritalStatus: ['', Validators.required],
       numberOfChildren: ['', [Validators.required, Validators.min(0)]],
       monthlyIncomeAfterTaxes: ['', [Validators.required, Validators.min(1)]],
+      obligations: ['', []],
+      customerLoansOutstanding: ['', [Validators.min(1)]],
+      customerLoansMonthlyPayment: ['', [Validators.min(1)]],
+      carLeaseOutstanding: ['', [Validators.min(1)]],
+      carLeaseMonthlyPayment: ['', [Validators.min(1)]],
+      creditCardOutstanding: ['', [Validators.min(1)]],
+      creditCardMonthlyPayment: ['', [Validators.min(1)]],
+      mortgageOutstanding: ['', [Validators.min(1)]],
+      mortgageMonthlyPayment: ['', [Validators.min(1)]],
+      otherCreditsOutstanding: ['', [Validators.min(1)]],
+      otherCreditsMonthlyPayment: ['', [Validators.min(1)]],
     });
   }
 
