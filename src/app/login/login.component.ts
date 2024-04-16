@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +19,9 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 export class LoginComponent {
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-
   passwordVisible: boolean = false;
+
+  authService = inject(AuthService);
 
   loginForm = new FormGroup({
     email: new FormControl('', {
@@ -33,7 +35,24 @@ export class LoginComponent {
     if (this.loginForm.invalid) {
       return;
     }
-    console.log(this.loginForm.value);
+
+    const email = this.loginForm.value.email as string;
+    const password = this.loginForm.value.password as string;
+
+    if (!email || !password) {
+      return;
+    }
+
+    this.authService.login(email, password).subscribe(
+      (resData) => {
+        console.log(resData);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this.loginForm.reset();
   }
 
   togglePasswordVisibility() {
