@@ -1,29 +1,18 @@
-import {ChangeDetectorRef, Component, HostListener} from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener } from '@angular/core';
 import { faArrowRightFromBracket, faComments, faBell, faLanguage, faBars } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {CommonModule, NgClass} from "@angular/common";
-import {RouterLink} from "@angular/router";
-import { Router } from '@angular/router';
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { CommonModule, NgClass } from "@angular/common";
+import { RouterLink, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [FontAwesomeModule, NgClass, CommonModule, RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   menuActive: boolean = false;
-
-  constructor(private router: Router) {}
-
-  // navigateToBottom(): void {
-  //   this.router.navigate(['/'], { fragment: 'bottom' });
-  // }
-
-  toggleMenu(): void {
-    this.menuActive = !this.menuActive;
-  }
   userName = 'Name';
   userSurname = 'Surname';
   faArrowRightFromBracket = faArrowRightFromBracket;
@@ -32,15 +21,42 @@ export class HeaderComponent {
   faLanguage = faLanguage;
   faBars = faBars;
 
-  logout() {
+  constructor(private router: Router) {}
 
+  toggleMenu(): void {
+    this.menuActive = !this.menuActive;
   }
+
+  navigateAndScroll(): void {
+    if (this.router.url !== '/') {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.scrollToBottom();
+        this.toggleMenu(); // Optionally close the menu
+      });
+    } else {
+      this.scrollToBottom();
+      this.toggleMenu(); // Optionally close the menu
+    }
+  }
+
+  scrollToBottom(): void {
+    setTimeout(() => {
+      document.getElementById('page-bottom')?.scrollIntoView({ behavior: 'smooth' });
+    }, 0);
+  }
+
+  logout(): void {
+    // Log out logic here
+  }
+
   @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
+  onKeydownHandler(event: KeyboardEvent): void {
     if (this.menuActive) {
       this.toggleMenu();
     }
   }
 
-  changeLanguage() {}
+  changeLanguage(): void {
+    // Language change logic here
+  }
 }

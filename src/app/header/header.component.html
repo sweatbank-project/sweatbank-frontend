@@ -1,4 +1,5 @@
 <header>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <div class="logo">
     <img src="assets/SweatBank-Logo.png" alt="Logo">
   </div>
@@ -19,7 +20,7 @@
   <!-- <a href="#" (click)="navigateToBottom()" [routerLink]="['/']" fragment="bottom"><</a> -->
 
       <li class="notifications"><a href="#"><fa-icon [icon]="faBell"></fa-icon> Notifications</a></li>
-      <li class="contacts"><a href="#"><fa-icon [icon]="faComments"></fa-icon> Contacts</a></li>
+      <li class="contacts"><a href="#" (click)="navigateAndScroll()"><fa-icon [icon]="faComments"></fa-icon> Contacts</a></li>
       <li class="logout"><a href="#" (click)="logout()"><fa-icon [icon]="faArrowRightFromBracket"></fa-icon> Log Out</a>
       </li>
     </ul>
