@@ -316,7 +316,13 @@
           </tr>
           <tr>
             <td>Lease period</td>
-            <td>{{this.applicationForm.get('leasingPeriod')?.value}}</td>
+            <td>
+              @if(this.applicationForm.get('leasingPeriod')?.value == 1) {
+                {{this.applicationForm.get('leasingPeriod')?.value}} Year
+              } @else {
+                {{this.applicationForm.get('leasingPeriod')?.value}} Years
+              }
+            </td>
           </tr>
           <tr>
             <td>Monthly income after taxes</td>
