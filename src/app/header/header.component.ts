@@ -4,7 +4,6 @@ import {Router, RouterLink} from '@angular/router';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CommonModule, NgClass } from "@angular/common";
 
-// Assuming Bootstrap types are available (as an example)
 interface BootstrapCollapse {
   show(): void;
   hide(): void;
@@ -55,11 +54,11 @@ export class HeaderComponent implements AfterViewInit {
     if (this.router.url !== '/') {
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.scrollToBottom();
-        this.toggleMenu();
+        this.menuActive = false; // Close the dropdown menu after navigation
       });
     } else {
       this.scrollToBottom();
-      this.toggleMenu();
+      this.menuActive = false; // Close the dropdown menu after navigation
     }
   }
 

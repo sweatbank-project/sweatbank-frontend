@@ -1,3 +1,4 @@
+
 .progressbar-wrapper {
   padding-top: 0.01cm;
   padding-bottom: 0.01cm;
@@ -35,13 +36,13 @@
 }
 
 .progressbar li.active:before {
-  border-color: #55b776;
-  background: green;
+  border-color: black;
+  background: forestgreen;
 }
 
 .progressbar li.current:before {
-  border-color: yellow;
-  background: yellow;
+  border-color: black;
+  background: #ebe57c;
 }
 
 .progressbar li.active + li:after {
@@ -64,7 +65,7 @@
   content: counter(step);
   counter-increment: step;
   line-height: 60px;
-  border: 2px solid #7d7d7d;
+  border: 1px solid #7d7d7d;
   display: block;
   text-align: center;
   margin: 0 auto 3px auto;
