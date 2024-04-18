@@ -87,11 +87,11 @@
           <label for="leasingPeriod">Leasing period (in years)</label>
           <select id="leasingPeriod" name="leasingPeriod" class="form-control {{applicationForm.get('leasingPeriod')?.invalid && applicationForm.get('leasingPeriod')?.touched ? 'is-invalid' : ''}}" formControlName="leasingPeriod">
             <option value="">Select leasing period</option>
-            <option value="1year">1 year</option>
-            <option value="2years">2 years</option>
-            <option value="3years">3 years</option>
-            <option value="4years">4 years</option>
-            <option value="5years">5 years</option>
+            <option value="1">1 year</option>
+            <option value="2">2 years</option>
+            <option value="3">3 years</option>
+            <option value="4">4 years</option>
+            <option value="5">5 years</option>
           </select>
           @if(applicationForm.get('leasingPeriod')?.invalid && applicationForm.get('leasingPeriod')?.touched)
           {
@@ -160,12 +160,12 @@
           <select id="timeEmployed" name="timeEmployed" class="form-control {{applicationForm.get('timeEmployed')?.invalid && applicationForm.get('timeEmployed')?.touched ? 'is-invalid' : ''}}" formControlName="timeEmployed">
             <option value="">Select time</option>
             <option value="trialPeriod">Trial period</option>
-            <option value="upTo1Year">Up to 1 year</option>
-            <option value="upTo2Year">Up to 2 year</option>
-            <option value="upTo3Year">Up to 3 year</option>
-            <option value="upTo4Year">Up to 4 year</option>
-            <option value="upTo5Year">Up to 5 year</option>
-            <option value="moreThen5Years">More then 5 years</option>
+            <option value="1">Up to 1 year</option>
+            <option value="2">Up to 2 year</option>
+            <option value="3">Up to 3 year</option>
+            <option value="4">Up to 4 year</option>
+            <option value="5">Up to 5 year</option>
+            <option value="6">More then 5 years</option>
           </select>
           @if(applicationForm.get('timeEmployed')?.invalid && applicationForm.get('timeEmployed')?.touched)
           {
@@ -316,7 +316,13 @@
           </tr>
           <tr>
             <td>Lease period</td>
-            <td>{{this.applicationForm.get('leasingPeriod')?.value}}</td>
+            <td>
+              @if(this.applicationForm.get('leasingPeriod')?.value == 1) {
+                {{this.applicationForm.get('leasingPeriod')?.value}} Year
+              } @else {
+                {{this.applicationForm.get('leasingPeriod')?.value}} Years
+              }
+            </td>
           </tr>
           <tr>
             <td>Monthly income after taxes</td>
