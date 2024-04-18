@@ -1,46 +1,29 @@
-import {ChangeDetectorRef, Component, HostListener} from '@angular/core';
-import { faArrowRightFromBracket, faComments, faBell, faLanguage, faBars } from '@fortawesome/free-solid-svg-icons';
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {CommonModule, NgClass} from "@angular/common";
-import {RouterLink} from "@angular/router";
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {CommonModule} from "@angular/common";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [FontAwesomeModule, NgClass, CommonModule, RouterLink],
+  imports: [ CommonModule ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  menuActive: boolean = false;
+  userName: string = "Andriuha";
+  userSurname: string = "Petrauskas";
+  dropdownStates: { [key: string]: boolean } = {
+    dropdown1: false,
+    dropdown2: false
+  };
 
   constructor(private router: Router) {}
 
-  // navigateToBottom(): void {
-  //   this.router.navigate(['/'], { fragment: 'bottom' });
-  // }
-
-  toggleMenu(): void {
-    this.menuActive = !this.menuActive;
+  toggleDropdown(dropdownName: string) {
+    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
   }
-  userName = 'Name';
-  userSurname = 'Surname';
-  faArrowRightFromBracket = faArrowRightFromBracket;
-  faComments = faComments;
-  faBell = faBell;
-  faLanguage = faLanguage;
-  faBars = faBars;
 
   logout() {
-
+    console.log("Logout clicked");
   }
-  @HostListener('document:keydown.escape', ['$event'])
-  onKeydownHandler(event: KeyboardEvent) {
-    if (this.menuActive) {
-      this.toggleMenu();
-    }
-  }
-
-  changeLanguage() {}
 }
