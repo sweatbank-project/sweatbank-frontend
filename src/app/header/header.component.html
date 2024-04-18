@@ -1,0 +1,24 @@
+<header class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/SweatBank-Logo.png" alt="Logo" width="150px">
+    </a>
+    <button class="navbar-toggler" type="button" (click)="toggleDropdown('first')" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [ngClass]="{'show': dropdownStates['first']}" id="navbarNav">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link me-3" href="#"><i class="bi bi-bell"></i> Notifications</a>
+        <a class="nav-link me-3" href="#"><i class="bi bi-people"></i> Contacts</a>
+        <div class="dropdown" (click)="toggleDropdown('second')">
+          <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-person"></i> Welcome, {{ userName }} {{ userSurname }}
+          </a>
+          <div class="dropdown-menu dropdown-menu-end" [ngClass]="{'show': dropdownStates['second']}" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="#" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Log Out</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
