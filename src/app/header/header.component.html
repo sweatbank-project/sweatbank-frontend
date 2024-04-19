@@ -1,27 +1,24 @@
-<header>
-  <div class="logo">
-    <img src="assets/SweatBank-Logo.png" alt="Logo">
-  </div>
-  <button class="hamburger" *ngIf="!menuActive" aria-label="Toggle menu" (click)="toggleMenu()">
-    <fa-icon [icon]="faBars"></fa-icon>
-  </button>
-  <button class="close-menu" *ngIf="menuActive" aria-label="Close menu" (click)="toggleMenu()">X</button>
-
-  <div class="overlay" *ngIf="menuActive" (click)="toggleMenu()"></div>
-
-  <div class="menu" [ngClass]="{'active': menuActive}">
-    <button class="close-menu" *ngIf="menuActive" aria-label="Close menu" (click)="toggleMenu()">X</button>
-    <ul class="user-info"></ul>
-
-
-<ul class="user-info">
-      <li class="name-surname">{{ userName }} {{ userSurname }}</li>
-  <!-- <a href="#" (click)="navigateToBottom()" [routerLink]="['/']" fragment="bottom"><</a> -->
-
-      <li class="notifications"><a href="#"><fa-icon [icon]="faBell"></fa-icon> Notifications</a></li>
-      <li class="contacts"><a href="#"><fa-icon [icon]="faComments"></fa-icon> Contacts</a></li>
-      <li class="logout"><a href="#" (click)="logout()"><fa-icon [icon]="faArrowRightFromBracket"></fa-icon> Log Out</a>
-      </li>
-    </ul>
+<header class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="assets/SweatBank-Logo.png" alt="Logo" width="150px">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link me-3" href="#"><i class="bi bi-bell"></i> Notifications</a>
+        <a class="nav-link me-3" href="#"><i class="bi bi-people"></i> Contacts</a>
+        <div class="dropdown" (click)="toggleDropdown('second')">
+          <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="bi bi-person"></i> Welcome, {{ userName }} {{ userSurname }}
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#" onclick="logout()"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </header>

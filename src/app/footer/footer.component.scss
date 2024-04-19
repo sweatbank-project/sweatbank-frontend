@@ -1,54 +1,7 @@
 footer {
-  background-color: #ffffff;
-  color: #333;
-  padding: 20px;
+  text-align: center;
+  background-color: white;
+  position: absolute;
   bottom: 0;
   width: 100%;
 }
-
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-content ul {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-content ul li {
-  display: inline-block;
-  margin-right: 10px;
-}
-
-.footer-content ul li:last-child {
-  margin-right: 0;
-}
-
-.footer-content ul li a {
-  color: #fff;
-  text-decoration: none;
-}
-.footer-content ul li a {
-  color: #333;
-  text-decoration: none;
-}
-
-.footer-text {
-  text-align: center;
-  margin: 0 auto;
-  font-size: 12px;
-}
-
-.footer-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: auto;
-  margin: 0;
-  border: none;
-  border-top: 1px solid #333;
-  box-sizing: border-box;
-}
-

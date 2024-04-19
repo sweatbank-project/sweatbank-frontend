@@ -9,35 +9,43 @@
     </ul>
   </div>
   <div class="tabs_inner">
-    <form id="application" name="application" enctype="multipart/form-data" method="POST">
+    <form id="application" name="application" enctype="multipart/form-data" method="POST" [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
       <section #activeStepSection step="1" class="form-step">
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="makes">Choose a car</label>
-          <select name="makes" id="makes" (change)="onMakeSelect($event)">
+          <select name="makes" id="makes" (change)="onMakeSelect($event)" class="form-control {{applicationForm.get('makes')?.invalid && applicationForm.get('makes')?.touched ? 'is-invalid' : ''}}" formControlName="makes">
             @for (car of carData.car_makes; track car.make) {
-            <option value="" disabled selected hidden>-</option>
-            <option [value]="car.make">{{car.make}}</option>
+              <option value="" disabled selected hidden>-</option>
+              <option [value]="car.make">{{car.make}}</option>
             }
           </select>
+          @if(applicationForm.get('makes')?.invalid && applicationForm.get('makes')?.touched)
+          {
+            <div style="color: red;">Please select vehicle make</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="models">Choose a model</label>
           @if (selectedMake) {
-          <select name="models" id="models">
-            @for (model of selectedMake.models; track model) {
-            <option [value]="model">{{model}}</option>
-            }
-          </select>
+            <select name="models" id="models" class="form-control {{applicationForm.get('models')?.invalid && applicationForm.get('models')?.touched ? 'is-invalid' : ''}}" formControlName="models">
+              @for (model of selectedMake.models; track model) {
+                <option [value]="model">{{model}}</option>
+              }
+            </select>
           }
           @else {
-          <select disabled>
-            <option value="" disabled selected hidden>-</option>
-          </select>
+            <select disabled class="form-control">
+              <option value="" disabled selected hidden>-</option>
+            </select>
+          }
+          @if(applicationForm.get('models')?.invalid && applicationForm.get('models')?.touched)
+          {
+            <div style="color: red;">Please select vehicle model</div>
           }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="yearOfManufacture">Year of manufacture</label>
-          <select id="yearOfManufacture" name="yearOfManufacture">
+          <select id="yearOfManufacture" name="yearOfManufacture" class="form-control {{applicationForm.get('yearOfManufacture')?.invalid && applicationForm.get('yearOfManufacture')?.touched ? 'is-invalid' : ''}}" formControlName="yearOfManufacture" >
             <option value="">Select year of manufacture</option>
             <option value="2011">2011</option>
             <option value="2012">2012</option>
@@ -54,131 +62,296 @@
             <option value="2023">2023</option>
             <option value="2024">2024</option>
           </select>
+          @if(applicationForm.get('yearOfManufacture')?.invalid && applicationForm.get('yearOfManufacture')?.touched)
+          {
+            <div style="color: red;">Please select year of manufacture</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="costOfTheVehicle">Cost of the vehicle</label>
-          <input type="text" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price">
+          <input type="number" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price" class="form-control {{applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched ? 'is-invalid' : ''}}" formControlName="costOfTheVehicle">
+          @if(applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched)
+          {
+            <div style="color: red;">Please enter cost of the vehicle</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="downPayment">Down payment</label>
-          <input type="text" id="downPayment" name="downPayment" placeholder="Enter down payment">
+          <input type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" class="form-control {{applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched ? 'is-invalid' : ''}}" formControlName="downPayment">
+          @if(applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched)
+          {
+            <div style="color: red;">Please enter cost of the vehicle</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="leasingPeriod">Leasing period (in years)</label>
-          <select id="leasingPeriod" name="leasingPeriod">
+          <select id="leasingPeriod" name="leasingPeriod" class="form-control {{applicationForm.get('leasingPeriod')?.invalid && applicationForm.get('leasingPeriod')?.touched ? 'is-invalid' : ''}}" formControlName="leasingPeriod">
             <option value="">Select leasing period</option>
-            <option value="2011">1 year</option>
-            <option value="2012">2 years</option>
-            <option value="2013">3 years</option>
-            <option value="2014">4 years</option>
-            <option value="2015">5 years</option>
+            <option value="1">1 year</option>
+            <option value="2">2 years</option>
+            <option value="3">3 years</option>
+            <option value="4">4 years</option>
+            <option value="5">5 years</option>
           </select>
+          @if(applicationForm.get('leasingPeriod')?.invalid && applicationForm.get('leasingPeriod')?.touched)
+          {
+            <div style="color: red;">Please select leasing period</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2 mb-2">
           <label for="sellerName">Seller name</label>
-          <input type="text" id="sellerName" name="sellerName" placeholder="Enter sellers name">
+          <input type="text" id="sellerName" name="sellerName" placeholder="Enter seller's name" class="form-control {{applicationForm.get('sellerName')?.invalid && applicationForm.get('sellerName')?.touched ? 'is-invalid' : ''}}" formControlName="sellerName">
+          @if(applicationForm.get('sellerName')?.invalid && applicationForm.get('sellerName')?.touched)
+          {
+            <div style="color: red;">Please enter seller's name</div>
+          }
         </div>
-        <div class="form-button-bar">
-          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(2)">Forward</button>
+        <div class="form-button-bar d-flex justify-content-end">
+          <button class="btn btn-success" type="button" (click)="navigateToStep(2)" [disabled]="!sectionValidator(['makes','models','yearOfManufacture','costOfTheVehicle','leasingPeriod','downPayment','sellerName'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="2" class="form-step d-none">
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="education">Education</label>
-          <select id="education" name="education">
+          <select id="education" name="education" class="form-control {{applicationForm.get('education')?.invalid && applicationForm.get('education')?.touched ? 'is-invalid' : ''}}" formControlName="education">
             <option value="">Select education</option>
-            <option value="1">Primary</option>
-            <option value="2">Secondary</option>
-            <option value="3">Vocational</option>
-            <option value="4">College</option>
-            <option value="5">Higher</option>
+            <option value="primary">Primary</option>
+            <option value="secondary">Secondary</option>
+            <option value="vocational">Vocational</option>
+            <option value="college">College</option>
+            <option value="higher">Higher</option>
           </select>
+          @if(applicationForm.get('education')?.invalid && applicationForm.get('education')?.touched)
+          {
+            <div style="color: red;">Please select your education</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="positionHeld">Position held</label>
-          <select id="positionHeld" name="positionHeld">
+          <select id="positionHeld" name="positionHeld" class="form-control {{applicationForm.get('positionHeld')?.invalid && applicationForm.get('positionHeld')?.touched ? 'is-invalid' : ''}}" (change)="onMakeStudentSelect($event)" formControlName="positionHeld">
             <option value="">Select position held</option>
-            <option value="1">Worker, Specialist/Office worker</option>
-            <option value="2">Superior specialist</option>
-            <option value="3">Middle manager</option>
-            <option value="4">Executive</option>
-            <option value="5">Higher</option>
-            <option value="6">Owner</option>
-            <option value="7">Student</option>
-            <option value="8">Pensioner</option>
-            <option value="9">At home</option>
-            <option value="10">Unemployed</option>
-            <option value="11">Private entepreneur</option>
+            <option value="worker">Worker, Specialist/Office worker</option>
+            <option value="supervisorSpecialist">Superior specialist</option>
+            <option value="middleManager">Middle manager</option>
+            <option value="executive">Executive</option>
+            <option value="higher">Higher</option>
+            <option value="owner">Owner</option>
+            <option value="student">Student</option>
+            <option value="pensioner">Pensioner</option>
+            <option value="atHome">At home</option>
+            <option value="unemployed">Unemployed</option>
+            <option value="privateEnterpreneur">Private entrepreneur</option>
           </select>
+          @if(applicationForm.get('positionHeld')?.invalid && applicationForm.get('positionHeld')?.touched)
+          {
+            <div style="color: red;">Please select your position held</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2 jobTitleInput">
           <label for="jobTitle">Job title</label>
-          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title">
+          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" class="form-control {{applicationForm.get('jobTitle')?.invalid && applicationForm.get('jobTitle')?.touched ? 'is-invalid' : ''}}" formControlName="jobTitle">
+          @if(applicationForm.get('jobTitle')?.invalid && applicationForm.get('jobTitle')?.touched)
+          {
+            <div style="color: red;">Please enter your job title</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2 jobTitleInput">
           <label for="timeEmployed">Time employed</label>
-          <select id="timeEmployed" name="timeEmployed">
+          <select id="timeEmployed" name="timeEmployed" class="form-control {{applicationForm.get('timeEmployed')?.invalid && applicationForm.get('timeEmployed')?.touched ? 'is-invalid' : ''}}" formControlName="timeEmployed">
             <option value="">Select time</option>
-            <option value="1">Trial period</option>
-            <option value="2">Up to 1 year</option>
-            <option value="3">Up to 2 year</option>
-            <option value="4">Up to 3 year</option>
-            <option value="5">Up to 4 year</option>
-            <option value="6">Up to 5 year</option>
-            <option value="7">More then 5 years</option>
+            <option value="trialPeriod">Trial period</option>
+            <option value="1">Up to 1 year</option>
+            <option value="2">Up to 2 year</option>
+            <option value="3">Up to 3 year</option>
+            <option value="4">Up to 4 year</option>
+            <option value="5">Up to 5 year</option>
+            <option value="6">More then 5 years</option>
           </select>
+          @if(applicationForm.get('timeEmployed')?.invalid && applicationForm.get('timeEmployed')?.touched)
+          {
+            <div style="color: red;">Please select time employed</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2 jobTitleInput">
           <label for="businessAreaOfYourEmployer">Business area of your employer</label>
-          <select id="businessAreaOfYourEmployer" name="businessAreaOfYourEmployer">
+          <select id="businessAreaOfYourEmployer" name="businessAreaOfYourEmployer" class="form-control {{applicationForm.get('businessAreaOfYourEmployer')?.invalid && applicationForm.get('businessAreaOfYourEmployer')?.touched ? 'is-invalid' : ''}}" formControlName="businessAreaOfYourEmployer">
             <option value="">Select business area</option>
-            <option value="1">Agriculture, forestry, fishery (hunting)</option>
-            <option value="2">Construction</option>
-            <option value="3">Industry (food processing, textile, timber, paper, chemical, metal etc.)</option>
-            <option value="4">Trade, personal service (wholesale and retail trade, hotels, restaurants)</option>
-            <option value="5">Transport, haulage, communications</option>
-            <option value="6">Financial intermediation (insurance, financial interm. assistance services)</option>
-            <option value="7">Education, culture</option>
-            <option value="8">Real estate activities</option>
-            <option value="9">Information Technologies</option>
-            <option value="10">Legal assistance, auditing and other business</option>
-            <option value="11">Health and social care</option>
-            <option value="12">Public administration and national defence</option>
+            <option value="agricultureForestryFishery">Agriculture, forestry, fishery (hunting)</option>
+            <option value="construction">Construction</option>
+            <option value="industry">Industry (food processing, textile, timber, paper, chemical, metal etc.)</option>
+            <option value="tradePersonalService">Trade, personal service (wholesale and retail trade, hotels, restaurants)</option>
+            <option value="transportHaulageCommunications">Transport, haulage, communications</option>
+            <option value="financialIntermediation">Financial intermediation (insurance, financial interm. assistance services)</option>
+            <option value="educationCulture">Education, culture</option>
+            <option value="realEstateActivities">Real estate activities</option>
+            <option value="informationTechnologies">Information Technologies</option>
+            <option value="legalAssistanceAuditing">Legal assistance, auditing and other business</option>
+            <option value="healthSocialCare">Health and social care</option>
+            <option value="publicAdministrationNationalDefence">Public administration and national defence</option>
+
           </select>
+          @if(applicationForm.get('businessAreaOfYourEmployer')?.invalid && applicationForm.get('businessAreaOfYourEmployer')?.touched)
+          {
+            <div style="color: red;">Please select business area</div>
+          }
         </div>
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="maritalStatus">Marital status</label>
-          <select id="maritalStatus" name="maritalStatus">
+          <select id="maritalStatus" name="maritalStatus" class="form-control {{applicationForm.get('maritalStatus')?.invalid && applicationForm.get('maritalStatus')?.touched ? 'is-invalid' : ''}}" formControlName="maritalStatus">
             <option value="">Select marital status</option>
-            <option value="1">Single</option>
-            <option value="2">Married</option>
-            <option value="3">Common law marriage</option>
-            <option value="4">Divorced</option>
-            <option value="5">Widow/Widower</option>
+            <option value="single">Single</option>
+            <option value="married">Married</option>
+            <option value="commonLawMarriage">Common law marriage</option>
+            <option value="divorced">Divorced</option>
+            <option value="windowWindower">Widow/Widower</option>
           </select>
+          @if(applicationForm.get('maritalStatus')?.invalid && applicationForm.get('maritalStatus')?.touched)
+          {
+            <div style="color: red;">Please select your marital status</div>
+          }
         </div>
-        <div class="form-button-bar">
-          <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(1)">Back</button>
-          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(3)">Forward</button>
+        <div class="form-group mb-2">
+          <label for="numberOfChildren">Number of children</label>
+          <input type="number" id="numberOfChildren" name="numberOfChildren" placeholder="Enter number of children" class="form-control {{applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched ? 'is-invalid' : ''}}" formControlName="numberOfChildren">
+          @if(applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched)
+          {
+            <div style="color: red;">Please enter number of children</div>
+          }
+        </div>
+        <div class="form-button-bar d-flex justify-content-between">
+          <button class="btn btn-primary" type="button" (click)="navigateToStep(1)"><i class="bi bi-chevron-left"></i> Back</button>
+          <button class="btn btn-success" type="button" (click)="navigateToStep(3)" [disabled]="!sectionValidator(['education','positionHeld','jobTitle','timeEmployed','businessAreaOfYourEmployer','maritalStatus','numberOfChildren'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="3" class="form-step d-none">
-        <div class="form-group">
+        <div class="form-group mb-2">
           <label for="monthlyIncomeAfterTaxes">Monthly income after taxes</label>
-          <input type="text" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes"
-            placeholder="Enter your monthly income">
+          <input type="number" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income" class="form-control {{applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched ? 'is-invalid' : ''}}" formControlName="monthlyIncomeAfterTaxes">
+          @if(applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched)
+          {
+            <div style="color: red;">Please enter monthly income</div>
+          }
         </div>
-        <div class="form-button-bar">
-          <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(2)">Back</button>
-          <button class="button btn-navigate-form-step" type="button" (click)="navigateToStep(4)">Forward</button>
+        <div class="form-group mb-2">
+          <label>Do you have any obligations?</label><br>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="obligationsNo" name="obligations" value="No" (change)="handleObligationsChange($event)" checked formControlName="obligations">
+            <label class="form-check-label" for="obligationsNo">No</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" id="obligationsYes" name="obligations" value="Yes" (change)="handleObligationsChange($event)" formControlName="obligations">
+            <label class="form-check-label" for="obligationsYes">Yes</label>
+          </div>
+          @if(applicationForm.get('obligations')?.invalid && applicationForm.get('obligations')?.touched)
+          {
+            <div style="color: red;">Please select obligations</div>
+          }
+        </div>
+        <table class="table" id="table" style="display: none;">
+          <thead>
+            <tr>
+              <th>Type of Obligation</th>
+              <th>Outstanding Debt / Limit</th>
+              <th>Monthly Payment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Customer loans</td>
+              <td><input type="number" name="customerLoansOutstanding" id="customerLoansOutstanding" class="form-control {{applicationForm.get('customerLoansOutstanding')?.invalid && applicationForm.get('customerLoansOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="customerLoansOutstanding"></td>
+              <td><input type="number" name="customerLoansMonthlyPayment" id="customerLoansMonthlyPayment" class="form-control {{applicationForm.get('customerLoansMonthlyPayment')?.invalid && applicationForm.get('customerLoansMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="customerLoansMonthlyPayment"></td>
+            </tr>
+            <tr>
+              <td>Car lease</td>
+              <td><input type="number" name="carLeaseOutstanding" id="carLeaseOutstanding" class="form-control {{applicationForm.get('carLeaseOutstanding')?.invalid && applicationForm.get('carLeaseOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="carLeaseOutstanding"></td>
+              <td><input type="number" name="carLeaseMonthlyPayment" id="carLeaseMonthlyPayment" class="form-control {{applicationForm.get('carLeaseMonthlyPayment')?.invalid && applicationForm.get('carLeaseMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="carLeaseMonthlyPayment"></td>
+            </tr>
+            <tr>
+              <td>Credit card</td>
+              <td><input type="number" name="creditCardOutstanding" id="creditCardOutstanding" class="form-control {{applicationForm.get('creditCardOutstanding')?.invalid && applicationForm.get('creditCardOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="creditCardOutstanding"></td>
+              <td><input type="number" name="creditCardMonthlyPayment" id="creditCardMonthlyPayment" class="form-control {{applicationForm.get('creditCardMonthlyPayment')?.invalid && applicationForm.get('creditCardMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="creditCardMonthlyPayment"></td>
+            </tr>
+            <tr>
+              <td>Mortgage</td>
+              <td><input type="number" name="mortgageOutstanding" id="mortgageOutstanding" class="form-control {{applicationForm.get('mortgageOutstanding')?.invalid && applicationForm.get('mortgageOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="mortgageOutstanding"></td>
+              <td><input type="number" name="mortgageMonthlyPayment" id="mortgageMonthlyPayment" class="form-control {{applicationForm.get('mortgageMonthlyPayment')?.invalid && applicationForm.get('mortgageMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="mortgageMonthlyPayment"></td>
+            </tr>
+            <tr>
+              <td>Other credits</td>
+              <td><input type="number" name="otherCreditsOutstanding" id="otherCreditsOutstanding" class="form-control {{applicationForm.get('otherCreditsOutstanding')?.invalid && applicationForm.get('otherCreditsOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="otherCreditsOutstanding"></td>
+              <td><input type="number" name="otherCreditsMonthlyPayment" id="otherCreditsMonthlyPayment" class="form-control {{applicationForm.get('otherCreditsMonthlyPayment')?.invalid && applicationForm.get('otherCreditsMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="otherCreditsMonthlyPayment"></td>
+            </tr>
+          </tbody>
+          @if((applicationForm.get('customerLoansOutstanding')?.invalid && applicationForm.get('customerLoansOutstanding')?.touched) ||
+          (applicationForm.get('customerLoansMonthlyPayment')?.invalid && applicationForm.get('customerLoansMonthlyPayment')?.touched) ||
+          (applicationForm.get('carLeaseOutstanding')?.invalid && applicationForm.get('carLeaseOutstanding')?.touched) ||
+          (applicationForm.get('carLeaseMonthlyPayment')?.invalid && applicationForm.get('carLeaseMonthlyPayment')?.touched) ||
+          (applicationForm.get('creditCardOutstanding')?.invalid && applicationForm.get('creditCardOutstanding')?.touched) ||
+          (applicationForm.get('creditCardMonthlyPayment')?.invalid && applicationForm.get('creditCardMonthlyPayment')?.touched) ||
+          (applicationForm.get('mortgageOutstanding')?.invalid && applicationForm.get('mortgageOutstanding')?.touched) ||
+          (applicationForm.get('mortgageMonthlyPayment')?.invalid && applicationForm.get('mortgageMonthlyPayment')?.touched) ||
+          (applicationForm.get('otherCreditsOutstanding')?.invalid && applicationForm.get('otherCreditsOutstanding')?.touched) ||
+          (applicationForm.get('otherCreditsMonthlyPayment')?.invalid && applicationForm.get('otherCreditsMonthlyPayment')?.touched))
+          {
+            <div style="color: red;">Please review your entered data</div>
+          }
+        </table>
+        <div class="form-button-bar d-flex justify-content-between">
+          <button class="btn btn-primary" type="button" (click)="navigateToStep(2)"><i class="bi bi-chevron-left"></i> Back</button>
+          <button class="btn btn-success" type="button" (click)="navigateToStep(4)" [disabled]="!sectionValidator(['monthlyIncomeAfterTaxes','customerLoansOutstanding','customerLoansMonthlyPayment','carLeaseOutstanding','carLeaseMonthlyPayment','creditCardOutstanding','creditCardMonthlyPayment','mortgageOutstanding','mortgageMonthlyPayment','otherCreditsOutstanding','otherCreditsMonthlyPayment'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
       <section #activeStepSection step="4" class="form-step d-none">
-        <div class="form-button-bar">
-          <button class="button btn-navigate-form-step back" type="button" (click)="navigateToStep(3)">Back</button>
-          <button class="button btn-navigate-form-step" type="submit">Send application</button>
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Summary</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>Cost of vehicle</td>
+            <td>{{this.applicationForm.get('costOfTheVehicle')?.value}}.00 EUR</td>
+          </tr>
+          <tr>
+            <td>Lease period</td>
+            <td>
+              @if(this.applicationForm.get('leasingPeriod')?.value == 1) {
+                {{this.applicationForm.get('leasingPeriod')?.value}} Year
+              } @else {
+                {{this.applicationForm.get('leasingPeriod')?.value}} Years
+              }
+            </td>
+          </tr>
+          <tr>
+            <td>Monthly income after taxes</td>
+            <td>{{this.applicationForm.get('monthlyIncomeAfterTaxes')?.value}}.00 EUR</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{userPhoneNumber}}</td>
+          </tr>
+          <tr>
+            <td>E-mail</td>
+            <td>{{userEmail}}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{userAddress}}</td>
+          </tr>
+          <tr>
+            <td>Application date</td>
+            <td>{{currentDate}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="form-button-bar d-flex justify-content-between">
+          <button class="btn btn-primary" type="button" (click)="navigateToStep(3)"><i class="bi bi-chevron-left"></i> Back</button>
+          <button class="btn btn-success" type="submit">Submit <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
     </form>
   </div>
-  <app-footer></app-footer>
+</div>
+<app-footer></app-footer>
