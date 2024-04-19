@@ -1,1 +1,73 @@
-<p>inbox works!</p>
+<header class="p-3 mb-3">
+  <div class="container-fluid">
+    <div class="d-flex flex-wrap align-items-center justify-content-end">
+      <div class="dropdown">
+        <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="d-flex align-items-center justify-content-end">
+            <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
+            <div>
+              <div>Username</div>
+              <div class="text-muted">Admin</div>
+            </div>
+            <div class="p-2">
+              <i class="bi bi-chevron-down"></i>
+            </div>
+          </div>
+        </a>
+        <ul class="dropdown-menu text-small dropdown-menu-end" aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+<nav class="sidebar" [ngClass]="{'close': isClosed}">
+  <header>
+    <div class="image-text">
+      <span class="image">
+        <img src="favicon.ico" alt="">
+      </span>
+      <div class="text logo-text">
+        <span class="name">SweatBank</span>
+        <span class="profession">Admin Panel</span>
+      </div>
+    </div>
+    <i class="bi bi-chevron-right toggle" (click)="toggleSidebar()"></i>
+  </header>
+  <div class="menu-bar" data-np-autofill-form-type="other" data-np-checked="1" data-np-watching="1">
+    <div class="menu">
+      <ul class="menu-links">
+        <li class="nav-link">
+          <a routerLink="/admin/dashboard">
+            <i class="bi bi-bar-chart-fill icon"></i>
+            <span class="text nav-text">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/admin/inbox">
+            <i class="bi bi-envelope icon"></i>
+            <span class="text nav-text">Inbox</span>
+          </a>
+        </li>
+        <li class="nav-link">
+          <a routerLink="/admin/applications">
+            <i class="bi bi-clipboard2-check icon"></i>
+            <span class="text nav-text">Applications</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="bottom-content">
+      <li class="">
+        <a href="#">
+          <i class="bi bi-box-arrow-right icon"></i>
+          <span class="text nav-text">Logout</span>
+        </a>
+      </li>
+    </div>
+  </div>
+</nav>
+
+<section class="home">
+  <div class="text">Gaidis</div>
+</section>

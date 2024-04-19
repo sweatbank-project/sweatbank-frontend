@@ -1,3 +1,7 @@
+header {
+  background-color: #fff;
+}
+
 *{
   margin: 0;
   padding: 0;
@@ -15,7 +19,7 @@
   height: 100%;
   width: 250px;
   padding: 10px 14px;
-  background: #fdf6ee;
+  background: #fff;
   transition: all 0.3s ease;
   z-index: 100;
 }
@@ -193,9 +197,7 @@ header .image-text .profession{
   top: 0;
   top: 0;
   left: 250px;
-  height: 100vh;
   width: calc(100% - 250px);
-  background-color: #E4E9F7;
   transition: all 0.3s ease;
   margin-top: 85px;
 }
