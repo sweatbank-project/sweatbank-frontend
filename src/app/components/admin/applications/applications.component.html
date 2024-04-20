@@ -1,7 +1,7 @@
 <header class="p-3 mb-3">
   <div class="container-fluid">
     <div class="d-flex flex-wrap align-items-center justify-content-end">
-      <div class="dropdown">
+      <div class="dropdown" (click)="toggleDropdown('dropdown1')">
         <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
           <div class="d-flex align-items-center justify-content-end">
             <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
@@ -14,7 +14,7 @@
             </div>
           </div>
         </a>
-        <ul class="dropdown-menu text-small dropdown-menu-end" aria-labelledby="dropdownUser1">
+        <ul class="dropdown-menu text-small dropdown-menu-end" aria-labelledby="dropdownUser1" [ngClass]="{ 'show': dropdownStates['dropdown1'] }">
           <li><a class="dropdown-item" href="#">Sign out</a></li>
         </ul>
       </div>
@@ -69,5 +69,37 @@
 </nav>
 
 <section class="home">
-  <div class="text">Applications</div>
+  <div class="text">Application list</div>
+  <div class="table-responsive p-5">
+    <table class="table table-striped table-bordered table-sm row-border hover" id="applications">
+      <thead>
+        <tr>
+          <th>STATUS</th>
+          <th>ID</th>
+          <th>DATE</th>
+          <th>PERSONAL ID</th>
+          <th>FULL NAME</th>
+          <th>EMAIL ADDRESS</th>
+          <th>PHONE NO</th>
+          <th>MESSAGE</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(application of data; track application.id) {
+          <tr>
+            <td>{{ application.status }}</td>
+            <td>{{ application.id }}</td>
+            <td>{{ application.date }}</td>
+            <td>{{ application.personalId }}</td>
+            <td>{{ application.name }}</td>
+            <td>{{ application.email }}</td>
+            <td>{{ application.phone }}</td>
+            <td></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
 </section>
+
