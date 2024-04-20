@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
-import { FooterComponent } from './footer/footer.component';
+import {Component} from '@angular/core';
+import {RouterOutlet} from '@angular/router';
+import {LoginComponent} from "./components/shared/login/login.component";
+import {HeaderComponent} from "./components/client/assets/header/header.component";
+import {FooterComponent} from "./components/client/assets/footer/footer.component";
+
 
 @Component({
   selector: 'app-root',
@@ -14,7 +14,6 @@ import { FooterComponent } from './footer/footer.component';
     RouterOutlet,
     LoginComponent,
     HeaderComponent,
-    HomeComponent,
     FooterComponent,
   ],
 })
