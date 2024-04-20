@@ -19,7 +19,7 @@ $theme-colors: (
         "info": #17a2b8
 );
 
-@import '../../../../../node_modules/bootstrap';
+@import '../../../../../../node_modules/bootstrap';
 
 @function get-theme-color($key) {
   @return map-get($theme-colors, $key);
