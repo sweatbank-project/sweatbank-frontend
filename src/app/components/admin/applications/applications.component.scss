@@ -210,3 +210,40 @@ header .image-text .profession{
   left: 78px;
   width: calc(100% - 78px);
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100px;
+  }
+
+  .sidebar header .toggle {
+    right: -15px;
+  }
+  .sidebar.close .toggle {
+    transform: translateY(-50%) rotate(0deg);
+  }
+  .sidebar .text {
+    opacity: 0;
+  }
+  .sidebar.close .text {
+    opacity: 0;
+  }
+  .sidebar .logo-text {
+    display: none;
+  }
+  .sidebar .icon {
+    min-width: 50px;
+  }
+  .home {
+    left: 88px;
+    width: calc(100% - 88px);
+    margin-top: 85px;
+  }
+  .sidebar.close ~ .home {
+    left: 0;
+    width: 100%;
+  }
+  .toggle-button-phone {
+    display: none;
+  }
+}
