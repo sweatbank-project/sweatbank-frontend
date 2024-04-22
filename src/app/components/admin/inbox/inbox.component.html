@@ -71,3 +71,95 @@
 <section class="home">
   <div class="text">Inbox</div>
 </section>
+
+<section class="home">
+  <!-- Secondary sidebar for the email categories -->
+  <div class="email-categories-sidebar">
+    <!-- Category Item -->
+    <div class="email-category" [class.active]="activeCategory === 'inbox'" (click)="filterEmails('inbox')">
+      <i class="bi bi-inbox"></i>
+      <span>Inbox</span>
+      <span class="category-count">{{ emailCount }}</span>
+    </div>
+    <!-- Compose button positioned at the end of the sidebar -->
+    <div class="compose-btn-container">
+      <button (click)="composeNewEmail()">Compose New Email</button>
+    </div>
+  </div>
+
+  <!-- Inbox cccc container -->
+  <div class="inbox-container">
+    <!-- Search bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Search messages...">
+    </div>
+    <!-- Messages list -->
+    <div *ngFor="let email of emails" class="message" (click)="openEmailDetail(email)">
+      <!-- Message checkbox -->
+      <div class="message-checkbox" (click)="$event.stopPropagation()">
+        <input type="checkbox" [id]="'checkbox' + email.id">
+        <label [for]="'checkbox' + email.id"></label>
+      </div>
+      <!-- Message star -->
+      <div class="message-star">
+        <i class="bi bi-star"></i>
+      </div>
+      <!-- Message content -->
+        <div class="message-content">
+            <div class="message-header">
+                <div class="message-sender">{{ email.sender }}</div>
+                <div class="message-details">
+                    <div class="message-time">{{ email.time | date: 'short' }}</div>
+                    <button class="delete-button" (click)="deleteEmail(email)">Delete</button>
+                </div>
+            </div>
+            <div *ngIf="selectedEmail === email && selectedEmail.open" class="message-body">{{ email.body }}</div>
+            <div *ngIf="selectedEmail !== email || !selectedEmail.open" class="message-subject">{{ email.subject }}</div>
+        </div>
+    </div>
+
+
+
+    <!-- Full email message -->
+    <div *ngIf="selectedEmail" class="email-detail-modal">
+      <div class="email-detail-content">
+        <div class="email-detail-header">
+          <h3>{{ selectedEmail.subject }}</h3>
+          <button class="close-button" (click)="closeEmailDetail()">&times;</button>
+        </div>
+        <div class="email-header">
+          <h5>From: {{ selectedEmail.sender }}</h5>
+          <span>{{ selectedEmail.time | date: 'short' }}</span>
+        </div>
+        <p class="email-body">{{ selectedEmail.body }}</p>
+        <!-- Reply form inside the modal -->
+        <div class="email-reply">
+          <textarea [(ngModel)]="replyMessage" rows="3" placeholder="Type your reply..."></textarea>
+          <button (click)="sendReply()">Send Reply</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compose email modal -->
+    <div *ngIf="composingEmail" class="compose-email-modal">
+      <div class="compose-email-content">
+        <div class="compose-email-header">
+          <h3>Compose New Email</h3>
+          <button class="close-button" (click)="cancelCompose()">&times;</button>
+        </div>
+        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient" />
+        <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject" />
+        <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
+        <button (click)="sendNewEmail()">Send</button>
+      </div>
+    </div><div class="email-messages">
+    <div *ngFor="let message of selectedEmail?.messages">
+      <div class="message-item">
+        <div class="message-sender">{{ message.sender }}</div>
+        <div class="message-text">{{ message.text }}</div>
+        <div class="message-time">{{ message.time | date: 'short' }}</div>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
