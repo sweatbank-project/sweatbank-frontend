@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { loginGuard } from './auth/guards/login.guard';
+import { loginGuard } from './core/guards/login.guard';
 import {ApplicationComponent} from "./components/client/application/application.component";
-import {LoginComponent} from "./components/shared/login/login.component";
+import {LoginComponent} from "./components/login/login.component";
 
 // admin:
 import {DashboardComponent} from "./components/admin/dashboard/dashboard.component";
