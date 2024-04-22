@@ -69,7 +69,7 @@
         </div>
         <div class="form-group mb-2">
           <label for="costOfTheVehicle">Cost of the vehicle</label>
-          <input type="number" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price" class="form-control {{applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched ? 'is-invalid' : ''}}" formControlName="costOfTheVehicle">
+          <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price" class="form-control {{applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched ? 'is-invalid' : ''}}" formControlName="costOfTheVehicle">
           @if(applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched)
           {
             <div style="color: red;">Please enter cost of the vehicle</div>
@@ -77,7 +77,7 @@
         </div>
         <div class="form-group mb-2">
           <label for="downPayment">Down payment</label>
-          <input type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" class="form-control {{applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched ? 'is-invalid' : ''}}" formControlName="downPayment">
+          <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" class="form-control {{applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched ? 'is-invalid' : ''}}" formControlName="downPayment">
           @if(applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched)
           {
             <div style="color: red;">Please enter cost of the vehicle</div>
@@ -212,7 +212,7 @@
         </div>
         <div class="form-group mb-2">
           <label for="numberOfChildren">Number of children</label>
-          <input type="number" id="numberOfChildren" name="numberOfChildren" placeholder="Enter number of children" class="form-control {{applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched ? 'is-invalid' : ''}}" formControlName="numberOfChildren">
+          <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="numberOfChildren" name="numberOfChildren" placeholder="Enter number of children" class="form-control {{applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched ? 'is-invalid' : ''}}" formControlName="numberOfChildren">
           @if(applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched)
           {
             <div style="color: red;">Please enter number of children</div>
@@ -226,7 +226,7 @@
       <section #activeStepSection step="3" class="form-step d-none">
         <div class="form-group mb-2">
           <label for="monthlyIncomeAfterTaxes">Monthly income after taxes</label>
-          <input type="number" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income" class="form-control {{applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched ? 'is-invalid' : ''}}" formControlName="monthlyIncomeAfterTaxes">
+          <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income" class="form-control {{applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched ? 'is-invalid' : ''}}" formControlName="monthlyIncomeAfterTaxes">
           @if(applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched)
           {
             <div style="color: red;">Please enter monthly income</div>
@@ -258,28 +258,28 @@
           <tbody>
           <tr>
             <td>Customer loans</td>
-            <td><input type="number" name="customerLoansOutstanding" id="customerLoansOutstanding" class="form-control {{applicationForm.get('customerLoansOutstanding')?.invalid && applicationForm.get('customerLoansOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="customerLoansOutstanding"></td>
-            <td><input type="number" name="customerLoansMonthlyPayment" id="customerLoansMonthlyPayment" class="form-control {{applicationForm.get('customerLoansMonthlyPayment')?.invalid && applicationForm.get('customerLoansMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="customerLoansMonthlyPayment"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="customerLoansOutstanding" id="customerLoansOutstanding" class="form-control {{applicationForm.get('customerLoansOutstanding')?.invalid && applicationForm.get('customerLoansOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="customerLoansOutstanding"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="customerLoansMonthlyPayment" id="customerLoansMonthlyPayment" class="form-control {{applicationForm.get('customerLoansMonthlyPayment')?.invalid && applicationForm.get('customerLoansMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="customerLoansMonthlyPayment"></td>
           </tr>
           <tr>
             <td>Car lease</td>
-            <td><input type="number" name="carLeaseOutstanding" id="carLeaseOutstanding" class="form-control {{applicationForm.get('carLeaseOutstanding')?.invalid && applicationForm.get('carLeaseOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="carLeaseOutstanding"></td>
-            <td><input type="number" name="carLeaseMonthlyPayment" id="carLeaseMonthlyPayment" class="form-control {{applicationForm.get('carLeaseMonthlyPayment')?.invalid && applicationForm.get('carLeaseMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="carLeaseMonthlyPayment"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="carLeaseOutstanding" id="carLeaseOutstanding" class="form-control {{applicationForm.get('carLeaseOutstanding')?.invalid && applicationForm.get('carLeaseOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="carLeaseOutstanding"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="carLeaseMonthlyPayment" id="carLeaseMonthlyPayment" class="form-control {{applicationForm.get('carLeaseMonthlyPayment')?.invalid && applicationForm.get('carLeaseMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="carLeaseMonthlyPayment"></td>
           </tr>
           <tr>
             <td>Credit card</td>
-            <td><input type="number" name="creditCardOutstanding" id="creditCardOutstanding" class="form-control {{applicationForm.get('creditCardOutstanding')?.invalid && applicationForm.get('creditCardOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="creditCardOutstanding"></td>
-            <td><input type="number" name="creditCardMonthlyPayment" id="creditCardMonthlyPayment" class="form-control {{applicationForm.get('creditCardMonthlyPayment')?.invalid && applicationForm.get('creditCardMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="creditCardMonthlyPayment"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="creditCardOutstanding" id="creditCardOutstanding" class="form-control {{applicationForm.get('creditCardOutstanding')?.invalid && applicationForm.get('creditCardOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="creditCardOutstanding"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="creditCardMonthlyPayment" id="creditCardMonthlyPayment" class="form-control {{applicationForm.get('creditCardMonthlyPayment')?.invalid && applicationForm.get('creditCardMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="creditCardMonthlyPayment"></td>
           </tr>
           <tr>
             <td>Mortgage</td>
-            <td><input type="number" name="mortgageOutstanding" id="mortgageOutstanding" class="form-control {{applicationForm.get('mortgageOutstanding')?.invalid && applicationForm.get('mortgageOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="mortgageOutstanding"></td>
-            <td><input type="number" name="mortgageMonthlyPayment" id="mortgageMonthlyPayment" class="form-control {{applicationForm.get('mortgageMonthlyPayment')?.invalid && applicationForm.get('mortgageMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="mortgageMonthlyPayment"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="mortgageOutstanding" id="mortgageOutstanding" class="form-control {{applicationForm.get('mortgageOutstanding')?.invalid && applicationForm.get('mortgageOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="mortgageOutstanding"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="mortgageMonthlyPayment" id="mortgageMonthlyPayment" class="form-control {{applicationForm.get('mortgageMonthlyPayment')?.invalid && applicationForm.get('mortgageMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="mortgageMonthlyPayment"></td>
           </tr>
           <tr>
             <td>Other credits</td>
-            <td><input type="number" name="otherCreditsOutstanding" id="otherCreditsOutstanding" class="form-control {{applicationForm.get('otherCreditsOutstanding')?.invalid && applicationForm.get('otherCreditsOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="otherCreditsOutstanding"></td>
-            <td><input type="number" name="otherCreditsMonthlyPayment" id="otherCreditsMonthlyPayment" class="form-control {{applicationForm.get('otherCreditsMonthlyPayment')?.invalid && applicationForm.get('otherCreditsMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="otherCreditsMonthlyPayment"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="otherCreditsOutstanding" id="otherCreditsOutstanding" class="form-control {{applicationForm.get('otherCreditsOutstanding')?.invalid && applicationForm.get('otherCreditsOutstanding')?.touched ? 'is-invalid' : ''}}" formControlName="otherCreditsOutstanding"></td>
+            <td><input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" name="otherCreditsMonthlyPayment" id="otherCreditsMonthlyPayment" class="form-control {{applicationForm.get('otherCreditsMonthlyPayment')?.invalid && applicationForm.get('otherCreditsMonthlyPayment')?.touched ? 'is-invalid' : ''}}" formControlName="otherCreditsMonthlyPayment"></td>
           </tr>
           </tbody>
           @if((applicationForm.get('customerLoansOutstanding')?.invalid && applicationForm.get('customerLoansOutstanding')?.touched) ||
