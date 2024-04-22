@@ -32,6 +32,8 @@
     "datatables.net-buttons": "^3.0.2",
     "datatables.net-buttons-dt": "^3.0.2",
     "datatables.net-dt": "^2.0.5",
+    "datatables.net-responsive": "^3.0.2",
+    "datatables.net-responsive-dt": "^3.0.2",
     "jquery": "^3.7.1",
     "jszip": "^3.10.1",
     "rxjs": "~7.8.0",
