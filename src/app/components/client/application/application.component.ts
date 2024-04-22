@@ -2,7 +2,7 @@ import {CarData, CarModel, carData} from './data';
 import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
 import {FooterComponent} from "../assets/footer/footer.component";
 import {HeaderComponent} from "../assets/header/header.component";
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import { DatePipe } from '@angular/common';
 
 @Component({

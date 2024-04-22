@@ -10,7 +10,7 @@
   </div>
   <div class="tabs_inner">
     <form id="application" name="application" enctype="multipart/form-data" method="POST" [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
-      <section #activeStepSection step="1" class="form-step d-none">
+      <section #activeStepSection step="1" class="form-step">
         <div class="form-group mb-2">
           <label for="makes">Choose a car</label>
           <select name="makes" id="makes" (change)="onMakeSelect($event)" class="form-control {{applicationForm.get('makes')?.invalid && applicationForm.get('makes')?.touched ? 'is-invalid' : ''}}" formControlName="makes">
@@ -223,7 +223,7 @@
           <button class="btn btn-success" type="button" (click)="navigateToStep(3)" [disabled]="!sectionValidator(['education','positionHeld','jobTitle','timeEmployed','businessAreaOfYourEmployer','maritalStatus','numberOfChildren'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>
-      <section #activeStepSection step="3" class="form-step ">
+      <section #activeStepSection step="3" class="form-step d-none">
         <div class="form-group mb-2">
           <label for="monthlyIncomeAfterTaxes">Monthly income after taxes</label>
           <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income" class="form-control {{applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched ? 'is-invalid' : ''}}" formControlName="monthlyIncomeAfterTaxes">
@@ -247,7 +247,7 @@
             <div style="color: red;">Please select obligations</div>
           }
         </div>
-        <table class="table" id="table" style="display: block;">
+        <table class="table" id="table" style="display: none;">
           <thead>
           <tr>
             <th>Type of Obligation</th>
