@@ -1,0 +1,36 @@
+// .modal.fade .modal-dialog {
+//   transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+//   transform: translateY(50%);
+//   opacity: 0;
+// }
+
+// .modal.fade.show .modal-dialog {
+//   transform: translateY(0);
+//   opacity: 1;
+// }
+
+.modal-header {
+  border-bottom: 0;
+}
+
+.modal-footer {
+  border-top: 0;
+}
+
+.form-control,
+.form-select {
+  border: 0;
+  padding: 0;
+  text-wrap: wrap;
+}
+
+.input-group-addon {
+  background-color: #fff;
+}
+.input-group .input-group-addon + .form-control {
+  border-left: none;
+}
+
+.input-group {
+  width: fit-content;
+}
