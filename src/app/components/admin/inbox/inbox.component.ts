@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {DatePipe, NgClass} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {ClientService} from "../clients.service";
 
 interface Email {
   id: number;
@@ -37,6 +38,8 @@ interface Message {
   styleUrls: ['./inbox.component.scss']
 })
 export class InboxComponent {
+  clients: any[] = [];
+  selectedClient: any;
   isClosed: boolean = false;
   activeCategory: string = 'inbox';
   emails: Email[] = [
@@ -52,7 +55,6 @@ export class InboxComponent {
       read: false,
       messages: [
         { id: 1, sender: 'John Doe', text: 'Hi there!', time: new Date() },
-        { id: 2, sender: 'Jane Doe', text: 'Hello!', time: new Date() }
       ],
       open: false
     },
@@ -66,22 +68,62 @@ export class InboxComponent {
       read: false,
       open: false,
       messages: [
-        { id: 1, sender: 'Jane Smith', text: 'Here is the agenda for the meeting...', time: new Date() },
         { id: 2, sender: 'John Doe', text: 'Thank you!', time: new Date() }
       ]
     },
   ];
+
   selectedEmail: Email | null = null;
   currentTime = new Date();
   newEmailRecipient: string = '';
-  replyMessage: string = '';
   newEmailSubject: string = '';
   newEmailBody: string = '';
   composingEmail: boolean = false;
+  searchTerm: string = '';
+  recipientSearchTerm: string = '';
+  showDropdownFlag: boolean = false;
 
-  sendReply(): void {
-    console.log('Reply:', this.replyMessage);
-    this.closeEmailDetail();
+  constructor(private clientService: ClientService) {}
+
+  ngOnInit(): void {
+    this.clients = this.clientService.getClients();
+
+  }
+
+  showDropdown() {
+    this.showDropdownFlag = true;
+  }
+  hideDropdown() {
+    // Add a small delay to allow click events to be detected before hiding the dropdown
+    setTimeout(() => {
+      this.showDropdownFlag = false;
+    }, 200);
+  }
+
+  selectRecipient(client: any) {
+    this.newEmailRecipient = client.email;
+    this.showDropdownFlag = false;
+  }
+
+  get filteredClients(): any[] {
+    if (!this.recipientSearchTerm) return this.clients;
+
+    return this.clients.filter(client =>
+      client.fullName.toLowerCase().includes(this.recipientSearchTerm.toLowerCase())
+    );
+  }
+
+  get filteredEmails(): Email[] {
+    if (!this.searchTerm) return this.emails;
+
+    return this.emails.filter(email => {
+      const term = this.searchTerm.toLowerCase();
+      return (
+        email.sender.toLowerCase().includes(term) ||
+        email.recipient.toLowerCase().includes(term) ||
+        email.id.toString() === term
+      );
+    });
   }
 
   filterEmails(category: string): void {
@@ -92,13 +134,14 @@ export class InboxComponent {
     this.selectedEmail = email;
   }
 
-  closeEmailDetail(): void {
-    if (this.selectedEmail) {
-      this.selectedEmail.open = false;
+  toggleEmailDetail(email: Email): void {
+    if (this.selectedEmail?.id === email.id && email.open) {
       this.selectedEmail = null;
+    } else {
+      this.selectedEmail = email;
     }
+    email.open = !email.open;
   }
-
   composeNewEmail(): void {
     this.composingEmail = true;
   }
@@ -118,7 +161,6 @@ export class InboxComponent {
 
     this.emails.unshift(newEmail);
     this.composingEmail = false;
-
     this.emails.push(newEmail);
 
     this.composingEmail = false;
