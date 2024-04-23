@@ -1,9 +1,9 @@
 <header class="p-3 mb-3">
   <div class="container-fluid">
-    <div class="d-flex flex-wrap align-items-center justify-content-end">
-      <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="d-flex flex-wrap align-items-center justify-content-end me-5">
+      <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <div class="d-flex align-items-center justify-content-end">
-          <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
+          <img src="../../../../assets/adminUser.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
           <div>
             <div>Username</div>
             <div class="text-muted">Admin</div>
@@ -42,7 +42,7 @@
           </a>
         </li>
         <li class="nav-link">
-          <a routerLink="/admin/applications" class="active">
+          <a routerLink="/admin/applications">
             <i class="bi bi-clipboard2-check icon"></i>
             <span class="text nav-text">Applications</span>
           </a>
@@ -93,7 +93,161 @@
                     <span class="badge text-bg-secondary p-1">{{row.status}}</span>
                   } 
                 </th>
-                <th>{{row.id}}</th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
+                <th>{{row.date}}</th>
+                <th>{{row.personalId}}</th>
+                <th>{{row.name}}</th>
+                <th>{{row.email}}</th>
+                <th>{{row.phone}}</th>
+                <th></th>
+              </tr>
+            }
+            @for (row of data?.leases; track $index) {
+              <tr>
+                <th>
+                  @if(row.status === 'PENDING') {
+                    <span class="badge text-bg-warning p-1">{{row.status}}</span>
+                  } @else if (row.status === 'APPROVED') {
+                    <span class="badge text-bg-success p-1">{{row.status}}</span>
+                  } @else if (row.status === 'REJECTED') {
+                    <span class="badge text-bg-danger p-1">{{row.status}}</span>
+                  } @else if (row.status === 'NEW') {
+                    <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+                  } 
+                </th>
+                <th><a href="/{{row.id}}">{{row.id}}</a></th>
                 <th>{{row.date}}</th>
                 <th>{{row.personalId}}</th>
                 <th>{{row.name}}</th>

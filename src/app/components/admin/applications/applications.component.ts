@@ -39,9 +39,28 @@ export class ApplicationsComponent {
           pagingType: 'full_numbers',
           pageLength: 10,
           processing: true,
-          lengthMenu : [10],
-        } );
+          lengthMenu : [10, 25, 50],
+        });
+        
+        applyStylesToElements()
       }, 1);
     }, error => console.error(error));
+
+    function applyStylesToElements() {
+      const styleProperties = {
+        backgroundColor: "#FFF",
+        margin: "5px"
+      };
+
+      const tableElements = ['dt-length-0', 'dt-search-0'];
+
+      tableElements.forEach(id => {
+        const element = document.getElementById(id) as HTMLInputElement;
+        Object.assign(element.style, styleProperties);
+      });
+
+      const tableElement = document.getElementById('applications') as HTMLInputElement;
+      tableElement.style.width = '';
+    }
   }
 }
