@@ -77,6 +77,7 @@ export class InboxComponent implements OnInit {
   newEmailBody: string = '';
   composingEmail: boolean = false;
   searchTerm: string = '';
+  recipientSearchTerm: string = '';
 
 
   get filteredEmails(): Email[] {
