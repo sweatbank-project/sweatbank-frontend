@@ -2,11 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-
-interface AuthResponseData {
-  token: string;
-  role: string;
-}
+import { AuthResponseData } from './data';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +20,7 @@ export class AuthService {
   ): Observable<HttpResponse<AuthResponseData>> {
     return this.client
       .post<AuthResponseData>(
-        this.url,
+        this.localUrl,
         {
           username: email,
           password,
@@ -35,7 +31,15 @@ export class AuthService {
         tap((resData) => {
           const token = resData.headers.get('authorization');
           if (token) {
-            this.handleAuthentication(token, resData.body!.role);
+            this.handleAuthentication(token,
+              resData.body!.role,
+              resData.body?.user.firstName || '',
+              resData.body?.user.lastName || '',
+              resData.body?.user.username || '',
+              resData.body?.user.phoneNumber || '',
+              resData.body?.user.address || '',
+              resData.body?.user.birthdate.toString() || '',
+            );
           }
         })
       );
@@ -54,11 +58,11 @@ export class AuthService {
     return this.getUserData('role');
   }
 
-  private handleAuthentication(token: string, role: string) {
-    sessionStorage.setItem('userData', JSON.stringify({ token, role }));
+  handleAuthentication(token: string, role: string, firstName: string, lastName: string, username: string, phoneNumber: string, address: string, birthDate: string) {
+    sessionStorage.setItem('userData', JSON.stringify({ token, role, firstName, lastName, username, phoneNumber, address, birthDate }));
   }
 
-  private getUserData(key: string): string {
+  getUserData(key: string): string {
     const data = sessionStorage.getItem('userData');
     if (data) {
       const userData = JSON.parse(data);

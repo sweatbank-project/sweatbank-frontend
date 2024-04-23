@@ -1,0 +1,13 @@
+.wrapper {
+  min-height: calc(100vh - 210px);
+}
+
+.main {
+  height: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  padding-block: 20px;
+  padding-inline: 30px;
+  background-color: white;
+}

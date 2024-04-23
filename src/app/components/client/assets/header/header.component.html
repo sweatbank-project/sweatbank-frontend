@@ -12,9 +12,9 @@
         <a class="nav-link me-3" href="#"><i class="bi bi-people"></i> Contacts</a>
         <div class="dropdown" (click)="toggleDropdown('second')">
           <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="bi bi-person"></i> Welcome, {{ userName }} {{ userSurname }}
+            <i class="bi bi-person"></i>
           </a>
-          <ul class="dropdown-menu" [ngClass]="{ 'show': dropdownStates['second'] }">
+          <ul class="dropdown-menu dropdown-menu-end" [ngClass]="{ 'show': dropdownStates['second'] }">
             <li><a class="dropdown-item" href="#" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>
           </ul>
         </div>

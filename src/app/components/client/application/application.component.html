@@ -106,7 +106,8 @@
             <div style="color: red;">Please enter seller's name</div>
           }
         </div>
-        <div class="form-button-bar d-flex justify-content-end">
+        <div class="form-button-bar d-flex justify-content-between">
+          <a class="btn btn-danger" href="/home"><i class="bi bi-chevron-left"></i> Cancel</a>
           <button class="btn btn-success" type="button" (click)="navigateToStep(2)" [disabled]="!sectionValidator(['makes','models','yearOfManufacture','costOfTheVehicle','leasingPeriod','downPayment','sellerName'])">Forward <i class="bi bi-chevron-right"></i></button>
         </div>
       </section>

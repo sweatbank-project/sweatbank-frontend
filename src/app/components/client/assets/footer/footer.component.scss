@@ -2,14 +2,16 @@ footer {
   text-align: center;
   background-color: white;
   padding: 20px 0;
+  margin-top: 20px;
   width: 100%;
-  position: absolute;
+  position: relative;
   bottom: 0;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 992px) {
   footer {
     position: relative;
-    z-index: 1000;
+    bottom: 0;
+    margin-top: 20px;
   }
 }

@@ -7,11 +7,31 @@ import {LoginComponent} from "./components/login/login.component";
 import {DashboardComponent} from "./components/admin/dashboard/dashboard.component";
 import {ApplicationsComponent} from "./components/admin/applications/applications.component";
 import {InboxComponent} from "./components/admin/inbox/inbox.component";
+import { MainPageComponent } from './components/client/application/main-page/main-page.component';
+import { AccountComponent } from './components/client/application/account/account.component';
+import { userGuard } from './core/guards/user.guard';
+import { LeasesComponent } from './components/client/application/leases/leases.component';
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
+    component: MainPageComponent,
+    canActivate: [userGuard]
+  },
+  {
+    path: 'lease/create',
     component: ApplicationComponent,
+    canActivate: [userGuard]
+  },
+  {
+    path: 'leases',
+    component: LeasesComponent,
+    canActivate: [userGuard]
+  },
+  {
+    path: 'account',
+    component: AccountComponent,
+    canActivate: [userGuard]
   },
   {
     path: 'login',
@@ -30,4 +50,9 @@ export const routes: Routes = [
     path: 'admin/inbox',
     component: InboxComponent,
   },
+  {
+    path: '**',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  }
 ];

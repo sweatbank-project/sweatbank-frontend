@@ -1,0 +1,69 @@
+<app-header></app-header>
+<div class="container wrapper">
+  <div class="container main">
+    <a href="/main" class="btn btn-outline-dark"><i class="bi pe-2 bi-arrow-left-circle"></i>Back</a>
+    <h3 class="mt-4 border-bottom pb-3">My Lease Applications</h3>
+    <div class="d-flex">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Application ID</th>
+            <th scope="col">Application Date</th>
+            <th scope="col">Interest Base</th>
+            <th scope="col">Margin</th>
+            <th scope="col">Monthly Payment</th>
+            <th scope="col">Borrowed Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (isLoading) {
+            <tr>
+              <td colspan="7">
+                <div class="d-flex justify-content-center">
+                  <fa-icon [icon]="faSpinner" animation="spin" />
+                </div>
+              </td>
+            </tr>
+          }
+          @else if (!isLoading && failedFetch) {
+            <tr>
+              <td colspan="7">
+                <div class="d-flex justify-content-center">
+                  <p class="text-center m-0 text-muted">You have no lease applications</p>
+                </div>
+              </td>
+            </tr>
+          }
+          @else {
+            @for (leaseData of leases; track $index) {
+              <tr>
+                <th scope="row">
+                  @if (leaseData.status.toUpperCase() === "PENDING") {
+                    <span class="badge bg-warning text-dark">{{ leaseData.status }}</span>
+                  }
+                  @else if (leaseData.status.toUpperCase() === "APPROVED") {
+                    <span class="badge bg-success">{{ leaseData.status }}</span>
+                  }
+                  @else if (leaseData.status.toUpperCase() === "REJECTED") {
+                    <span class="badge bg-danger">{{ leaseData.status }}</span>
+                  }
+                  @else if (leaseData.status.toUpperCase() === "NEW") {
+                    <span class="badge bg-info text-dark">{{ leaseData.status }}</span>
+                  }
+                </th>
+                <td>{{ leaseData.applicationId }}</td>
+                <td>{{ leaseData.applicationDate.toString() }}</td>
+                <td>{{ leaseData.interestBase }}</td>
+                <td>{{ leaseData.leaseMargin }}%</td>
+                <td>{{ leaseData.monthlyPayment }}€</td>
+                <td>{{ leaseData.borrowedAmount }}€</td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
