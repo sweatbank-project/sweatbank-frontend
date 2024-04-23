@@ -216,12 +216,6 @@ header .image-text .profession{
     width: 100px;
   }
 
-  .sidebar header .toggle {
-    right: -15px;
-  }
-  .sidebar.close .toggle {
-    transform: translateY(-50%) rotate(0deg);
-  }
   .sidebar .text {
     opacity: 0;
   }
@@ -239,10 +233,7 @@ header .image-text .profession{
     width: calc(100% - 88px);
     margin-top: 85px;
   }
-  .sidebar.close ~ .home {
-    left: 0;
-    width: 100%;
-  }
+
   .toggle-button-phone {
     display: none;
   }

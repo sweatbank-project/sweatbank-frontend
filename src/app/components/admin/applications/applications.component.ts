@@ -31,7 +31,7 @@ export class ApplicationsComponent {
 
   data:any;
   constructor(private http: HttpClient){
-    this.http.get('https://jsonplaceholder.typicode.com/users').subscribe(data => {
+    this.http.get('http://localhost:8080/api/admin/leases').subscribe(data => {
 
       this.data = data;
       setTimeout(()=>{
@@ -39,12 +39,9 @@ export class ApplicationsComponent {
           pagingType: 'full_numbers',
           pageLength: 10,
           processing: true,
-          lengthMenu : [10, 25, 50],
+          lengthMenu : [10],
         } );
       }, 1);
     }, error => console.error(error));
   }
-
-
-
 }
