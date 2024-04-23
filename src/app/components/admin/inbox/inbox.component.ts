@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {DatePipe, NgClass} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-import {ClientService} from "../clients.service";
+
 
 interface Email {
   id: number;
@@ -38,8 +38,6 @@ interface Message {
   styleUrls: ['./inbox.component.scss']
 })
 export class InboxComponent {
-  clients: any[] = [];
-  selectedClient: any;
   isClosed: boolean = false;
   activeCategory: string = 'inbox';
   emails: Email[] = [
@@ -81,37 +79,7 @@ export class InboxComponent {
   composingEmail: boolean = false;
   searchTerm: string = '';
   recipientSearchTerm: string = '';
-  showDropdownFlag: boolean = false;
 
-  constructor(private clientService: ClientService) {}
-
-  ngOnInit(): void {
-    this.clients = this.clientService.getClients();
-
-  }
-
-  showDropdown() {
-    this.showDropdownFlag = true;
-  }
-  hideDropdown() {
-    // Add a small delay to allow click events to be detected before hiding the dropdown
-    setTimeout(() => {
-      this.showDropdownFlag = false;
-    }, 200);
-  }
-
-  selectRecipient(client: any) {
-    this.newEmailRecipient = client.email;
-    this.showDropdownFlag = false;
-  }
-
-  get filteredClients(): any[] {
-    if (!this.recipientSearchTerm) return this.clients;
-
-    return this.clients.filter(client =>
-      client.fullName.toLowerCase().includes(this.recipientSearchTerm.toLowerCase())
-    );
-  }
 
   get filteredEmails(): Email[] {
     if (!this.searchTerm) return this.emails;
@@ -129,10 +97,6 @@ export class InboxComponent {
   filterEmails(category: string): void {
     this.activeCategory = category;}
 
-  openEmailDetail(email: Email): void {
-    email.open = true;
-    this.selectedEmail = email;
-  }
 
   toggleEmailDetail(email: Email): void {
     if (this.selectedEmail?.id === email.id && email.open) {

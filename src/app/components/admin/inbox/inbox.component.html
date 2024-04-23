@@ -131,11 +131,8 @@
           <button class="close-button" (click)="cancelCompose()">&times;</button>
         </div>
         <!-- Combined input field with autocomplete for selecting recipients -->
-        <input type="text" [(ngModel)]="recipientSearchTerm" placeholder="Search or select recipient" (click)="showDropdown()" (blur)="hideDropdown()">
-        <div class="autocomplete-dropdown" *ngIf="showDropdownFlag">
-          <div *ngFor="let client of filteredClients" (click)="selectRecipient(client)">
-            {{ client.fullName }}
-          </div>
+        <input type="text" [(ngModel)]="recipientSearchTerm" placeholder="Search or select recipient">
+        <div class="autocomplete-dropdown">
         </div>
         <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject" />
         <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
