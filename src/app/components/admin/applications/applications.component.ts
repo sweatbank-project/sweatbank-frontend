@@ -22,10 +22,6 @@ export class ApplicationsComponent {
     dropdown1: false,
   };
 
-  openEmailForm(email: string) {
-    this.router.navigate(['/admin/inbox', { email: email }]);
-  }
-
   toggleSidebar() {
     this.isClosed = !this.isClosed;
   }
@@ -33,8 +29,12 @@ export class ApplicationsComponent {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
   }
 
+  openEmailForm(email: string) {
+    this.router.navigate(['/admin/inbox', { email: email }]);
+  }
+
   data:any;
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private router: Router, private http: HttpClient){
     this.http.get('http://localhost:8080/api/admin/leases').subscribe(data => {
 
       this.data = data;
@@ -70,24 +70,6 @@ export class ApplicationsComponent {
       } else {
         console.error(`Element with ID 'applications' not found.`);
       }
-  openEmailForm(email: string) {
-    this.router.navigate(['/admin/inbox', { email: email }]);
-  }
-      tableElements.forEach(id => {
-        const element = document.getElementById(id) as HTMLInputElement;
-        Object.assign(element.style, styleProperties);
-      });
-
-          tableElements.forEach(id => {
-            const element = document.getElementById(id) as HTMLInputElement;
-            Object.assign(element.style, styleProperties);
-          });
-
-  toggleDropdown(dropdownName: string) {
-    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
-  }
-      const tableElement = document.getElementById('applications') as HTMLInputElement;
-      tableElement.style.width = '';
     }
   }
 }
