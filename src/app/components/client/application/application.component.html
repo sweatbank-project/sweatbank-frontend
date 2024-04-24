@@ -70,17 +70,23 @@
         <div class="form-group mb-2">
           <label for="costOfTheVehicle">Cost of the vehicle</label>
           <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="costOfTheVehicle" name="costOfTheVehicle" placeholder="Enter vehicle price" class="form-control {{applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched ? 'is-invalid' : ''}}" formControlName="costOfTheVehicle">
-          @if(applicationForm.get('costOfTheVehicle')?.invalid && applicationForm.get('costOfTheVehicle')?.touched)
-          {
-            <div style="color: red;">Please enter cost of the vehicle</div>
+          @if(applicationForm.get('costOfTheVehicle')?.touched) {
+            @if(applicationForm.get('costOfTheVehicle')?.errors?.['required']) {
+              <div style="color: red;">Please enter cost of the vehicle</div>
+            } @else if (applicationForm.get('costOfTheVehicle')?.errors?.['max']) {
+              <div style="color: red;">Maximum value exceeded</div>
+            }
           }
         </div>
         <div class="form-group mb-2">
           <label for="downPayment">Down payment</label>
           <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" class="form-control {{applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched ? 'is-invalid' : ''}}" formControlName="downPayment">
-          @if(applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched)
-          {
-            <div style="color: red;">Please enter cost of the vehicle</div>
+          @if(applicationForm.get('downPayment')?.touched) {
+            @if(applicationForm.get('downPayment')?.errors?.['required']) {
+              <div style="color: red;">Please enter down payment</div>
+            } @else if (applicationForm.get('downPayment')?.errors?.['max']) {
+              <div style="color: red;">Maximum value exceeded</div>
+            }
           }
         </div>
         <div class="form-group mb-2">
@@ -134,11 +140,9 @@
             <option value="supervisorSpecialist">Superior specialist</option>
             <option value="middleManager">Middle manager</option>
             <option value="executive">Executive</option>
-            <option value="higher">Higher</option>
             <option value="owner">Owner</option>
             <option value="student">Student</option>
             <option value="pensioner">Pensioner</option>
-            <option value="atHome">At home</option>
             <option value="unemployed">Unemployed</option>
             <option value="privateEnterpreneur">Private entrepreneur</option>
           </select>
@@ -165,7 +169,7 @@
             <option value="3">Up to 3 year</option>
             <option value="4">Up to 4 year</option>
             <option value="5">Up to 5 year</option>
-            <option value="6">More then 5 years</option>
+            <option value="6">More than 5 years</option>
           </select>
           @if(applicationForm.get('timeEmployed')?.invalid && applicationForm.get('timeEmployed')?.touched)
           {
@@ -213,9 +217,12 @@
         <div class="form-group mb-2">
           <label for="numberOfChildren">Number of children</label>
           <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="numberOfChildren" name="numberOfChildren" placeholder="Enter number of children" class="form-control {{applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched ? 'is-invalid' : ''}}" formControlName="numberOfChildren">
-          @if(applicationForm.get('numberOfChildren')?.invalid && applicationForm.get('numberOfChildren')?.touched)
-          {
-            <div style="color: red;">Please enter number of children</div>
+          @if(applicationForm.get('numberOfChildren')?.touched) {
+            @if(applicationForm.get('numberOfChildren')?.errors?.['required']) {
+              <div style="color: red;">Please enter number of children</div>
+            } @else if (applicationForm.get('numberOfChildren')?.errors?.['max']) {
+              <div style="color: red;">Maximum value exceeded</div>
+            }
           }
         </div>
         <div class="form-button-bar d-flex justify-content-between">
@@ -227,9 +234,12 @@
         <div class="form-group mb-2">
           <label for="monthlyIncomeAfterTaxes">Monthly income after taxes</label>
           <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="monthlyIncomeAfterTaxes" name="monthlyIncomeAfterTaxes" placeholder="Enter your monthly income" class="form-control {{applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched ? 'is-invalid' : ''}}" formControlName="monthlyIncomeAfterTaxes">
-          @if(applicationForm.get('monthlyIncomeAfterTaxes')?.invalid && applicationForm.get('monthlyIncomeAfterTaxes')?.touched)
-          {
-            <div style="color: red;">Please enter monthly income</div>
+          @if(applicationForm.get('monthlyIncomeAfterTaxes')?.touched) {
+            @if(applicationForm.get('monthlyIncomeAfterTaxes')?.errors?.['required']) {
+              <div style="color: red;">Please enter monthly income</div>
+            } @else if (applicationForm.get('monthlyIncomeAfterTaxes')?.errors?.['max']) {
+              <div style="color: red;">Maximum value exceeded</div>
+            }
           }
         </div>
         <div class="form-group mb-2">

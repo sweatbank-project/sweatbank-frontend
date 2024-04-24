@@ -47,20 +47,26 @@ export class ApplicationsComponent {
     }, error => console.error(error));
 
     function applyStylesToElements() {
+      console.log('aaaa ')
       const styleProperties = {
         backgroundColor: "#FFF",
         margin: "5px"
       };
 
-      const tableElements = ['dt-length-0', 'dt-search-0'];
+      const elements = document.getElementsByClassName("dt-input");
 
-      tableElements.forEach(id => {
-        const element = document.getElementById(id) as HTMLInputElement;
-        Object.assign(element.style, styleProperties);
-      });
-
-      const tableElement = document.getElementById('applications') as HTMLInputElement;
-      tableElement.style.width = '';
+      for (let i = 0; i < elements.length; i++) {
+          const element = elements[i] as HTMLElement;
+          Object.assign(element.style, styleProperties);
+      }
+      
+      const tableElement = document.getElementById('applications');
+      if (tableElement) {
+        tableElement.style.width = '';
+      } else {
+        console.error(`Element with ID 'applications' not found.`);
+      }
     }
+    
   }
 }

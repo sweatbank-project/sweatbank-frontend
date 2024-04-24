@@ -1,9 +1,9 @@
 <header class="p-3 mb-3">
   <div class="container-fluid">
-    <div class="d-flex flex-wrap align-items-center justify-content-end">
-      <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+    <div class="d-flex flex-wrap align-items-center justify-content-end me-5">
+      <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <div class="d-flex align-items-center justify-content-end">
-          <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
+          <img src="../../../../assets/adminUser.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
           <div>
             <div>Username</div>
             <div class="text-muted">Admin</div>
@@ -25,7 +25,11 @@
       </div>
     </div>
     <div class="toggle-button-phone">
-      <i class="bi bi-chevron-right toggle" (click)="toggleSidebar()"></i>
+      @if(this.isClosed) {
+        <i class="bi bi-caret-left-fill toggle" (click)="toggleSidebar()"></i>
+      } @else {
+        <i class="bi bi-caret-right-fill toggle" (click)="toggleSidebar()"></i>
+      }
     </div>
   </header>
   <div class="menu-bar" data-np-autofill-form-type="other" data-np-checked="1" data-np-watching="1">
