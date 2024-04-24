@@ -9,14 +9,14 @@ import { LeaseService } from '../../../services/lease.service';
 @Component({
   selector: 'app-application',
   standalone: true,
-    imports: [
-      FooterComponent,
-      HeaderComponent,
-      ReactiveFormsModule
-    ],
-    providers: [
-      DatePipe,
-    ],
+  imports: [
+    FooterComponent,
+    HeaderComponent,
+    ReactiveFormsModule
+  ],
+  providers: [
+    DatePipe,
+  ],
   templateUrl: './application.component.html',
   styleUrl: './application.component.scss'
 })
