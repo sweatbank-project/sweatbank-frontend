@@ -70,6 +70,23 @@ export class ApplicationsComponent {
       } else {
         console.error(`Element with ID 'applications' not found.`);
       }
+  openEmailForm(email: string) {
+    this.router.navigate(['/admin/inbox', { email: email }]);
+  }
+      tableElements.forEach(id => {
+        const element = document.getElementById(id) as HTMLInputElement;
+        Object.assign(element.style, styleProperties);
+      });
+
+  toggleSidebar() {
+    this.isClosed = !this.isClosed;
+  }
+
+  toggleDropdown(dropdownName: string) {
+    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
+  }
+      const tableElement = document.getElementById('applications') as HTMLInputElement;
+      tableElement.style.width = '';
     }
   }
 }
