@@ -1,29 +1,14 @@
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  flex: 1;
-}
-
 footer {
   text-align: center;
   background-color: white;
   padding: 20px 0;
   width: 100%;
+  position: relative; /* Change from fixed to relative positioning */
 }
 
-
-//@media only screen and (max-width: 600px) {
-//  footer {
-//    position: relative;
-//    z-index: 1000;
-//  }
-//}
+@media only screen and (max-width: 600px) {
+  footer {
+    position: static; /* Change position to static for mobile */
+    margin-top: 20px; /* Add some margin at the top */
+  }
+}

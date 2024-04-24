@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {DatePipe, NgClass} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import {DatePipe, NgClass, CommonModule} from "@angular/common";
+import {RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 
 
@@ -37,7 +36,7 @@ interface Message {
   templateUrl: './inbox.component.html',
   styleUrls: ['./inbox.component.scss']
 })
-export class InboxComponent {
+export class InboxComponent implements OnInit {
   isClosed: boolean = false;
   activeCategory: string = 'inbox';
   emails: Email[] = [
@@ -78,7 +77,6 @@ export class InboxComponent {
   newEmailBody: string = '';
   composingEmail: boolean = false;
   searchTerm: string = '';
-  recipientSearchTerm: string = '';
 
 
   get filteredEmails(): Email[] {
@@ -92,6 +90,23 @@ export class InboxComponent {
         email.id.toString() === term
       );
     });
+  }
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const email = params['email'];
+      if (email) {
+        this.composeEmailToCustomer(email);
+      }
+    });
+  }
+
+  composeEmailToCustomer(email: string): void {
+    this.newEmailRecipient = email;
+    this.newEmailSubject = 'Response to Your Application';
+    this.newEmailBody = 'Dear customer,';
+    this.composingEmail = true;
   }
 
   filterEmails(category: string): void {
@@ -112,7 +127,7 @@ export class InboxComponent {
 
   sendNewEmail(): void {
     const newEmail: Email = {
-      id: this.emails.length + 1,
+      id: Math.max(...this.emails.map(e => e.id)) + 1,
       recipient: this.newEmailRecipient,
       sender: 'Admin',
       subject: this.newEmailSubject,
@@ -125,10 +140,8 @@ export class InboxComponent {
 
     this.emails.unshift(newEmail);
     this.composingEmail = false;
-    this.emails.push(newEmail);
-
     this.composingEmail = false;
-
+    this.newEmailRecipient = '';
     this.newEmailSubject = '';
     this.newEmailBody = '';
 

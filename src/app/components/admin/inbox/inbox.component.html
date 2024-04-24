@@ -75,38 +75,29 @@
 </section>
 
 <section class="home">
-  <!-- Secondary sidebar for the email categories -->
   <div class="email-categories-sidebar">
-    <!-- Category Item -->
     <div class="email-category" [class.active]="activeCategory === 'inbox'" (click)="filterEmails('inbox')">
       <i class="bi bi-inbox"></i>
       <span>Inbox</span>
       <span class="category-count">{{ emailCount }}</span>
     </div>
-    <!-- Compose button positioned at the end of the sidebar -->
     <div class="compose-btn-container">
       <button (click)="composeNewEmail()">Compose New Email</button>
     </div>
   </div>
 
-  <!-- Inbox cccc container -->
   <div class="inbox-container">
-    <!-- Search bar -->
     <div class="search-bar">
       <input type="text" [(ngModel)]="searchTerm" placeholder="Search messages...">
     </div>
-    <!-- Messages list -->
     <div *ngFor="let email of filteredEmails" class="message" (click)="toggleEmailDetail(email)">
-      <!-- Message checkbox -->
       <div class="message-checkbox" (click)="$event.stopPropagation()">
         <input type="checkbox" [id]="'checkbox' + email.id">
         <label [for]="'checkbox' + email.id"></label>
       </div>
-      <!-- Message star -->
       <div class="message-star">
         <i class="bi bi-star"></i>
       </div>
-      <!-- Message content -->
       <div class="message-content">
         <div class="message-header">
           <div class="message-sender">{{ email.sender }}</div>
@@ -115,26 +106,19 @@
             <button class="delete-button" (click)="deleteEmail(email); $event.stopPropagation()">Delete</button>
           </div>
         </div>
-        <!-- Only show the message body if the email is open -->
         <div *ngIf="email.open" class="message-body">{{ email.body }}</div>
         <div class="message-subject">{{ email.subject }}</div>
       </div>
     </div>
 
-
-
-    <!-- Compose email modal -->
     <div *ngIf="composingEmail" class="compose-email-modal">
       <div class="compose-email-content">
         <div class="compose-email-header">
           <h3>Compose New Email</h3>
           <button class="close-button" (click)="cancelCompose()">&times;</button>
         </div>
-        <!-- Combined input field with autocomplete for selecting recipients -->
-        <input type="text" [(ngModel)]="recipientSearchTerm" placeholder="Search or select recipient">
-        <div class="autocomplete-dropdown">
-        </div>
-        <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject" />
+        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient's email" readonly>
+        <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject">
         <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
         <button (click)="sendNewEmail()">Send</button>
       </div>
