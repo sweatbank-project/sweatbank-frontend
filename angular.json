@@ -30,12 +30,12 @@
               "src/assets"
             ],
             "styles": [
-              "./src/styles/styles.scss",
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/bootstrap-icons/font/bootstrap-icons.scss",
               "node_modules/datatables.net-dt/css/dataTables.dataTables.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css"
+              "node_modules/datatables.net-responsive-dt/css/responsive.dataTables.css",
+              "./src/styles/styles.scss"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",

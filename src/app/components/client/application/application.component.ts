@@ -1,9 +1,10 @@
 import {CarData, CarModel, carData} from './data';
-import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
+import {Component, ElementRef, QueryList, ViewChildren, inject} from '@angular/core';
 import {FooterComponent} from "../assets/footer/footer.component";
 import {HeaderComponent} from "../assets/header/header.component";
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import { DatePipe } from '@angular/common';
+import { LeaseService } from '../../../services/lease.service';
 
 @Component({
   selector: 'app-application',
@@ -22,6 +23,8 @@ import { DatePipe } from '@angular/common';
 export class ApplicationComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
   @ViewChildren('activeStepSection') activeStepsSection!: QueryList<ElementRef>;
+
+  leaseService: LeaseService = inject(LeaseService);
 
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
@@ -98,7 +101,13 @@ export class ApplicationComponent {
   }
 
   onSubmit(): void {
-    console.log(this.applicationForm.value);
+    const serializedForm = JSON.stringify(this.applicationForm.getRawValue());
+
+    console.log("Submitting lease form to server...");
+
+    this.leaseService.submit(serializedForm).subscribe(() => {
+      console.log("Lease form has been submitted.")
+    });
   }
 
   onMakeSelect(event: any) {
