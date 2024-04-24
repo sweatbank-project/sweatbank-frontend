@@ -17,48 +17,11 @@ import {DataTablesModule} from 'angular-datatables';
 })
 export class ApplicationsComponent {
   isClosed: boolean = false;
+  
   dropdownStates: { [key: string]: boolean } = {
     dropdown1: false,
   };
-
-  data = [
-    {
-      status: 'Approved',
-      id: 'SW0001',
-      date: 'March 8, 2024',
-      personalId: '981732768126',
-      fullName: 'John Doe',
-      email: 'john.doe@example.com',
-      phone: '+1234567890'
-    },
-    {
-      status: 'Pending',
-      id: 'SW0002',
-      date: 'March 9, 2024',
-      personalId: '981732768127',
-      fullName: 'Jane Doe',
-      email: 'jane.doe@example.com',
-      phone: '+0987654321'
-    }
-  ];
-
-  //data: any;
-
-  constructor(private http: HttpClient, private router: Router) {
-    this.http.get('https://jsonplaceholder.typicode.com/users').subscribe(data => {
-      //this.data = data;
-      setTimeout(() => {
-        $('#applications').DataTable({
-          pagingType: 'full_numbers',
-          pageLength: 10,
-          processing: true,
-          lengthMenu: [10, 25, 50],
-        });
-      }, 1);
-    }, error => console.error(error));
-  }
-
-
+  
   openEmailForm(email: string) {
     this.router.navigate(['/admin/inbox', { email: email }]);
   }
@@ -70,4 +33,37 @@ export class ApplicationsComponent {
   toggleDropdown(dropdownName: string) {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
   }
+
+  data:any;
+  constructor(private http: HttpClient, private router: Router) {
+    this.http.get('http://localhost:8080/api/admin/leases').subscribe(data => {
+      this.data = data;
+      setTimeout(() => {
+        $('#applications').DataTable({
+          pagingType: 'full_numbers',
+          pageLength: 10,
+          processing: true,
+          lengthMenu : [10, 25, 50],
+        });
+        
+        applyStylesToElements()
+      }, 1);
+    }, error => console.error(error));
+
+    function applyStylesToElements() {
+      const styleProperties = {
+        backgroundColor: "#FFF",
+        margin: "5px"
+      };
+
+      const tableElements = ['dt-length-0', 'dt-search-0'];
+      
+      tableElements.forEach(id => {
+        const element = document.getElementById(id) as HTMLInputElement;
+        Object.assign(element.style, styleProperties);
+      });
+      
+      const tableElement = document.getElementById('applications') as HTMLInputElement;
+      tableElement.style.width = '';
+    }
 }
