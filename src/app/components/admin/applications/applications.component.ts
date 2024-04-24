@@ -78,9 +78,10 @@ export class ApplicationsComponent {
         Object.assign(element.style, styleProperties);
       });
 
-  toggleSidebar() {
-    this.isClosed = !this.isClosed;
-  }
+          tableElements.forEach(id => {
+            const element = document.getElementById(id) as HTMLInputElement;
+            Object.assign(element.style, styleProperties);
+          });
 
   toggleDropdown(dropdownName: string) {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
