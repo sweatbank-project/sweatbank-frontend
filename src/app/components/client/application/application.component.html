@@ -80,7 +80,7 @@
           <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="number" id="downPayment" name="downPayment" placeholder="Enter down payment" class="form-control {{applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched ? 'is-invalid' : ''}}" formControlName="downPayment">
           @if(applicationForm.get('downPayment')?.invalid && applicationForm.get('downPayment')?.touched)
           {
-            <div style="color: red;">Please enter cost of the vehicle</div>
+            <div style="color: red;">Please enter down payment</div>
           }
         </div>
         <div class="form-group mb-2">
