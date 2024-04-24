@@ -3,12 +3,12 @@ footer {
   background-color: white;
   padding: 20px 0;
   width: 100%;
-  position: relative; /* Change from fixed to relative positioning */
+  position: relative;
 }
 
 @media only screen and (max-width: 600px) {
   footer {
-    position: static; /* Change position to static for mobile */
-    margin-top: 20px; /* Add some margin at the top */
+    position: static;
+    margin-top: 20px;
   }
 }
