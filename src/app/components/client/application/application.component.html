@@ -28,7 +28,7 @@
           <label for="models">Choose a model</label>
           @if (selectedMake) {
             <select name="models" id="models" class="form-control {{applicationForm.get('models')?.invalid && applicationForm.get('models')?.touched ? 'is-invalid' : ''}}" formControlName="models">
-              @for (model of selectedMake.models; track model) {
+              @for (model of selectedMake?.models; track model) {
                 <option [value]="model">{{model}}</option>
               }
             </select>
@@ -389,6 +389,11 @@
         <div class="form-button-bar d-flex justify-content-between">
           <button class="btn btn-primary" type="button" (click)="navigateToStep(3)"><i class="bi bi-chevron-left"></i> Back</button>
           <button class="btn btn-success" type="submit">Submit <i class="bi bi-chevron-right"></i></button>
+        </div>
+        <div class="confirmation-overlay">
+          @if(showConfirmation) {
+          <h1>Form Submitted Successfully!</h1>
+          <p>You will be redirected shortly.</p> }
         </div>
       </section>
     </form>

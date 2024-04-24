@@ -5,6 +5,8 @@ import {HeaderComponent} from "../assets/header/header.component";
 import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import { DatePipe } from '@angular/common';
 import { LeaseService } from '../../../services/lease.service';
+import {error} from "jquery";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-application',
@@ -36,8 +38,9 @@ export class ApplicationComponent {
   userAddress = "Konstitucijos pr. 20A, LT-09321 Vilnius";
 
   applicationForm: FormGroup;
+  showConfirmation: boolean = false;
 
-  constructor(private fb: FormBuilder, private datePipe: DatePipe) {
+  constructor(private fb: FormBuilder, private datePipe: DatePipe, private router: Router) {
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],
@@ -102,13 +105,22 @@ export class ApplicationComponent {
 
   onSubmit(): void {
     const serializedForm = JSON.stringify(this.applicationForm.getRawValue());
-
     console.log("Submitting lease form to server...");
 
-    this.leaseService.submit(serializedForm).subscribe(() => {
-      console.log("Lease form has been submitted.")
+    this.leaseService.submit(serializedForm).subscribe({
+      next: () => {
+        console.log("Lease form has been submitted.");
+        this.showConfirmation = true; // Show confirmation message
+        setTimeout(() => {
+          this.router.navigate(['/main']); // Redirect to the main page after 5 seconds
+        }, 5000);
+      },
+      error: (error: any) => {
+        console.error('Failed to submit form:', error);
+      }
     });
   }
+
 
   onMakeSelect(event: any) {
     const make = event.target.value;
