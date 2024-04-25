@@ -99,8 +99,12 @@ export class InboxComponent implements OnInit {
         this.composeEmailToCustomer(email);
       }
     });
-  }
 
+    const storedEmails = localStorage.getItem('emails');
+    if (storedEmails) {
+      this.emails = JSON.parse(storedEmails);
+    }
+  }
   composeEmailToCustomer(email: string): void {
     this.newEmailRecipient = email;
     this.newEmailSubject = 'Response to Your Application';
@@ -110,7 +114,6 @@ export class InboxComponent implements OnInit {
 
   filterEmails(category: string): void {
     this.activeCategory = category;}
-
 
   toggleEmailDetail(email: Email): void {
     if (this.selectedEmail?.id === email.id && email.open) {
@@ -123,6 +126,11 @@ export class InboxComponent implements OnInit {
   composeNewEmail(): void {
     this.composingEmail = true;
   }
+
+  saveEmailsToLocalStorage(): void {
+    localStorage.setItem('emails', JSON.stringify(this.emails));
+  }
+
 
   sendNewEmail(): void {
     const newEmail: Email = {
@@ -138,6 +146,7 @@ export class InboxComponent implements OnInit {
     };
 
     this.emails.unshift(newEmail);
+    this.saveEmailsToLocalStorage();
     this.composingEmail = false;
     this.composingEmail = false;
     this.newEmailRecipient = '';
@@ -153,8 +162,10 @@ export class InboxComponent implements OnInit {
     const index = this.emails.findIndex(e => e.id === email.id);
     if (index !== -1) {
       this.emails.splice(index, 1);
+      this.saveEmailsToLocalStorage(); // Save updated emails to local storage
     }
   }
+
   cancelCompose(): void {
     this.composingEmail = false;
   }

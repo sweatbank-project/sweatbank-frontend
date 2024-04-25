@@ -144,10 +144,16 @@ export class ApplicationComponent {
 
     console.log('Submitting lease form to server...');
 
-    this.leaseService.submit(serializedForm).subscribe(() => {
-      console.log("Lease form has been submitted.")
-      this.showConfirmation = true;
+    if (confirm('Lease form has been submitted. Leave the page?')) {
+      this.leaseService.submit(serializedForm).subscribe(() => {
+        console.log("Lease form has been submitted.")
+        this.showConfirmation = true;
 
+        setTimeout(() => {
+          this.showConfirmation = false;
+        }, 5000);
+      });
+    }
       setTimeout(() => {
         this.showConfirmation = false;
       }, 5000);
