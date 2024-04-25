@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { loginGuard } from './core/guards/login.guard';
-import { ApplicationComponent } from "./components/client/application/application.component";
-import { LoginComponent } from "./components/login/login.component";
+import { ApplicationComponent } from './components/client/application/application.component';
+import { LoginComponent } from './components/login/login.component';
 
 // admin:
 import {ApplicationsComponent} from "./components/admin/applications/applications.component";
@@ -33,5 +33,5 @@ export const routes: Routes = [
   {
     path: 'admin/inbox/:email',
     component: InboxComponent,
-  }
+  },
 ];
