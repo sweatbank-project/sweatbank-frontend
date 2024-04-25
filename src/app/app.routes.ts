@@ -28,5 +28,9 @@ export const routes: Routes = [
   {
     path: 'admin/inbox/:email',
     component: InboxComponent,
-  }
+  },
+  {
+    path: 'test',
+    component: OverviewComponent,
+  },
 ];
