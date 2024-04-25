@@ -71,5 +71,6 @@ export class ApplicationsComponent {
         console.error(`Element with ID 'applications' not found.`);
       }
     }
+    
   }
 }
