@@ -65,60 +65,60 @@
     </div>
   </div>
 </nav>
-
 <section class="home">
-  <div class="text">Inbox</div>
-</section>
-
-<section class="home">
-  <div class="email-categories-sidebar">
-    <div class="email-category" [class.active]="activeCategory === 'inbox'" (click)="filterEmails('inbox')">
-      <i class="bi bi-inbox"></i>
-      <span>Inbox</span>
-      <span class="category-count">{{ emailCount }}</span>
-    </div>
-    <div class="compose-btn-container">
-      <button (click)="composeNewEmail()">Compose New Email</button>
-    </div>
+  <div class="container-fluid">
+    <div class="text">Dashboard</div>
   </div>
-
-  <div class="inbox-container">
-    <div class="search-bar">
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Search messages...">
-    </div>
-    <div *ngFor="let email of filteredEmails" class="message" (click)="toggleEmailDetail(email)">
-      <div class="message-checkbox" (click)="$event.stopPropagation()">
-        <input type="checkbox" [id]="'checkbox' + email.id">
-        <label [for]="'checkbox' + email.id"></label>
-      </div>
-      <div class="message-star">
-        <i class="bi bi-star"></i>
-      </div>
-      <div class="message-content">
-        <div class="message-header">
-          <div class="message-sender">{{ email.sender }}</div>
-          <div class="message-details">
-            <div class="message-time">{{ email.time | date: 'short' }}</div>
-            <button class="delete-button" (click)="deleteEmail(email); $event.stopPropagation()">Delete</button>
+  <div class="container-fluid">
+    <div class="row p-5">
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row alig n-items-start">
+              <div class="col-8">
+                <h5 class="card-title mb-9 fw-semibold"> New Applications </h5>
+                <h4 class="fw-semibold mb-3">{{data['new']}}</h4>
+              </div>
+            </div>
           </div>
         </div>
-        <div *ngIf="email.open" class="message-body">{{ email.body }}</div>
-        <div class="message-subject">{{ email.subject }}</div>
       </div>
-    </div>
-
-    <div *ngIf="composingEmail" class="compose-email-modal">
-      <div class="compose-email-content">
-        <div class="compose-email-header">
-          <h3>Compose New Email</h3>
-          <button class="close-button" (click)="cancelCompose()">&times;</button>
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row alig n-items-start">
+              <div class="col-8">
+                <h5 class="card-title mb-9 fw-semibold"> Pending Applications </h5>
+                <h4 class="fw-semibold mb-3">{{data['pending']}}</h4>
+              </div>
+            </div>
+          </div>
         </div>
-        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient's email" readonly>
-        <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject">
-        <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
-        <button (click)="sendNewEmail()">Send</button>
+      </div>
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row alig n-items-start">
+              <div class="col-8">
+                <h5 class="card-title mb-9 fw-semibold"> Approved Applications </h5>
+                <h4 class="fw-semibold mb-3">{{data['approved']}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row alig n-items-start">
+              <div class="col-8">
+                <h5 class="card-title mb-9 fw-semibold"> Rejected Applications </h5>
+                <h4 class="fw-semibold mb-3">{{data['rejected']}}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
   </div>
 </section>

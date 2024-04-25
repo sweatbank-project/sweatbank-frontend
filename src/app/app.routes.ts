@@ -6,6 +6,7 @@ import { LoginComponent } from "./components/login/login.component";
 // admin:
 import {ApplicationsComponent} from "./components/admin/applications/applications.component";
 import {InboxComponent} from "./components/admin/inbox/inbox.component";
+import {DashboardComponent} from "./components/admin/dashboard/dashboard.component";
 
 export const routes: Routes = [
   {
@@ -20,6 +21,10 @@ export const routes: Routes = [
   {
     path: 'admin/applications',
     component: ApplicationsComponent,
+  },
+  {
+    path: 'admin/dashboard',
+    component: DashboardComponent,
   },
   {
     path: 'admin/inbox',
