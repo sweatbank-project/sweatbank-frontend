@@ -10,7 +10,7 @@
       <div class="navbar-nav ms-auto">
         <div class="dropdown" (click)="toggleDropdown('second')">
           <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="bi bi-person"></i> Welcome, {{ userName }} {{ userSurname }}
+            <i class="bi bi-person"></i> {{ userName }} {{ userSurname }}
           </a>
           <ul class="dropdown-menu" [ngClass]="{ 'show': dropdownStates['second'] }">
             <li><a class="dropdown-item" href="#" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>

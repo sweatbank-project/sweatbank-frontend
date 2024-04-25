@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import {DatePipe, NgClass} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import {DatePipe, NgClass, CommonModule} from "@angular/common";
+import {RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+
 
 interface Email {
   id: number;
@@ -36,7 +36,7 @@ interface Message {
   templateUrl: './inbox.component.html',
   styleUrls: ['./inbox.component.scss']
 })
-export class InboxComponent {
+export class InboxComponent implements OnInit {
   isClosed: boolean = false;
   activeCategory: string = 'inbox';
   emails: Email[] = [
@@ -52,7 +52,6 @@ export class InboxComponent {
       read: false,
       messages: [
         { id: 1, sender: 'John Doe', text: 'Hi there!', time: new Date() },
-        { id: 2, sender: 'Jane Doe', text: 'Hello!', time: new Date() }
       ],
       open: false
     },
@@ -66,46 +65,69 @@ export class InboxComponent {
       read: false,
       open: false,
       messages: [
-        { id: 1, sender: 'Jane Smith', text: 'Here is the agenda for the meeting...', time: new Date() },
         { id: 2, sender: 'John Doe', text: 'Thank you!', time: new Date() }
       ]
     },
   ];
+
   selectedEmail: Email | null = null;
   currentTime = new Date();
   newEmailRecipient: string = '';
-  replyMessage: string = '';
   newEmailSubject: string = '';
   newEmailBody: string = '';
   composingEmail: boolean = false;
+  searchTerm: string = '';
 
-  sendReply(): void {
-    console.log('Reply:', this.replyMessage);
-    this.closeEmailDetail();
+
+  get filteredEmails(): Email[] {
+    if (!this.searchTerm) return this.emails;
+
+    return this.emails.filter(email => {
+      const term = this.searchTerm.toLowerCase();
+      return (
+        email.sender.toLowerCase().includes(term) ||
+        email.recipient.toLowerCase().includes(term) ||
+        email.id.toString() === term
+      );
+    });
+  }
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      const email = params['email'];
+      if (email) {
+        this.composeEmailToCustomer(email);
+      }
+    });
+  }
+
+  composeEmailToCustomer(email: string): void {
+    this.newEmailRecipient = email;
+    this.newEmailSubject = 'Response to Your Application';
+    this.newEmailBody = 'Dear customer,';
+    this.composingEmail = true;
   }
 
   filterEmails(category: string): void {
     this.activeCategory = category;}
 
-  openEmailDetail(email: Email): void {
-    email.open = true;
-    this.selectedEmail = email;
-  }
 
-  closeEmailDetail(): void {
-    if (this.selectedEmail) {
-      this.selectedEmail.open = false;
+  toggleEmailDetail(email: Email): void {
+    if (this.selectedEmail?.id === email.id && email.open) {
       this.selectedEmail = null;
+    } else {
+      this.selectedEmail = email;
     }
+    email.open = !email.open;
   }
-
   composeNewEmail(): void {
     this.composingEmail = true;
   }
 
   sendNewEmail(): void {
     const newEmail: Email = {
-      id: this.emails.length + 1,
+      id: Math.max(...this.emails.map(e => e.id)) + 1,
       recipient: this.newEmailRecipient,
       sender: 'Admin',
       subject: this.newEmailSubject,
@@ -118,11 +140,8 @@ export class InboxComponent {
 
     this.emails.unshift(newEmail);
     this.composingEmail = false;
-
-    this.emails.push(newEmail);
-
     this.composingEmail = false;
-
+    this.newEmailRecipient = '';
     this.newEmailSubject = '';
     this.newEmailBody = '';
 

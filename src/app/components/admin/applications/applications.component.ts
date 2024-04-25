@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NgClass, NgForOf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {DataTablesModule} from 'angular-datatables';
 
@@ -29,8 +29,12 @@ export class ApplicationsComponent {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
   }
 
+  openEmailForm(email: string) {
+    this.router.navigate(['/admin/inbox', { email: email }]);
+  }
+
   data:any;
-  constructor(private http: HttpClient){
+  constructor(private router: Router, private http: HttpClient){
     this.http.get('http://localhost:8080/api/admin/leases').subscribe(data => {
 
       this.data = data;
@@ -41,7 +45,7 @@ export class ApplicationsComponent {
           processing: true,
           lengthMenu : [10, 25, 50],
         });
-        
+
         applyStylesToElements()
       }, 1);
     }, error => console.error(error));
@@ -59,7 +63,7 @@ export class ApplicationsComponent {
           const element = elements[i] as HTMLElement;
           Object.assign(element.style, styleProperties);
       }
-      
+
       const tableElement = document.getElementById('applications');
       if (tableElement) {
         tableElement.style.width = '';

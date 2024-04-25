@@ -106,7 +106,7 @@
         </div>
         <div class="form-group mb-2 mb-2">
           <label for="sellerName">Seller name</label>
-          <input type="text" id="sellerName" name="sellerName" placeholder="Enter seller's name" class="form-control {{applicationForm.get('sellerName')?.invalid && applicationForm.get('sellerName')?.touched ? 'is-invalid' : ''}}" formControlName="sellerName">
+          <input type="text" id="sellerName" name="sellerName" placeholder="Enter seller's name" class="form-control {{applicationForm.get('sellerName')?.invalid && applicationForm.get('sellerName')?.touched ? 'is-invalid' : ''}}" formControlName="sellerName" maxlength="50">
           @if(applicationForm.get('sellerName')?.invalid && applicationForm.get('sellerName')?.touched)
           {
             <div style="color: red;">Please enter seller's name</div>
@@ -153,7 +153,7 @@
         </div>
         <div class="form-group mb-2 jobTitleInput">
           <label for="jobTitle">Job title</label>
-          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" class="form-control {{applicationForm.get('jobTitle')?.invalid && applicationForm.get('jobTitle')?.touched ? 'is-invalid' : ''}}" formControlName="jobTitle">
+          <input type="text" id="jobTitle" name="jobTitle" placeholder="Enter job title" class="form-control {{applicationForm.get('jobTitle')?.invalid && applicationForm.get('jobTitle')?.touched ? 'is-invalid' : ''}}" formControlName="jobTitle" maxlength="70">
           @if(applicationForm.get('jobTitle')?.invalid && applicationForm.get('jobTitle')?.touched)
           {
             <div style="color: red;">Please enter your job title</div>

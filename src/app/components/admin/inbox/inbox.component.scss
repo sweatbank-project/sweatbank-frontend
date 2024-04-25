@@ -277,6 +277,7 @@ header .image-text .profession{
   flex-grow: 1;
   overflow-y: auto;
   margin-top: 20px;
+  margin-right: 50px;
   background-color: white;
 }
 
@@ -380,11 +381,6 @@ header .image-text .profession{
   border-radius: 4px;
   margin-bottom: 10px;
 }
-.email-reply textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-}
 
 .email-reply button {
   padding: 10px 20px;
@@ -411,7 +407,6 @@ header .image-text .profession{
 
 }
 
-/* Compose email modal styles */
 .compose-email-modal {
   position: fixed;
   top: 0;
