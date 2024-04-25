@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DatePipe, NgClass, CommonModule} from "@angular/common";
 import {RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
+import {HeaderComponent} from "../assets/header/header.component";
 
 
 interface Email {
@@ -32,6 +33,7 @@ interface Message {
     DatePipe,
     CommonModule,
     FormsModule,
+    HeaderComponent,
   ],
   templateUrl: './inbox.component.html',
   styleUrls: ['./inbox.component.scss']

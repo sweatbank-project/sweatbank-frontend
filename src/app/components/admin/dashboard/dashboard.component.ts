@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {NgClass} from "@angular/common";
 import Chart from 'chart.js/auto';
+import {HeaderComponent} from "../assets/header/header.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [
     RouterLink,
-    NgClass
+    NgClass,
+    HeaderComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'

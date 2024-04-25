@@ -3,6 +3,7 @@ import {NgClass, NgForOf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {DataTablesModule} from 'angular-datatables';
+import {HeaderComponent} from "../assets/header/header.component";
 
 @Component({
   selector: 'app-applications',
@@ -10,7 +11,8 @@ import {DataTablesModule} from 'angular-datatables';
   imports: [
     NgClass,
     RouterLink,
-    NgForOf
+    NgForOf,
+    HeaderComponent
   ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.scss'
@@ -51,7 +53,6 @@ export class ApplicationsComponent {
     }, error => console.error(error));
 
     function applyStylesToElements() {
-      console.log('aaaa ')
       const styleProperties = {
         backgroundColor: "#FFF",
         margin: "5px"
@@ -71,6 +72,6 @@ export class ApplicationsComponent {
         console.error(`Element with ID 'applications' not found.`);
       }
     }
-    
+
   }
 }
