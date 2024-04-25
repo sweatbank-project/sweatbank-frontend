@@ -1,23 +1,15 @@
 <header class="p-3 mb-3">
   <div class="container-fluid">
-    <div class="d-flex flex-wrap align-items-center justify-content-end">
-      <div class="dropdown">
-        <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-          <div class="d-flex align-items-center justify-content-end">
-            <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
-            <div>
-              <div>Username</div>
-              <div class="text-muted">Admin</div>
-            </div>
-            <div class="p-2">
-              <i class="bi bi-chevron-down"></i>
-            </div>
+    <div class="d-flex flex-wrap align-items-center justify-content-end me-5">
+      <a href="#" class="d-block link-dark text-decoration-none" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        <div class="d-flex align-items-center justify-content-end">
+          <img src="../../../../assets/adminUser.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
+          <div>
+            <div>Username</div>
+            <div class="text-muted">Admin</div>
           </div>
-        </a>
-        <ul class="dropdown-menu text-small dropdown-menu-end" aria-labelledby="dropdownUser1">
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
+        </div>
+      </a>
     </div>
   </div>
 </header>
@@ -32,17 +24,17 @@
         <span class="profession">Admin Panel</span>
       </div>
     </div>
-    <i class="bi bi-chevron-right toggle" (click)="toggleSidebar()"></i>
+    <div class="toggle-button-phone">
+      @if(this.isClosed) {
+        <i class="bi bi-caret-left-fill toggle" (click)="toggleSidebar()"></i>
+      } @else {
+        <i class="bi bi-caret-right-fill toggle" (click)="toggleSidebar()"></i>
+      }
+    </div>
   </header>
   <div class="menu-bar" data-np-autofill-form-type="other" data-np-checked="1" data-np-watching="1">
     <div class="menu">
       <ul class="menu-links">
-        <li class="nav-link">
-          <a routerLink="/admin/dashboard">
-            <i class="bi bi-bar-chart-fill icon"></i>
-            <span class="text nav-text">Dashboard</span>
-          </a>
-        </li>
         <li class="nav-link">
           <a routerLink="/admin/inbox">
             <i class="bi bi-envelope icon"></i>
@@ -70,4 +62,57 @@
 
 <section class="home">
   <div class="text">Inbox</div>
+</section>
+
+<section class="home">
+  <div class="email-categories-sidebar">
+    <div class="email-category" [class.active]="activeCategory === 'inbox'" (click)="filterEmails('inbox')">
+      <i class="bi bi-inbox"></i>
+      <span>Inbox</span>
+      <span class="category-count">{{ emailCount }}</span>
+    </div>
+    <div class="compose-btn-container">
+      <button (click)="composeNewEmail()">Compose New Email</button>
+    </div>
+  </div>
+
+  <div class="inbox-container">
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Search messages...">
+    </div>
+    <div *ngFor="let email of filteredEmails" class="message" (click)="toggleEmailDetail(email)">
+      <div class="message-checkbox" (click)="$event.stopPropagation()">
+        <input type="checkbox" [id]="'checkbox' + email.id">
+        <label [for]="'checkbox' + email.id"></label>
+      </div>
+      <div class="message-star">
+        <i class="bi bi-star"></i>
+      </div>
+      <div class="message-content">
+        <div class="message-header">
+          <div class="message-sender">{{ email.sender }}</div>
+          <div class="message-details">
+            <div class="message-time">{{ email.time | date: 'short' }}</div>
+            <button class="delete-button" (click)="deleteEmail(email); $event.stopPropagation()">Delete</button>
+          </div>
+        </div>
+        <div *ngIf="email.open" class="message-body">{{ email.body }}</div>
+        <div class="message-subject">{{ email.subject }}</div>
+      </div>
+    </div>
+
+    <div *ngIf="composingEmail" class="compose-email-modal">
+      <div class="compose-email-content">
+        <div class="compose-email-header">
+          <h3>Compose New Email</h3>
+          <button class="close-button" (click)="cancelCompose()">&times;</button>
+        </div>
+        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient's email" readonly>
+        <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject">
+        <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
+        <button (click)="sendNewEmail()">Send</button>
+      </div>
+    </div>
+
+  </div>
 </section>

@@ -195,7 +195,6 @@ header .image-text .profession{
 .home{
   position: absolute;
   top: 0;
-  top: 0;
   left: 250px;
   width: calc(100% - 250px);
   transition: all 0.3s ease;
@@ -210,4 +209,32 @@ header .image-text .profession{
 .sidebar.close ~ .home{
   left: 78px;
   width: calc(100% - 78px);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100px;
+  }
+
+  .sidebar .text {
+    opacity: 0;
+  }
+  .sidebar.close .text {
+    opacity: 0;
+  }
+  .sidebar .logo-text {
+    display: none;
+  }
+  .sidebar .icon {
+    min-width: 50px;
+  }
+  .home {
+    left: 88px;
+    width: calc(100% - 88px);
+    margin-top: 85px;
+  }
+
+  .toggle-button-phone {
+    display: none;
+  }
 }
