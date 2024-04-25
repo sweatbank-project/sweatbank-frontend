@@ -40,6 +40,7 @@ export class ApplicationComponent {
   userAddress = 'Konstitucijos pr. 20A, LT-09321 Vilnius';
 
   applicationForm: FormGroup;
+  showConfirmation: boolean = false;
 
   constructor(private fb: FormBuilder, private datePipe: DatePipe) {
     this.applicationForm = this.fb.group({
@@ -144,9 +145,16 @@ export class ApplicationComponent {
     console.log('Submitting lease form to server...');
 
     this.leaseService.submit(serializedForm).subscribe(() => {
+      console.log("Lease form has been submitted.")
+      this.showConfirmation = true;
+
+      setTimeout(() => {
+        this.showConfirmation = false;
+      }, 5000);
       console.log('Lease form has been submitted.');
     });
   }
+
 
   onMakeSelect(event: any) {
     const make = event.target.value;
