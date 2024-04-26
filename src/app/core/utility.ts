@@ -7,6 +7,14 @@ export const calculateDownPayment = (
   return downPayment;
 };
 
+const calculateDownPaymentPercentage = (
+  costOfCar: number,
+  downPayment: number
+): number => {
+  const downPaymentPercentage = costOfCar / downPayment;
+  return Math.round(downPaymentPercentage * 100) / 100;
+};
+
 export const calculateContractFee = (costOfCar: number): number => {
   const minimumFee = 200;
   return Math.max(minimumFee, costOfCar / 100);
@@ -37,4 +45,42 @@ export const calculateMonthlyPayment = (
   const denominator = Math.pow(1 + interestRatePerMonth, numberOfPayments) - 1;
   // Round to 2 decimal places
   return Math.round((numerator / denominator) * 100) / 100;
+};
+
+export const initialCalculation = (
+  costOfCar: number,
+  downPayment: number,
+  leasingPeriod: number
+) => {
+  const leasingPeriodMonths = leasingPeriod * 12;
+
+  const downPaymentPercentage = calculateDownPaymentPercentage(
+    costOfCar,
+    downPayment
+  );
+  const contractFee = calculateContractFee(costOfCar);
+
+  //---MAGIC NUMBERS!---
+  const euriborType = 'Euribor 6-month';
+  const euriborRate = 3.893;
+  const margin = 2;
+  //---MAGIC NUMBERS!---
+
+  const interestRate = calculateTotalInterestRate(euriborRate, margin);
+  const monthlyPayment = calculateMonthlyPayment(
+    costOfCar,
+    downPayment,
+    interestRate,
+    leasingPeriodMonths
+  );
+
+  return {
+    downPaymentPercentage,
+    contractFee,
+    euriborType,
+    euriborRate,
+    margin,
+    interestRate,
+    monthlyPayment,
+  };
 };
