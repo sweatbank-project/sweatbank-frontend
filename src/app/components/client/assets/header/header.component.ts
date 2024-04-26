@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {Router} from '@angular/router';
 
@@ -24,6 +24,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    console.log("Logout clicked");
+
   }
+
 }

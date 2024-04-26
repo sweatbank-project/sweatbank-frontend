@@ -48,15 +48,9 @@ export class ApplicationComponent {
       makes: ['', Validators.required],
       models: ['', Validators.required],
       yearOfManufacture: ['', Validators.required],
-      costOfTheVehicle: [
-        '',
-        [Validators.required, Validators.min(1), Validators.max(1000000)],
-      ],
+      costOfTheVehicle: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       leasingPeriod: ['', Validators.required],
-      downPayment: [
-        '',
-        [Validators.required, Validators.min(1), Validators.max(1000000)],
-      ],
+      downPayment: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       sellerName: ['', Validators.required],
       education: ['', Validators.required],
       positionHeld: ['', Validators.required],
@@ -64,51 +58,19 @@ export class ApplicationComponent {
       timeEmployed: ['', Validators.required],
       businessAreaOfYourEmployer: ['', Validators.required],
       maritalStatus: ['', Validators.required],
-      numberOfChildren: [
-        '',
-        [Validators.required, Validators.min(0), Validators.max(100)],
-      ],
-      monthlyIncomeAfterTaxes: [
-        '',
-        [Validators.required, Validators.min(1), Validators.max(1000000)],
-      ],
+      numberOfChildren: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      monthlyIncomeAfterTaxes: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       obligations: ['', [Validators.required]],
-
-      customerLoansOutstanding: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
-      customerLoansMonthlyPayment: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
-
+      customerLoansOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      customerLoansMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
       carLeaseOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
-      carLeaseMonthlyPayment: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
-
+      carLeaseMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
       creditCardOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
-      creditCardMonthlyPayment: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
-
+      creditCardMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
       mortgageOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
-      mortgageMonthlyPayment: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
-
-      otherCreditsOutstanding: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
-      otherCreditsMonthlyPayment: [
-        '',
-        [Validators.min(1), Validators.max(1000000)],
-      ],
+      mortgageMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
+      otherCreditsOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      otherCreditsMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
     });
 
     this.subscribeToFormControlChanges(

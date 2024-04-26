@@ -6,6 +6,7 @@ import { LoginComponent } from './components/login/login.component';
 // admin:
 import { ApplicationsComponent } from './components/admin/applications/applications.component';
 import { InboxComponent } from './components/admin/inbox/inbox.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,10 @@ export const routes: Routes = [
     path: 'login',
     component: LoginComponent,
     canActivate: [loginGuard],
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   {
     path: 'admin/applications',

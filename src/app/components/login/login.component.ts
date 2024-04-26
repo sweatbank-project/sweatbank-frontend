@@ -11,13 +11,14 @@ import {
   faEyeSlash,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {AuthService} from "../../services/auth.service";
+import { passwordValidator } from '../../validators/register/password.validator';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, FontAwesomeModule],
+  imports: [ReactiveFormsModule, FontAwesomeModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -39,7 +40,7 @@ export class LoginComponent {
       validators: [Validators.required, Validators.email],
       updateOn: 'blur',
     }),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, passwordValidator()]),
   });
 
   onSubmit(): void {
