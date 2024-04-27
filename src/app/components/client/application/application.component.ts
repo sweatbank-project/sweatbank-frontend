@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { LeaseService } from '../../../services/lease.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-application',
@@ -42,7 +43,7 @@ export class ApplicationComponent {
   applicationForm: FormGroup;
   showConfirmation: boolean = false;
 
-  constructor(private fb: FormBuilder, private datePipe: DatePipe) {
+  constructor(private fb: FormBuilder, private datePipe: DatePipe, private router: Router) {
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],
@@ -140,6 +141,10 @@ export class ApplicationComponent {
       ...calcObj,
     };
 
+    // Simulate a delay as if waiting for a server response
+    setTimeout(() => {
+      console.log("Simulated lease form submission success.");
+      this.showConfirmation = true;
     const serializedForm = JSON.stringify(formAfterCalculation);
 
     console.log('Submitting lease form to server...');
@@ -149,6 +154,16 @@ export class ApplicationComponent {
         console.log("Lease form has been submitted.")
         this.showConfirmation = true;
 
+      // Set a timeout for showing the confirmation message, then navigate
+      setTimeout(() => {
+        console.log("Attempting to redirect to the submission confirmation page.");
+        this.router.navigate(['/submission-confirmation']).then(success => {
+          console.log("Navigation to confirmation was", success ? "successful" : "unsuccessful");
+        }).catch(err => {
+          console.error("Navigation error:", err);
+        });
+      }, 0); // Wait for 5 seconds before redirecting
+    }, 0); // Simulate a 2-second delay for the "server" to "respond"
         setTimeout(() => {
           this.showConfirmation = false;
         }, 5000);
@@ -160,6 +175,11 @@ export class ApplicationComponent {
       console.log('Lease form has been submitted.');
     });
   }
+
+
+
+
+
 
 
   onMakeSelect(event: any) {
