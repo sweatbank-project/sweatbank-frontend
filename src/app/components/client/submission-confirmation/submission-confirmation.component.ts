@@ -16,13 +16,11 @@ export class SubmissionConfirmationComponent implements OnInit {
       this.countdown--;
       if (this.countdown === 0) {
         clearInterval(interval);
-        this.router.navigate(['']);  // Adjust the path as needed
+        this.router.navigate(['']);
       }
     }, 1000);
   }
   redirectToNow(): void {
-    this.router.navigate(['']); // Immediate redirection
+    this.router.navigate(['']);
   }
-
-
 }

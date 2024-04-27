@@ -31,14 +31,13 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      { path: 'inbox', component: InboxComponent },
-      { path: 'applications', component: ApplicationsComponent },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'admin/inbox/:email', component: InboxComponent }
+      {path: 'inbox', component: InboxComponent},
+      {path: 'applications', component: ApplicationsComponent},
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'admin/inbox/:email', component: InboxComponent}
     ]
   },
   {
-    path: 'submission-confirmation',
-    component: SubmissionConfirmationComponent
+    path: 'submission-confirmation', component: SubmissionConfirmationComponent
   }
 ];

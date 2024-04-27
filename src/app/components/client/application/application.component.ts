@@ -141,42 +141,23 @@ export class ApplicationComponent {
       ...calcObj,
     };
 
-    // Simulate a delay as if waiting for a server response
-    setTimeout(() => {
-      console.log("Simulated lease form submission success.");
-      this.showConfirmation = true;
-    const serializedForm = JSON.stringify(formAfterCalculation);
+    // const serializedForm = JSON.stringify(formAfterCalculation);
+    // console.log('Submitting lease form to server...');
+    //
+    // this.leaseService.submit(serializedForm).subscribe(() => {
+    //   console.log('Lease form has been submitted.');
 
-    console.log('Submitting lease form to server...');
+    console.log('Simulating form submission to server:', formAfterCalculation);
 
-    if (confirm('Lease form has been submitted. Leave the page?')) {
-      this.leaseService.submit(serializedForm).subscribe(() => {
-        console.log("Lease form has been submitted.")
+      setTimeout(() => {
+        console.log('Simulated server response: Lease form has been submitted.');
+
         this.showConfirmation = true;
-
-      // Set a timeout for showing the confirmation message, then navigate
-      setTimeout(() => {
-        console.log("Attempting to redirect to the submission confirmation page.");
-        this.router.navigate(['/submission-confirmation']).then(success => {
-          console.log("Navigation to confirmation was", success ? "successful" : "unsuccessful");
-        }).catch(err => {
-          console.error("Navigation error:", err);
-        });
-      }, 0); // Wait for 5 seconds before redirecting
-    }, 0); // Simulate a 2-second delay for the "server" to "respond"
         setTimeout(() => {
-          this.showConfirmation = false;
-        }, 5000);
+          this.router.navigate(['/submission-confirmation']);
+        });
       });
-    }
-      setTimeout(() => {
-        this.showConfirmation = false;
-      }, 5000);
-      console.log('Lease form has been submitted.');
-    });
   }
-
-
 
 
 
