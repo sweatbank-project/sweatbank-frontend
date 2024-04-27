@@ -24,6 +24,7 @@ export class HeaderComponent {
   }
 
   logout() {
-    console.log("Logout clicked");
+
   }
+
 }
