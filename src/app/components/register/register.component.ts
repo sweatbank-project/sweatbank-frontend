@@ -14,10 +14,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterLink } from '@angular/router';
 import {AuthService} from "../../services/auth.service";
-import { birthDateValidator } from '../../validators/register/birth-date.validator';
-import { personalIdValidator } from '../../validators/register/personal-id.validator';
-import { phoneNumberValidator } from '../../validators/register/phone-number.validator';
-import { passwordValidator } from '../../validators/register/password.validator';
+import { birthDateValidator } from '../../validators/birth-date.validator';
+import { personalIdValidator } from '../../validators/personal-id.validator';
+import { phoneNumberValidator } from '../../validators/phone-number.validator';
+import { passwordValidator } from '../../validators/password.validator';
 
 
 @Component({

@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Router, RouterLink } from '@angular/router';
 import {AuthService} from "../../services/auth.service";
-import { passwordValidator } from '../../validators/register/password.validator';
+import { passwordValidator } from '../../validators/password.validator';
 
 @Component({
   selector: 'app-login',
