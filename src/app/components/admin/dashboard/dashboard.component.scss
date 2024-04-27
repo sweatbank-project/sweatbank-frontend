@@ -20,30 +20,6 @@
     margin-top: 85px;
   }
 }
-
-// MODAL
-.modal-header {
-  border-bottom: 0;
-}
-
-.modal-footer {
-  border-top: 0;
-}
-
-.form-control,
-.form-select {
-  border: 0;
-  padding: 0;
-  text-wrap: wrap;
-}
-
-.input-group-addon {
-  background-color: #fff;
-}
-.input-group .input-group-addon + .form-control {
-  border-left: none;
-}
-
-.input-group {
-  width: fit-content;
+.card {
+  margin-bottom: 30px;
 }

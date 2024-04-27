@@ -37,7 +37,6 @@ interface Message {
   styleUrls: ['./inbox.component.scss']
 })
 export class InboxComponent implements OnInit {
-  isClosed: boolean = false;
   activeCategory: string = 'inbox';
   emails: Email[] = [
     {
@@ -158,9 +157,5 @@ export class InboxComponent implements OnInit {
   }
   cancelCompose(): void {
     this.composingEmail = false;
-  }
-
-  toggleSidebar() {
-    this.isClosed = !this.isClosed;
   }
 }

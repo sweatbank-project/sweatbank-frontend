@@ -18,7 +18,6 @@ import {
   styleUrl: './applications.component.scss',
 })
 export class ApplicationsComponent {
-  isClosed: boolean = false;
   applicationForm: FormGroup;
   selectedEntity: any;
 
@@ -26,9 +25,6 @@ export class ApplicationsComponent {
     dropdown1: false,
   };
 
-  toggleSidebar() {
-    this.isClosed = !this.isClosed;
-  }
   toggleDropdown(dropdownName: string) {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
   }
@@ -57,7 +53,6 @@ export class ApplicationsComponent {
     );
 
     function applyStylesToElements() {
-      console.log('aaaa ');
       const styleProperties = {
         backgroundColor: '#FFF',
         margin: '5px',
