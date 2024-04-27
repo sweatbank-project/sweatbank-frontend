@@ -1,121 +1,156 @@
-<header class="p-3 mb-3">
-  <div class="container-fluid">
-    <div class="d-flex flex-wrap align-items-center justify-content-end">
-      <div class="dropdown" (click)="toggleDropdown('dropdown1')">
-        <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-          <div class="d-flex align-items-center justify-content-end">
-            <img src="https://github.com/mdo.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
-            <div>
-              <div>Username</div>
-              <div class="text-muted">Admin</div>
-            </div>
-            <div class="p-2">
-              <i class="bi bi-chevron-down"></i>
-            </div>
-          </div>
-        </a>
-        <ul class="dropdown-menu text-small dropdown-menu-end" aria-labelledby="dropdownUser1" [ngClass]="{ 'show': dropdownStates['dropdown1'] }">
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</header>
-<nav class="sidebar" [ngClass]="{'close': isClosed}">
-  <header>
-    <div class="image-text">
-      <span class="image">
-        <img src="favicon.ico" alt="">
-      </span>
-      <div class="text logo-text">
-        <span class="name">SweatBank</span>
-        <span class="profession">Admin Panel</span>
-      </div>
-    </div>
-    <i class="bi bi-chevron-right toggle" (click)="toggleSidebar()"></i>
-  </header>
-  <div class="menu-bar" data-np-autofill-form-type="other" data-np-checked="1" data-np-watching="1">
-    <div class="menu">
-      <ul class="menu-links">
-        <li class="nav-link">
-          <a routerLink="/admin/dashboard">
-            <i class="bi bi-bar-chart-fill icon"></i>
-            <span class="text nav-text">Dashboard</span>
-          </a>
-        </li>
-        <li class="nav-link">
-          <a routerLink="/admin/inbox">
-            <i class="bi bi-envelope icon"></i>
-            <span class="text nav-text">Inbox</span>
-          </a>
-        </li>
-        <li class="nav-link">
-          <a routerLink="/admin/applications">
-            <i class="bi bi-clipboard2-check icon"></i>
-            <span class="text nav-text">Applications</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="bottom-content">
-      <li class="">
-        <a href="#">
-          <i class="bi bi-box-arrow-right icon"></i>
-          <span class="text nav-text">Logout</span>
-        </a>
-      </li>
-    </div>
-  </div>
-</nav>
-
 <section class="home">
-  <div class="text">Application List</div>
-  <div class="table-responsive p-5">
-    <table class="table table-striped table-bordered table-sm row-border hover" id="applications">
-      <thead>
-      <tr>
-        <th>Status</th>
-        <th>Id</th>
-        <th>Date</th>
-        <th>Personal Id</th>
-        <th>Full Name</th>
-        <th>Email Address</th>
-        <th>Phone No</th>
-        <th>Message</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <th class="bg-success">Approved</th>
-        <th><a href="#">SW0001</a></th>
-        <th>March 8, 2024</th>
-        <th>981732768126</th>
-        <th>Deividas Andriuha</th>
-        <th>deividas.andriuha&#64;gmail.com</th>
-        <th>+370611111111</th>
-        <th><i class="bi bi-envelope"></i></th>
-      </tr>
-      <tr>
-        <th class="bg-danger">Rejected</th>
-        <th><a href="#">SW0002</a></th>
-        <th>March 8, 2024</th>
-        <th>981732768126</th>
-        <th>Deividas Andriuha</th>
-        <th>deividas.andriuha&#64;gmail.com</th>
-        <th>+370611111111</th>
-        <th><i class="bi bi-envelope"></i></th>
-      </tr>
-      <tr>
-        <th class="bg-info">Pending</th>
-        <th><a href="#">SW0003</a></th>
-        <th>March 8, 2024</th>
-        <th>981732768126</th>
-        <th>Deividas Andriuha</th>
-        <th>deividas.andriuha&#64;gmail.com</th>
-        <th>+370611111111</th>
-        <th><i class="bi bi-envelope"></i></th>
-      </tr>
-      </tbody>
-    </table>
+  <div class="container-fluid">
+    <div class="text">Application List</div>
+  </div>
+  <div class="container-fluid">
+    <div class="table-responsive p-5">
+      <table class="table table-striped table-bordered table-sm row-border hover" id="applications">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Personal Id</th>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th>Phone No</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of data?.leases; track $index) {
+          <tr>
+            <th>
+              @if(row.status === 'PENDING') {
+              <span class="badge text-bg-warning p-1">{{row.status}}</span>
+              } @else if (row.status === 'APPROVED') {
+              <span class="badge text-bg-success p-1">{{row.status}}</span>
+              } @else if (row.status === 'REJECTED') {
+              <span class="badge text-bg-danger p-1">{{row.status}}</span>
+              } @else if (row.status === 'NEW') {
+              <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+              }
+            </th>
+            <th><a href="/{{row.id}}">{{row.id}}</a></th>
+            <th>{{row.date}}</th>
+            <th>{{row.personalId}}</th>
+            <th>{{row.name}}</th>
+            <th>{{row.email}}</th>
+            <th>{{row.phone}}</th>
+            <th></th>
+          </tr>
+          }
+        </tbody>
+        <!-- MOCK DATA -->
+        <tbody>
+          @for (item of mockData.entities; track item.id) {
+          <li data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal(item.id)"
+            class="list-group-item">
+            {{item.id}}</li>
+          }
+        </tbody>
+        <!-- MOCK DATA -->
+      </table>
+    </div>
   </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    @if (selectedEntity) {
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{selectedEntity.id}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h4 class="row border-top text-center mb-0  justify-content-center">Car and Financing Conditions</h4>
+        <form [formGroup]="applicationForm">
+          <div class="row border-bottom border-top">
+            <div class="col border-end">Car</div>
+            <div class="col border-end">{{selectedEntity.car}}</div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">
+              Leasing period (months)</div>
+            <div class="col border-end">
+              <input class="form-control" type="number" formControlName="leasingPeriod">
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Cost of car</div>
+            <div class="col border-end">{{selectedEntity.costOfCar}} EUR
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Currency</div>
+            <div class="col border-end">EUR</div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Down Payment %</div>
+            <div class="col border-end">
+              <input class="form-control" type="number" formControlName="downPaymentPercentage">
+            </div>
+            <div class="col">
+              {{selectedEntity.downPaymentAmount}} EUR
+            </div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Contract fee %</div>
+            <div class="col border-end">1</div>
+            <div class="col">{{selectedEntity.contractFeeAmount}} EUR</div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Down payment source</div>
+            <div class="col border-end">{{selectedEntity.downPaymentSource}}</div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Interest base %</div>
+            <div class="col border-end input-group">
+              <select class="form-select" formControlName="euriborType" (change)="changeEuribor($event)">
+                @for (singleTerm of euriborData; track singleTerm.term) {
+                <option [value]="singleTerm.term">{{singleTerm.term}}</option>
+                }
+
+              </select>
+            </div>
+            <div class="col">
+              {{selectedEntity.euriborRate}}
+            </div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Margin %</div>
+            <div class="col border-end input-group">
+              <input class="form-control" type="number" step="0.001" formControlName="margin">
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Interest rate %</div>
+            <div class="col border-end">{{selectedEntity.interestRate | number}}</div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Monthly payment</div>
+            <div class="col border-end">{{selectedEntity.monthlyPaymentAmount}} EUR</div>
+            <div class="col"></div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button data-bs-dismiss="modal" (click)="saveApplication()" type="button" class="btn btn-primary">Save</button>
+        <button data-bs-dismiss="modal" (click)="approveApplication()" type="button"
+          class="btn btn-success">Approve</button>
+        <button data-bs-dismiss="modal" (click)="rejectApplication()" type="button"
+          class="btn btn-danger">Reject</button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

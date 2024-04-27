@@ -1,44 +1,54 @@
-import {CarData, CarModel, carData} from './data';
-import {Component, ElementRef, QueryList, ViewChildren} from '@angular/core';
-import {FooterComponent} from "../assets/footer/footer.component";
-import {HeaderComponent} from "../assets/header/header.component";
-import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import { initialCalculation } from './../../../core/utility';
+import { CarData, CarModel, carData } from './data';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  inject,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { LeaseService } from '../../../services/lease.service';
 
 @Component({
   selector: 'app-application',
   standalone: true,
-    imports: [
-        FooterComponent,
-        HeaderComponent,
-        ReactiveFormsModule
-    ],
+  imports: [ReactiveFormsModule],
+  providers: [DatePipe],
   templateUrl: './application.component.html',
-  styleUrl: './application.component.scss'
+  styleUrl: './application.component.scss',
 })
 export class ApplicationComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
   @ViewChildren('activeStepSection') activeStepsSection!: QueryList<ElementRef>;
 
+  leaseService: LeaseService = inject(LeaseService);
+
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
 
-
   // extra
   userPhoneNumber = '+37061111111';
-  userEmail = "andriuha@gmail.com";
-  userAddress = "Konstitucijos pr. 20A, LT-09321 Vilnius";
-  currentDate = "16.04.2024";
+  userEmail = 'andriuha@gmail.com';
+  userAddress = 'Konstitucijos pr. 20A, LT-09321 Vilnius';
 
   applicationForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private datePipe: DatePipe) {
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],
       yearOfManufacture: ['', Validators.required],
-      costOfTheVehicle: ['', [Validators.required, Validators.min(1)]],
+      costOfTheVehicle: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       leasingPeriod: ['', Validators.required],
-      downPayment: ['', [Validators.required, Validators.min(1)]],
+      downPayment: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
       sellerName: ['', Validators.required],
       education: ['', Validators.required],
       positionHeld: ['', Validators.required],
@@ -46,31 +56,96 @@ export class ApplicationComponent {
       timeEmployed: ['', Validators.required],
       businessAreaOfYourEmployer: ['', Validators.required],
       maritalStatus: ['', Validators.required],
-      numberOfChildren: ['', [Validators.required, Validators.min(0)]],
-      monthlyIncomeAfterTaxes: ['', [Validators.required, Validators.min(1)]],
-      obligations: ['', []],
-      customerLoansOutstanding: ['', [Validators.min(1)]],
-      customerLoansMonthlyPayment: ['', [Validators.min(1)]],
-      carLeaseOutstanding: ['', [Validators.min(1)]],
-      carLeaseMonthlyPayment: ['', [Validators.min(1)]],
-      creditCardOutstanding: ['', [Validators.min(1)]],
-      creditCardMonthlyPayment: ['', [Validators.min(1)]],
-      mortgageOutstanding: ['', [Validators.min(1)]],
-      mortgageMonthlyPayment: ['', [Validators.min(1)]],
-      otherCreditsOutstanding: ['', [Validators.min(1)]],
-      otherCreditsMonthlyPayment: ['', [Validators.min(1)]],
+      numberOfChildren: ['', [Validators.required, Validators.min(0), Validators.max(100)]],
+      monthlyIncomeAfterTaxes: ['', [Validators.required, Validators.min(1), Validators.max(1000000)]],
+      obligations: ['', [Validators.required]],
+      customerLoansOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      customerLoansMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
+      carLeaseOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      carLeaseMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
+      creditCardOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      creditCardMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
+      mortgageOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      mortgageMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
+      otherCreditsOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
+      otherCreditsMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
     });
+
+    this.subscribeToFormControlChanges(
+      'customerLoansOutstanding',
+      'customerLoansMonthlyPayment'
+    );
+    this.subscribeToFormControlChanges(
+      'carLeaseOutstanding',
+      'carLeaseMonthlyPayment'
+    );
+    this.subscribeToFormControlChanges(
+      'creditCardOutstanding',
+      'creditCardMonthlyPayment'
+    );
+    this.subscribeToFormControlChanges(
+      'mortgageOutstanding',
+      'mortgageMonthlyPayment'
+    );
+    this.subscribeToFormControlChanges(
+      'otherCreditsOutstanding',
+      'otherCreditsMonthlyPayment'
+    );
+  }
+
+  private subscribeToFormControlChanges(
+    outstandingControlName: string,
+    monthlyPaymentControlName: string
+  ): void {
+    this.applicationForm
+      .get(outstandingControlName)
+      ?.valueChanges.subscribe((value) => {
+        const monthlyPaymentControl = this.applicationForm.get(
+          monthlyPaymentControlName
+        );
+        if (monthlyPaymentControl) {
+          if (value) {
+            this.setValidators(monthlyPaymentControl, [
+              Validators.required,
+              Validators.min(1),
+              Validators.max(1000000),
+            ]);
+          } else {
+            this.setValidators(monthlyPaymentControl, null);
+            monthlyPaymentControl.setValue(null);
+          }
+        }
+      });
   }
 
   sectionValidator(controlNames: string[]): boolean {
-    return controlNames.every(controlName => {
+    return controlNames.every((controlName) => {
       const control = this.applicationForm.get(controlName);
       return control ? control.valid : false;
     });
   }
 
   onSubmit(): void {
-    console.log(this.applicationForm.value);
+    const { costOfTheVehicle, downPayment, leasingPeriod } =
+      this.applicationForm.getRawValue();
+    const calcObj = initialCalculation(
+      costOfTheVehicle,
+      downPayment,
+      +leasingPeriod
+    );
+
+    const formAfterCalculation = {
+      ...this.applicationForm.getRawValue(),
+      ...calcObj,
+    };
+
+    const serializedForm = JSON.stringify(formAfterCalculation);
+
+    console.log('Submitting lease form to server...');
+
+    this.leaseService.submit(serializedForm).subscribe(() => {
+      console.log('Lease form has been submitted.');
+    });
   }
 
   onMakeSelect(event: any) {
@@ -84,7 +159,9 @@ export class ApplicationComponent {
   onMakeStudentSelect(event: any) {
     const jobTitleControl = this.applicationForm.get('jobTitle');
     const timeEmployedControl = this.applicationForm.get('timeEmployed');
-    const businessAreaControl = this.applicationForm.get('businessAreaOfYourEmployer');
+    const businessAreaControl = this.applicationForm.get(
+      'businessAreaOfYourEmployer'
+    );
 
     if (event.target.value === 'student') {
       this.hideInputs('.jobTitleInput');
@@ -100,16 +177,23 @@ export class ApplicationComponent {
   }
 
   private hideInputs(selector: string): void {
-    const inputs = document.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => input.style.display = 'none');
+    const inputs = document.querySelectorAll(
+      selector
+    ) as NodeListOf<HTMLInputElement>;
+    inputs.forEach((input) => (input.style.display = 'none'));
   }
 
   private showInputs(selector: string): void {
-    const inputs = document.querySelectorAll(selector) as NodeListOf<HTMLInputElement>;
-    inputs.forEach(input => input.style.display = '');
+    const inputs = document.querySelectorAll(
+      selector
+    ) as NodeListOf<HTMLInputElement>;
+    inputs.forEach((input) => (input.style.display = ''));
   }
 
-  private setValidators(control: AbstractControl | null, validators: any): void {
+  private setValidators(
+    control: AbstractControl | null,
+    validators: any
+  ): void {
     if (control) {
       control.setValidators(validators);
       control.updateValueAndValidity();
@@ -117,7 +201,9 @@ export class ApplicationComponent {
   }
 
   handleObligationsChange(event: any) {
-    const obligationsChange = document.getElementById('table') as HTMLInputElement;
+    const obligationsChange = document.getElementById(
+      'table'
+    ) as HTMLInputElement;
 
     if (event.target.value === 'Yes') {
       obligationsChange.style.display = '';
@@ -129,7 +215,10 @@ export class ApplicationComponent {
   navigateToStep(stepNumber: number): void {
     this.activeSteps.forEach((stepElement: ElementRef) => {
       const nativeElement = stepElement.nativeElement as HTMLElement;
-      const stepAttribute = parseInt(nativeElement.getAttribute('step') || '0', 10);
+      const stepAttribute = parseInt(
+        nativeElement.getAttribute('step') || '0',
+        10
+      );
 
       if (stepNumber === stepAttribute) {
         nativeElement.classList.add('current');
@@ -145,12 +234,20 @@ export class ApplicationComponent {
 
     this.activeStepsSection.forEach((stepElement: ElementRef) => {
       const nativeElement = stepElement.nativeElement as HTMLElement;
-      const stepAttribute = parseInt(nativeElement.getAttribute('step') || '0', 10);
+      const stepAttribute = parseInt(
+        nativeElement.getAttribute('step') || '0',
+        10
+      );
       if (stepNumber === stepAttribute) {
         nativeElement.classList.remove('d-none');
       } else {
         nativeElement.classList.add('d-none');
       }
     });
+  }
+
+  getCurrentDate() {
+    const currentDate = new Date();
+    return this.datePipe.transform(currentDate, 'yyyy-MM-dd');
   }
 }

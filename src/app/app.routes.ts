@@ -1,17 +1,21 @@
 import { Routes } from '@angular/router';
 import { loginGuard } from './core/guards/login.guard';
-import {ApplicationComponent} from "./components/client/application/application.component";
-import {LoginComponent} from "./components/login/login.component";
-
-// admin:
-import {DashboardComponent} from "./components/admin/dashboard/dashboard.component";
-import {ApplicationsComponent} from "./components/admin/applications/applications.component";
-import {InboxComponent} from "./components/admin/inbox/inbox.component";
+import { ApplicationComponent } from './components/client/application/application.component';
+import { LoginComponent } from './components/login/login.component';
+import { ApplicationsComponent } from './components/admin/applications/applications.component';
+import { InboxComponent } from './components/admin/inbox/inbox.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { ClientComponent } from './components/client/client.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: ApplicationComponent,
+    component: ClientComponent,
+    children: [
+      { path: '', component: ApplicationComponent }
+    ]
   },
   {
     path: 'login',
@@ -19,15 +23,17 @@ export const routes: Routes = [
     canActivate: [loginGuard],
   },
   {
-    path: 'admin/dashboard',
-    component: DashboardComponent,
+    path: 'register',
+    component: RegisterComponent,
   },
   {
-    path: 'admin/applications',
-    component: ApplicationsComponent,
-  },
-  {
-    path: 'admin/inbox',
-    component: InboxComponent,
-  },
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: 'inbox', component: InboxComponent },
+      { path: 'applications', component: ApplicationsComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'admin/inbox/:email', component: InboxComponent }
+    ]
+  }
 ];

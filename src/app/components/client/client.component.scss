@@ -3,13 +3,16 @@ footer {
   background-color: white;
   padding: 20px 0;
   width: 100%;
-  position: absolute;
-  bottom: 0;
+  position: relative;
 }
 
 @media only screen and (max-width: 600px) {
   footer {
-    position: relative;
-    z-index: 1000;
+    position: static;
+    margin-top: 20px;
   }
+}
+
+header {
+  box-shadow: 10px 10px 26px -7px rgba(0,0,0,0.54);
 }

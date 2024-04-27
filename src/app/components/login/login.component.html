@@ -27,12 +27,16 @@
               formControlName="password">
             <fa-icon [icon]="passwordVisible ? faEye : faEyeSlash" (click)="togglePasswordVisibility()"></fa-icon>
           </div>
-          @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-          <span>Password is required</span>
-          }
+          @if(loginForm.get('password')?.touched) {
+            @if(loginForm.get('password')?.errors?.['required']) {
+              <span>Please enter password</span>
+            } @else if (loginForm.get('password')?.errors?.['passwordLength']) {
+              <span>{{ loginForm.get('password')?.errors?.['passwordLength'] }}</span>
+            }
+        }
           <!-- <a class="forgot-password-link" href="/">Forget your password</a> -->
         </div>
-        <button type="submit" class="submit-button">
+        <button type="submit" class="btn btn-success" [disabled]="loginForm.invalid || isLoading">
           @if (isLoading) {
           <fa-icon [icon]="faSpinner" animation="spin" />
           } @else {
@@ -44,8 +48,7 @@
           <p style="color: darkred;"> {{error}}</p>
         </div>
         }
-        <!-- <p class="signup-message">Don't have an account? <a href="/">Sign up</a>
-        </p> -->
+        <p class="signup-message">Don't have an account? <a routerLink="/register">Sign up</a></p>
       </form>
     </div>
   </div>
