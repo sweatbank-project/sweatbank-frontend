@@ -8,7 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 import { ClientComponent } from './components/client/client.component';
-import { SubmissionConfirmationComponent } from "./components/submission-confirmation/submission-confirmation.component";
+import { SubmissionConfirmationComponent } from "./components/client/submission-confirmation/submission-confirmation.component";
 
 export const routes: Routes = [
   {
