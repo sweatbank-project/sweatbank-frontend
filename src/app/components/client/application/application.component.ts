@@ -7,8 +7,6 @@ import {
   ViewChildren,
   inject,
 } from '@angular/core';
-import { FooterComponent } from '../assets/footer/footer.component';
-import { HeaderComponent } from '../assets/header/header.component';
 import {
   AbstractControl,
   FormBuilder,
@@ -22,7 +20,7 @@ import { LeaseService } from '../../../services/lease.service';
 @Component({
   selector: 'app-application',
   standalone: true,
-  imports: [FooterComponent, HeaderComponent, ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
   providers: [DatePipe],
   templateUrl: './application.component.html',
   styleUrl: './application.component.scss',
