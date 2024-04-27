@@ -2,8 +2,6 @@ import { Routes } from '@angular/router';
 import { loginGuard } from './core/guards/login.guard';
 import { ApplicationComponent } from './components/client/application/application.component';
 import { LoginComponent } from './components/login/login.component';
-
-// admin:
 import { ApplicationsComponent } from './components/admin/applications/applications.component';
 import { InboxComponent } from './components/admin/inbox/inbox.component';
 import { RegisterComponent } from './components/register/register.component';
