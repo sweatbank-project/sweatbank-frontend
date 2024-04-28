@@ -1,21 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { HeaderComponent } from '../../assets/header/header.component';
-import { FooterComponent } from '../../assets/footer/footer.component';
 import { AccountData } from '../data';
 import { AuthService } from '../../../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [
-    HeaderComponent,
-    FooterComponent
-  ],
+  imports: [],
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
 export class AccountComponent implements OnInit {
-  authService = inject(AuthService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   accountData: AccountData = {
     username: 'None',
@@ -35,5 +32,9 @@ export class AccountComponent implements OnInit {
       phone_number: this.authService.getUserData("phoneNumber") || '',
       birth_date: this.authService.getUserData("birthDate") || '',
     };
+  }
+
+  goBackToHome(): void {
+    this.router.navigate(['/home']);
   }
 }

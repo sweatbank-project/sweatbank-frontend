@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {LoginComponent} from "./components/login/login.component";
-import {HeaderComponent} from "./components/client/assets/header/header.component";
-import {FooterComponent} from "./components/client/assets/footer/footer.component";
 
 @Component({
   selector: 'app-root',
@@ -11,9 +9,7 @@ import {FooterComponent} from "./components/client/assets/footer/footer.componen
   styleUrl: './app.component.scss',
   imports: [
     RouterOutlet,
-    LoginComponent,
-    HeaderComponent,
-    FooterComponent,
+    LoginComponent
   ],
 })
 export class AppComponent {

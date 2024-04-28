@@ -1,17 +1,25 @@
-import { Component } from '@angular/core';
-import { FooterComponent } from '../../assets/footer/footer.component';
-import { HeaderComponent } from '../../assets/header/header.component';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
   standalone: true,
-  imports: [
-    FooterComponent,
-    HeaderComponent
-  ],
+  imports: [],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss'
 })
 export class MainPageComponent {
+  private readonly router = inject(Router);
 
+  goToAccount(): void {
+    this.router.navigate(["/account"]);
+  }
+
+  goToUserLeases(): void {
+    this.router.navigate(["/leases"]);
+  }
+
+  goToCreateLease(): void {
+    this.router.navigate(["/lease/create"]);
+  }
 }

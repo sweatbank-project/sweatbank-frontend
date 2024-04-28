@@ -11,8 +11,10 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
-  localUrl = 'http://localhost:8080/api/auth/login';
-  url = 'https://sweatbank-backend.onrender.com/api/auth/login';
+  //localUrl = 'http://localhost:8080/api/auth/login';
+  //url = 'https://sweatbank-backend.onrender.com/api/auth/login';
+
+  baseUrl = 'http://localhost:8080/api/auth/'
 
   login(
     email: string,
@@ -20,7 +22,7 @@ export class AuthService {
   ): Observable<HttpResponse<AuthResponseData>> {
     return this.client
       .post<AuthResponseData>(
-        this.localUrl,
+        this.baseUrl+'login',
         {
           username: email,
           password,
@@ -45,7 +47,37 @@ export class AuthService {
       );
   }
 
+  register(
+    username: string,
+    phoneNumber: string,
+    personalId: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    birthDate: string,
+    address: string,
+    confirmPassword: string
+  ): Observable<unknown> {
+    return this.client
+      .post(
+        this.baseUrl+'register',
+        {
+          username: username,
+          phoneNumber: phoneNumber,
+          personalId: personalId,
+          password: password,
+          firstName: firstName,
+          lastName: lastName,
+          birthDate: birthDate,
+          address: address,
+          confirmPassword: confirmPassword
+        },
+        { observe: 'response' }
+      )
+  }
+
   logout() {
+    console.log('doing')
     this.router.navigate(['/login']);
     sessionStorage.removeItem('userData');
   }

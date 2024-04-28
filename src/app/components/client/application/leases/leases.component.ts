@@ -1,6 +1,4 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { HeaderComponent } from '../../assets/header/header.component';
-import { FooterComponent } from '../../assets/footer/footer.component';
 import { LeaseData } from '../data';
 import { LeaseService } from '../../../../services/lease.service';
 import { AuthService } from '../../../../services/auth.service';
@@ -10,13 +8,12 @@ import {
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-leases',
   standalone: true,
   imports: [
-    HeaderComponent,
-    FooterComponent,
     FontAwesomeModule
   ],
   templateUrl: './leases.component.html',
@@ -25,6 +22,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 export class LeasesComponent implements OnInit {
   private readonly leaseService = inject(LeaseService);
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   faEye = faEye;
   faEyeSlash = faEyeSlash;
@@ -54,5 +52,9 @@ export class LeasesComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  goBackToHome(): void {
+    this.router.navigate(['/home']);
   }
 }

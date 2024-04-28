@@ -11,27 +11,37 @@ import { MainPageComponent } from './components/client/application/main-page/mai
 import { AccountComponent } from './components/client/application/account/account.component';
 import { userGuard } from './core/guards/user.guard';
 import { LeasesComponent } from './components/client/application/leases/leases.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { ClientComponent } from './components/client/client.component';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    component: MainPageComponent,
-    canActivate: [userGuard]
-  },
-  {
-    path: 'lease/create',
-    component: ApplicationComponent,
-    canActivate: [userGuard]
-  },
-  {
-    path: 'leases',
-    component: LeasesComponent,
-    canActivate: [userGuard]
-  },
-  {
-    path: 'account',
-    component: AccountComponent,
-    canActivate: [userGuard]
+    path: '',
+    component: ClientComponent,
+    children: [
+      { path: '', component: ApplicationComponent },
+      {
+        path: 'home',
+        component: MainPageComponent,
+        canActivate: [userGuard]
+      },
+      {
+        path: 'lease/create',
+        component: ApplicationComponent,
+        canActivate: [userGuard]
+      },
+      {
+        path: 'leases',
+        component: LeasesComponent,
+        canActivate: [userGuard]
+      },
+      {
+        path: 'account',
+        component: AccountComponent,
+        canActivate: [userGuard]
+      },
+    ],
   },
   {
     path: 'login',
@@ -39,16 +49,18 @@ export const routes: Routes = [
     canActivate: [loginGuard],
   },
   {
-    path: 'admin/dashboard',
-    component: DashboardComponent,
+    path: 'register',
+    component: RegisterComponent,
   },
   {
-    path: 'admin/applications',
-    component: ApplicationsComponent,
-  },
-  {
-    path: 'admin/inbox',
-    component: InboxComponent,
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: 'inbox', component: InboxComponent },
+      { path: 'applications', component: ApplicationsComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'admin/inbox/:email', component: InboxComponent },
+    ],
   },
   {
     path: '**',

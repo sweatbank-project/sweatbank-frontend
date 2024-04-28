@@ -19,3 +19,10 @@
 .field-names p {
   font-weight: 500;
 }
+
+// Only for mobile and not tablets
+@media only screen and (max-width: 992px) {
+  .wrapper {
+    min-height: calc(100vh - 304px);
+  }
+}

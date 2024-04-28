@@ -8,11 +8,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-nav ms-auto">
-        <a class="nav-link me-3" href="#"><i class="bi bi-bell"></i> Notifications</a>
-        <a class="nav-link me-3" href="#"><i class="bi bi-people"></i> Contacts</a>
         <div class="dropdown" (click)="toggleDropdown('second')">
           <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="bi bi-person"></i>
+            <i class="bi bi-person"></i> {{ userName }} {{ userSurname }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" [ngClass]="{ 'show': dropdownStates['second'] }">
             <li><a class="dropdown-item" href="#" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Log Out</a></li>
@@ -22,3 +20,21 @@
     </div>
   </div>
 </header>
+<router-outlet></router-outlet>
+<footer class="text-dark py-2" id="contacts">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mb-4 mb-md-0 information">
+          <h5>Contact Information</h5>
+          <ul class="list-unstyled">
+            <li><i class="bi bi-telephone"></i> +370 5 111 111, +370 5 111 112</li>
+            <li><i class="bi bi-envelope"></i> info&#64;sweatbank.com</li>
+          </ul>
+        </div>
+        <div class="col-md-6 hours">
+          <h5>Customer Service Hours</h5>
+          <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
+        </div>
+      </div>
+    </div>
+</footer>
