@@ -12,7 +12,8 @@ const calculateDownPaymentPercentage = (
   downPayment: number
 ): number => {
   const downPaymentPercentage = costOfCar / downPayment;
-  return Math.round(downPaymentPercentage * 100) / 100;
+  //return Math.round(downPaymentPercentage * 100) / 100;
+  return downPaymentPercentage;
 };
 
 export const calculateContractFee = (costOfCar: number): number => {

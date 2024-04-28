@@ -11,10 +11,8 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
-  //localUrl = 'http://localhost:8080/api/auth/login';
-  //url = 'https://sweatbank-backend.onrender.com/api/auth/login';
-
-  baseUrl = 'http://localhost:8080/api/auth/'
+  //baseUrl = 'http://localhost:8080/api/';
+  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
   login(
     email: string,
@@ -22,7 +20,7 @@ export class AuthService {
   ): Observable<HttpResponse<AuthResponseData>> {
     return this.client
       .post<AuthResponseData>(
-        this.baseUrl+'login',
+        this.baseUrl+'auth/login',
         {
           username: email,
           password,
@@ -60,7 +58,7 @@ export class AuthService {
   ): Observable<unknown> {
     return this.client
       .post(
-        this.baseUrl+'register',
+        this.baseUrl+'auth/register',
         {
           username: username,
           phoneNumber: phoneNumber,

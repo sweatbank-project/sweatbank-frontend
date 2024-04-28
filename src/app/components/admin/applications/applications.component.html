@@ -53,7 +53,7 @@
     @if (selectedEntity) {
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">{{selectedEntity.id}}</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">{{selectedEntity.applicationId}}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -61,7 +61,7 @@
         <form [formGroup]="applicationForm">
           <div class="row border-bottom border-top">
             <div class="col border-end">Car</div>
-            <div class="col border-end">{{selectedEntity.car}}</div>
+            <div class="col border-end">{{selectedEntity.carBrand}}</div>
             <div class="col"></div>
           </div>
           <div class="row border-bottom">
@@ -74,7 +74,7 @@
           </div>
           <div class="row border-bottom">
             <div class="col border-end">Cost of car</div>
-            <div class="col border-end">{{selectedEntity.costOfCar}} EUR
+            <div class="col border-end">{{selectedEntity.carCost}} EUR
             </div>
             <div class="col"></div>
           </div>
@@ -95,7 +95,7 @@
           <div class="row border-bottom">
             <div class="col border-end">Contract fee %</div>
             <div class="col border-end">1</div>
-            <div class="col">{{selectedEntity.contractFeeAmount}} EUR</div>
+            <div class="col">{{selectedEntity.contractFee}} EUR</div>
           </div>
           <div class="row border-bottom">
             <div class="col border-end">Down payment source</div>

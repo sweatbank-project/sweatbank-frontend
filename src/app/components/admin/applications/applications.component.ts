@@ -29,6 +29,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 export class ApplicationsComponent {
   @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
 
+  //baseUrl = 'http://localhost:8080/api/';
+  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+
   applicationForm: FormGroup;
   selectedEntity: any;
 
@@ -46,7 +49,7 @@ export class ApplicationsComponent {
 
   data: any;
   constructor(private router: Router, private http: HttpClient) {
-    this.http.get('http://localhost:8080/api/admin/leases').subscribe(
+    this.http.get(this.baseUrl + 'admin/leases').subscribe(
       (data) => {
         this.data = data;
         setTimeout(() => {
@@ -130,10 +133,11 @@ export class ApplicationsComponent {
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
+    console.log(this.selectedEntity)
     this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
-        leasingPeriod: this.selectedEntity.leasingPeriodMonths,
+        leasingPeriod: this.selectedEntity.leasingPeriod*12,
         downPaymentPercentage: this.selectedEntity.downPaymentPercentage,
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
@@ -182,9 +186,9 @@ export class ApplicationsComponent {
   }
 
   euriborData: { term: string; value: number }[] = [
-    { term: 'Euribor 3-month', value: 3.922 },
-    { term: 'Euribor 6-month', value: 3.893 },
-    { term: 'Euribor 1-year', value: 3.716 },
+    { term: "EURIBOR_3_MONTH", value: 3.922 },
+    { term: "EURIBOR_6_MONTH", value: 3.893 },
+    { term: "EURIBOR_12_MONTH", value: 3.716 },
   ];
 
   mockData = {
