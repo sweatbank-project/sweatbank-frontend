@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 interface AuthResponseData {
   token: string;
   role: string;
+  user: any;
 }
 
 @Injectable({
@@ -36,8 +37,9 @@ export class AuthService {
       .pipe(
         tap((resData) => {
           const token = resData.headers.get('authorization');
-          if (token) {
-            this.handleAuthentication(token, resData.body!.role);
+          if (token && resData.body) {
+            let userName = resData.body.user.firstName + ' ' + resData.body.user.lastName;
+            this.handleAuthentication(token, resData.body.role, userName);
           }
         })
       );
@@ -72,8 +74,7 @@ export class AuthService {
       )
   }
 
-  logout() {  
-    console.log('doing')
+  logout() {
     this.router.navigate(['/login']);
     sessionStorage.removeItem('userData');
   }
@@ -86,8 +87,12 @@ export class AuthService {
     return this.getUserData('role');
   }
 
-  private handleAuthentication(token: string, role: string) {
-    sessionStorage.setItem('userData', JSON.stringify({ token, role }));
+  getUserName(): string {
+    return this.getUserData('username');
+  }
+
+  private handleAuthentication(token: string, role: string, username: string) {
+    sessionStorage.setItem('userData', JSON.stringify({ token, role, username }));
   }
 
   private getUserData(key: string): string {

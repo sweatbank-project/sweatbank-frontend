@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-client',
@@ -10,9 +11,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './client.component.scss'
 })
 export class ClientComponent {
-  userName: string = "Andriuha";
-  userSurname: string = "Petrauskas";
-  
+  authService = inject(AuthService);
+  username = this.authService.getUserName();
+
   dropdownStates: { [key: string]: boolean } = {
     dropdown1: false,
     dropdown2: false
@@ -22,5 +23,7 @@ export class ClientComponent {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
   }
 
-  logout() {}
+  logout() {
+    this.authService.logout();
+  }
 }
