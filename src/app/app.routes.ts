@@ -14,6 +14,7 @@ import { LeasesComponent } from './components/client/application/leases/leases.c
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ClientComponent } from './components/client/client.component';
+import { SubmissionConfirmationComponent } from "./components/client/submission-confirmation/submission-confirmation.component";
 
 export const routes: Routes = [
   {
@@ -56,15 +57,13 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      { path: 'inbox', component: InboxComponent },
-      { path: 'applications', component: ApplicationsComponent },
-      { path: 'dashboard', component: DashboardComponent },
-      { path: 'admin/inbox/:email', component: InboxComponent },
-    ],
+      {path: 'inbox', component: InboxComponent},
+      {path: 'applications', component: ApplicationsComponent},
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'admin/inbox/:email', component: InboxComponent}
+    ]
   },
   {
-    path: '**',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    path: 'submission-confirmation', component: SubmissionConfirmationComponent
   }
 ];

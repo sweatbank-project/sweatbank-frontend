@@ -24,4 +24,3 @@ export class LeaseService {
     return this.httpClient.post<any>("http://localhost:8080/api/lease/create", leaseForm, {headers});
   }
 }
-

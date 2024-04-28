@@ -32,6 +32,7 @@ export class ApplicationComponent {
 
   private readonly leaseService: LeaseService = inject(LeaseService);
   private readonly router = inject(Router);
+  private readonly datePipe = inject(DatePipe)
 
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
@@ -42,8 +43,9 @@ export class ApplicationComponent {
   userAddress = 'Konstitucijos pr. 20A, LT-09321 Vilnius';
 
   applicationForm: FormGroup;
+  showConfirmation: boolean = false;
 
-  constructor(private fb: FormBuilder, private datePipe: DatePipe) {
+  constructor(private fb: FormBuilder) {
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],
@@ -141,14 +143,27 @@ export class ApplicationComponent {
       ...calcObj,
     };
 
-    const serializedForm = JSON.stringify(formAfterCalculation);
+    // const serializedForm = JSON.stringify(formAfterCalculation);
+    // console.log('Submitting lease form to server...');
+    //
+    // this.leaseService.submit(serializedForm).subscribe(() => {
+    //   console.log('Lease form has been submitted.');
 
-    console.log('Submitting lease form to server...');
+    console.log('Simulating form submission to server:', formAfterCalculation);
 
-    this.leaseService.submit(serializedForm).subscribe(() => {
-      console.log('Lease form has been submitted.');
-    });
+      setTimeout(() => {
+        console.log('Simulated server response: Lease form has been submitted.');
+
+        this.showConfirmation = true;
+        setTimeout(() => {
+          this.router.navigate(['/submission-confirmation']);
+        });
+      });
   }
+
+
+
+
 
   onMakeSelect(event: any) {
     const make = event.target.value;

@@ -77,7 +77,6 @@ export class AuthService {
   }
 
   logout() {
-    console.log('doing')
     this.router.navigate(['/login']);
     sessionStorage.removeItem('userData');
   }
@@ -94,6 +93,10 @@ export class AuthService {
     sessionStorage.setItem('userData', JSON.stringify({ token, role, firstName, lastName, username, phoneNumber, address, birthDate }));
   }
 
+  getUserName(): string {
+    return this.getUserData('username');
+  }
+  
   getUserData(key: string): string {
     const data = sessionStorage.getItem('userData');
     if (data) {

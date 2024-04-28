@@ -363,36 +363,41 @@
                 } @else {
                   {{this.applicationForm.get('leasingPeriod')?.value}} Years
                 }
-              </td>
-            </tr>
-            <tr>
-              <td>Monthly income after taxes</td>
-              <td>{{this.applicationForm.get('monthlyIncomeAfterTaxes')?.value}} EUR</td>
-            </tr>
-            <tr>
-              <td>Phone</td>
-              <td>{{userPhoneNumber}}</td>
-            </tr>
-            <tr>
-              <td>E-mail</td>
-              <td>{{userEmail}}</td>
-            </tr>
-            <tr>
-              <td>Address</td>
-              <td>{{userAddress}}</td>
-            </tr>
-            <tr>
-              <td>Application date</td>
-              <td>{{getCurrentDate()}}</td>
-            </tr>
-            </tbody>
-          </table>
+            </td>
+          </tr>
+          <tr>
+            <td>Monthly income after taxes</td>
+            <td>{{this.applicationForm.get('monthlyIncomeAfterTaxes')?.value}} EUR</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{userPhoneNumber}}</td>
+          </tr>
+          <tr>
+            <td>E-mail</td>
+            <td>{{userEmail}}</td>
+          </tr>
+          <tr>
+            <td>Address</td>
+            <td>{{userAddress}}</td>
+          </tr>
+          <tr>
+            <td>Application date</td>
+            <td>{{getCurrentDate()}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
           <div class="form-button-bar d-flex justify-content-between">
-            <button class="btn btn-primary" type="button" (click)="navigateToStep(3)"><i class="bi bi-chevron-left"></i> Back</button>
-            <button class="btn btn-success" type="submit">Submit <i class="bi bi-chevron-right"></i></button>
+            <button class="btn btn-primary" type="button" (click)="navigateToStep(3)">
+              <i class="bi bi-chevron-left"></i> Back
+            </button>
+            <button class="btn btn-success" type="submit">
+              Submit <i class="bi bi-chevron-right"></i>
+            </button>
           </div>
-        </section>
-      </form>
-    </div>
+        </form>
+      </section>
+    </form>
   </div>
 </div>

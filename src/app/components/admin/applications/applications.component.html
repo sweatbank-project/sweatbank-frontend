@@ -31,24 +31,16 @@
               <span class="badge text-bg-secondary p-1">{{row.status}}</span>
               }
             </th>
-            <th><a href="/{{row.id}}">{{row.id}}</a></th>
-            <th>{{row.date}}</th>
-            <th>{{row.personalId}}</th>
-            <th>{{row.name}}</th>
-            <th>{{row.email}}</th>
-            <th>{{row.phone}}</th>
-            <th></th>
+            <th class="text-start"><ins><a (click)="openModal(row.applicationId)">{{row.applicationId}}</a></ins></th>
+            <th class="text-start">{{row.creationDate}}</th>
+            <th class="text-start blur">{{row.personalId}}</th>
+            <th class="text-start">{{row.fullName}}</th>
+            <th class="text-start">{{row.email}}</th>
+            <th class="text-start">{{row.phone}}</th>
+            <th class="text-start"><a class="bi bi-envelope text-dark" [routerLink]="['/admin/inbox', { email: row.email }]"></a></th>
           </tr>
           }
         </tbody>
-        <!-- MOCK DATA -->
-        <tbody>
-          @for (item of mockData.entities; track item.id) {
-          <li (click)="openModal(item.id)">
-            {{item.id}}</li>
-          }
-        </tbody>
-        <!-- MOCK DATA -->
       </table>
     </div>
   </div>
@@ -121,7 +113,7 @@
               </select>
             </div>
             <div class="col">
-              {{selectedEntity.euriborRate}}
+              <input class="form-control" type="number" step="0.001" formControlName="euriborRate">
             </div>
           </div>
           <div class="row border-bottom">

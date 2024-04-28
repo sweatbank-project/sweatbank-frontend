@@ -1,5 +1,8 @@
+.wrapper {
+  min-height: calc(100vh - 210px);
+}
+
 footer {
-  text-align: center;
   background-color: white;
   padding: 20px 0;
   margin-top: 20px;
@@ -8,10 +11,21 @@ footer {
   bottom: 0;
 }
 
+#contacts .container {
+  display: flex;
+  justify-content: center;
+}
+
+#contacts .container .col-6 {
+  flex: 1;
+  margin: 0 150px;
+}
+
 @media only screen and (max-width: 992px) {
   footer {
-    position: static;
+    position: relative;
     margin-top: 20px;
+    bottom: 0;
   }
 }
 

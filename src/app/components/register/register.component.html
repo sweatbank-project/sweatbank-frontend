@@ -14,19 +14,8 @@
             <h2>Sign up</h2>
             <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
-                    <label for="phone" class="form-label">Phone No</label>
-                    <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="text" class="form-input" id="phone" name="phone" formControlName="phone" placeholder="86*******">
-                    @if(registerForm.get('phone')?.touched) {
-                        @if(registerForm.get('phone')?.errors?.['required']) {
-                          <span>Please enter a valid phone number</span>
-                        } @else if (registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat']) {
-                          <span>{{ registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat'] }}</span>
-                        }
-                    }
-                </div>
-                <div class="form-group">
                     <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" class="form-input" id="firstname" name="firstname" formControlName="firstname" appCapitalizeFirstLetter> 
+                    <input type="text" class="form-input" id="firstname" name="firstname" formControlName="firstname" appCapitalizeFirstLetter>
                     @if(registerForm.get('firstname')?.invalid && registerForm.get('firstname')?.touched) {
                         <span>Please enter firstname</span>
                     }
@@ -37,6 +26,17 @@
                     @if(registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched) {
                         <span>Please enter lastname</span>
                     }
+                </div>
+                <div class="form-group">
+                  <label for="phone" class="form-label">Phone No</label>
+                  <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="text" class="form-input" id="phone" name="phone" formControlName="phone" placeholder="86*******">
+                  @if(registerForm.get('phone')?.touched) {
+                    @if(registerForm.get('phone')?.errors?.['required']) {
+                      <span>Please enter a valid phone number</span>
+                    } @else if (registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat']) {
+                      <span>{{ registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat'] }}</span>
+                    }
+                  }
                 </div>
                 <div class="form-group">
                     <label for="birthDate" class="form-label">Birth Date</label>

@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { RouterOutlet, Router, RouterLink } from '@angular/router';
+import {authInterceptor} from "../../core/auth.interceptor";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-admin',
@@ -10,11 +12,18 @@ import { RouterOutlet, Router, RouterLink } from '@angular/router';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
-  isClosed: boolean = false;
-
-  constructor(private router: Router) {}
-
-  toggleSidebar() {
-    this.isClosed = !this.isClosed;
+  authService = inject(AuthService);
+  role = this.authService.getRole();
+  username = this.authService.getUserName();
+  constructor(private router: Router) {
+    console.log(this.authService.getToken())
   }
+
+  logout() {
+    this.authService.logout()
+  }
+
+  protected readonly authInterceptor = authInterceptor;
+
+
 }
