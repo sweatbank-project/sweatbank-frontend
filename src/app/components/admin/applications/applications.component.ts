@@ -1,14 +1,10 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule, NgClass, NgForOf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {
-  BsModalRef,
-  BsModalService,
-  ModalDirective,
-} from 'ngx-bootstrap/modal';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
   calculateDownPayment,
   calculateMonthlyPayment,
@@ -38,6 +34,10 @@ export class ApplicationsComponent {
 
   showModal() {
     this.modal?.show();
+  }
+
+  hideModal() {
+    this.modal?.hide();
   }
 
   dropdownStates: { [key: string]: boolean } = {
@@ -138,7 +138,7 @@ export class ApplicationsComponent {
     this.selectedEntity = this.mockData.entities.find(
       (entity: any) => entity.id === id
     )!;
-    this.modal?.show();
+    this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
         leasingPeriod: this.selectedEntity.leasingPeriodMonths,
@@ -152,17 +152,32 @@ export class ApplicationsComponent {
 
   saveApplication() {
     console.log('Save data to db, Status => Pending');
-    this.modal?.hide();
+    this.hideModal();
+    const modifiedLease = {
+      ...this.selectedEntity,
+      ...this.applicationForm.value,
+    };
+    console.log(modifiedLease);
   }
 
   approveApplication() {
     console.log('Save data to db, Status => Approve');
-    this.modal?.hide();
+    this.hideModal();
+    const modifiedLease = {
+      ...this.selectedEntity,
+      ...this.applicationForm.value,
+    };
+    console.log(modifiedLease);
   }
 
   rejectApplication() {
     console.log('Save data to db, Status => Reject');
-    this.modal?.hide();
+    this.hideModal();
+    const modifiedLease = {
+      ...this.selectedEntity,
+      ...this.applicationForm.value,
+    };
+    console.log(modifiedLease);
   }
 
   changeEuribor(e: any) {
