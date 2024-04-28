@@ -1,0 +1,32 @@
+<div class="container wrapper">
+  <div class="container main">
+    <a (click)="goBackToHome()" class="btn btn-outline-dark"><i class="bi pe-2 bi-arrow-left-circle"></i>Back</a>
+    <h3 class="mt-4 border-bottom pb-3">Personal Information</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6 field-names">
+          <div class="d-flex flex-row justify-content-end">
+            <div class="d-flex flex-column gap-1">
+              <p class="text-start">Email:</p>
+              <p class="text-start">First name:</p>
+              <p class="text-start">Last name:</p>
+              <p class="text-start">Phone number:</p>
+              <p class="text-start">Address:</p>
+              <p class="text-start">Birth date:</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 ps-0">
+          <div class="d-flex flex-column gap-1">
+            <p>{{ accountData.username }}</p>
+            <p>{{ accountData.first_name }}</p>
+            <p>{{ accountData.last_name }}</p>
+            <p>{{ accountData.phone_number }}</p>
+            <p>{{ accountData.address }}</p>
+            <p>{{ accountData.birth_date }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

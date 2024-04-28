@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { LeaseService } from '../../../services/lease.service';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-application',
@@ -30,7 +30,9 @@ export class ApplicationComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
   @ViewChildren('activeStepSection') activeStepsSection!: QueryList<ElementRef>;
 
-  leaseService: LeaseService = inject(LeaseService);
+  private readonly leaseService: LeaseService = inject(LeaseService);
+  private readonly router = inject(Router);
+  private readonly datePipe = inject(DatePipe)
 
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
@@ -43,7 +45,7 @@ export class ApplicationComponent {
   applicationForm: FormGroup;
   showConfirmation: boolean = false;
 
-  constructor(private fb: FormBuilder, private datePipe: DatePipe, private router: Router) {
+  constructor(private fb: FormBuilder) {
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],
@@ -259,6 +261,10 @@ export class ApplicationComponent {
         nativeElement.classList.add('d-none');
       }
     });
+  }
+
+  goBackToHome(): void {
+    this.router.navigate(['/home']);
   }
 
   getCurrentDate() {

@@ -7,6 +7,25 @@ export interface CarData {
   car_makes: CarModel[];
 }
 
+export interface AccountData {
+  username: string;
+  first_name: string;
+  last_name: string;
+  address: string;
+  phone_number: string;
+  birth_date: string;
+}
+
+export interface LeaseData {
+  applicationId: string;
+  status: string;
+  applicationDate: Date;
+  interestBase: String;
+  leaseMargin: number;
+  monthlyPayment: number;
+  borrowedAmount: number;
+}
+
 export const carData: CarData = {
   car_makes: [
     {

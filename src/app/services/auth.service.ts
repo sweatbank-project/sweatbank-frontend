@@ -2,12 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-
-interface AuthResponseData {
-  token: string;
-  role: string;
-  user: any;
-}
+import { AuthResponseData } from './data';
 
 @Injectable({
   providedIn: 'root',
@@ -37,9 +32,16 @@ export class AuthService {
       .pipe(
         tap((resData) => {
           const token = resData.headers.get('authorization');
-          if (token && resData.body) {
-            let userName = resData.body.user.firstName + ' ' + resData.body.user.lastName;
-            this.handleAuthentication(token, resData.body.role, userName);
+          if (token) {
+            this.handleAuthentication(token,
+              resData.body!.role,
+              resData.body?.user.firstName || '',
+              resData.body?.user.lastName || '',
+              resData.body?.user.username || '',
+              resData.body?.user.phoneNumber || '',
+              resData.body?.user.address || '',
+              resData.body?.user.birthdate.toString() || '',
+            );
           }
         })
       );
@@ -87,15 +89,15 @@ export class AuthService {
     return this.getUserData('role');
   }
 
+  handleAuthentication(token: string, role: string, firstName: string, lastName: string, username: string, phoneNumber: string, address: string, birthDate: string) {
+    sessionStorage.setItem('userData', JSON.stringify({ token, role, firstName, lastName, username, phoneNumber, address, birthDate }));
+  }
+
   getUserName(): string {
     return this.getUserData('username');
   }
-
-  private handleAuthentication(token: string, role: string, username: string) {
-    sessionStorage.setItem('userData', JSON.stringify({ token, role, username }));
-  }
-
-  private getUserData(key: string): string {
+  
+  getUserData(key: string): string {
     const data = sessionStorage.getItem('userData');
     if (data) {
       const userData = JSON.parse(data);
