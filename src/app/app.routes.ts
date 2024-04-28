@@ -14,9 +14,7 @@ export const routes: Routes = [
   {
     path: '',
     component: ClientComponent,
-    children: [
-      { path: '', component: ApplicationComponent }
-    ]
+    children: [{ path: '', component: ApplicationComponent }],
   },
   {
     path: 'login',

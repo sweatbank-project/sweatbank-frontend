@@ -1,25 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule, NgClass, NgForOf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
+  BsModalRef,
+  BsModalService,
+  ModalDirective,
+} from 'ngx-bootstrap/modal';
+import {
   calculateDownPayment,
   calculateMonthlyPayment,
   calculateTotalInterestRate,
 } from '../../../core/utility';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-applications',
   standalone: true,
-  imports: [NgClass, RouterLink, NgForOf, CommonModule, ReactiveFormsModule],
+  imports: [
+    NgClass,
+    RouterLink,
+    NgForOf,
+    CommonModule,
+    ReactiveFormsModule,
+    ModalModule,
+  ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.scss',
 })
 export class ApplicationsComponent {
+  @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
+
   applicationForm: FormGroup;
   selectedEntity: any;
+
+  showModal() {
+    this.modal?.show();
+  }
 
   dropdownStates: { [key: string]: boolean } = {
     dropdown1: false,
@@ -119,6 +138,7 @@ export class ApplicationsComponent {
     this.selectedEntity = this.mockData.entities.find(
       (entity: any) => entity.id === id
     )!;
+    this.modal?.show();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
         leasingPeriod: this.selectedEntity.leasingPeriodMonths,
@@ -132,14 +152,17 @@ export class ApplicationsComponent {
 
   saveApplication() {
     console.log('Save data to db, Status => Pending');
+    this.modal?.hide();
   }
 
   approveApplication() {
     console.log('Save data to db, Status => Approve');
+    this.modal?.hide();
   }
 
   rejectApplication() {
     console.log('Save data to db, Status => Reject');
+    this.modal?.hide();
   }
 
   changeEuribor(e: any) {
