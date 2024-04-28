@@ -13,9 +13,7 @@ export const routes: Routes = [
   {
     path: '',
     component: ClientComponent,
-    children: [
-      { path: '', component: ApplicationComponent }
-    ]
+    children: [{ path: '', component: ApplicationComponent }],
   },
   {
     path: 'login',
@@ -33,7 +31,7 @@ export const routes: Routes = [
       { path: 'inbox', component: InboxComponent },
       { path: 'applications', component: ApplicationsComponent },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'admin/inbox/:email', component: InboxComponent }
-    ]
-  }
+      { path: 'admin/inbox/:email', component: InboxComponent },
+    ],
+  },
 ];

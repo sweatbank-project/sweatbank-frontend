@@ -44,8 +44,7 @@
         <!-- MOCK DATA -->
         <tbody>
           @for (item of mockData.entities; track item.id) {
-          <li data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="openModal(item.id)"
-            class="list-group-item">
+          <li (click)="openModal(item.id)">
             {{item.id}}</li>
           }
         </tbody>
@@ -56,8 +55,9 @@
 </section>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+
+<div class="modal fade" bsModal #modal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+  <div class="modal-dialog modal-lg">
     @if (selectedEntity) {
     <div class="modal-content">
       <div class="modal-header">
