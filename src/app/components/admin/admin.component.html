@@ -6,8 +6,8 @@
           <div class="d-flex align-items-center justify-content-end">
             <img src="../../../../assets/adminUser.png" alt="mdo" width="50" height="50" class="rounded-circle me-2">
             <div>
-              <div>Username</div>
-              <div class="text-muted">Admin</div>
+              <div>{{ this.username }}</div>
+              <div class="text-muted">{{ this.role }}</div>
             </div>
           </div>
         </a>
@@ -48,8 +48,8 @@
         </li>
       </div>
       <div class="bottom-content">
-        <li class="">
-          <a href="#">
+        <li class="nav-link">
+          <a (click)="logout()">
             <i class="bi bi-box-arrow-right icon"></i>
             <span class="text nav-text">Logout</span>
           </a>

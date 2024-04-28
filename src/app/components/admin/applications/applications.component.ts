@@ -40,14 +40,6 @@ export class ApplicationsComponent {
     this.modal?.hide();
   }
 
-  dropdownStates: { [key: string]: boolean } = {
-    dropdown1: false,
-  };
-
-  toggleDropdown(dropdownName: string) {
-    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
-  }
-
   openEmailForm(email: string) {
     this.router.navigate(['/admin/inbox', { email: email }]);
   }
@@ -135,8 +127,8 @@ export class ApplicationsComponent {
   }
 
   openModal(id: number) {
-    this.selectedEntity = this.mockData.entities.find(
-      (entity: any) => entity.id === id
+    this.selectedEntity = this.data.leases.find(
+      (entity: any) => entity.applicationId === id
     )!;
     this.showModal();
     if (this.selectedEntity) {
