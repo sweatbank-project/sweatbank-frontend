@@ -30,7 +30,7 @@
         <tbody>
           @for (row of data?.leases; track $index) {
           <tr>
-            <th scope="row">
+            <th class="text-start">
               @if (row.status.toUpperCase() === "PENDING") {
                 <span class="badge bg-warning text-dark">{{ row.status }}</span>
               }
