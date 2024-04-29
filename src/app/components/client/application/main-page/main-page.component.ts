@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -10,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class MainPageComponent {
   private readonly router = inject(Router);
+
+  authService = inject(AuthService);
+  firstName = this.authService.getUserData('firstName');
 
   goToAccount(): void {
     this.router.navigate(["/account"]);
