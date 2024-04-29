@@ -11,8 +11,8 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+  baseUrl = 'http://localhost:8080/api/';
+  //baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
   login(
     email: string,
@@ -92,7 +92,7 @@ export class AuthService {
   }
 
   getUserName(): string {
-    return this.getUserData('username');
+    return this.getUserData('firstName') + ' ' + this.getUserData('lastName');
   }
   
   getUserData(key: string): string {

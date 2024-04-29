@@ -343,6 +343,9 @@
           </div>
         </section>
         <section #activeStepSection step="4" class="form-step d-none">
+          <div class="alert alert-info" role="alert">
+            Please review the summary below. Note that this information is subject to approval by the admin and may not be final.
+          </div>          
           <table class="table">
             <thead>
             <tr>
@@ -363,41 +366,74 @@
                 } @else {
                   {{this.applicationForm.get('leasingPeriod')?.value}} Years
                 }
-            </td>
-          </tr>
-          <tr>
-            <td>Monthly income after taxes</td>
-            <td>{{this.applicationForm.get('monthlyIncomeAfterTaxes')?.value}} EUR</td>
-          </tr>
-          <tr>
-            <td>Phone</td>
-            <td>{{userPhoneNumber}}</td>
-          </tr>
-          <tr>
-            <td>E-mail</td>
-            <td>{{userEmail}}</td>
-          </tr>
-          <tr>
-            <td>Address</td>
-            <td>{{userAddress}}</td>
-          </tr>
-          <tr>
-            <td>Application date</td>
-            <td>{{getCurrentDate()}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+              </td>
+            </tr>
+            <tr>
+              <td>Monthly income after taxes</td>
+              <td>{{this.applicationForm.get('monthlyIncomeAfterTaxes')?.value}} EUR</td>
+            </tr>
+            <tr>
+              <td>Phone</td>
+              <td>{{ this.phone }}</td>
+            </tr>
+            <tr>
+              <td>E-mail</td>
+              <td>{{ this.email }}</td>
+            </tr>
+            <tr>
+              <td>Address</td>
+              <td>{{ this.address }}</td>
+            </tr>
+            <tr>
+              <td>Application date</td>
+              <td>{{ getCurrentDate() }}</td>
+            </tr>
+            <tr>
+              <td>Monthly payment</td>
+              <td>{{ this.monthlyPayment }} EUR</td>
+            </tr>
+            </tbody>
+          </table>
           <div class="form-button-bar d-flex justify-content-between">
             <button class="btn btn-primary" type="button" (click)="navigateToStep(3)">
               <i class="bi bi-chevron-left"></i> Back
             </button>
-            <button class="btn btn-success" type="submit">
+            <button class="btn btn-success" type="button" (click)="showModal()">
               Submit <i class="bi bi-chevron-right"></i>
             </button>
           </div>
-        </form>
-      </section>
-    </form>
+          <div class="modal fade" bsModal #modal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Verify Data</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.hide()"></button>
+                </div>
+                <div class="modal-body">
+                  <p>Please verify that provided data is correct.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.hide()">Cancel</button>
+                  <button type="submit" class="btn btn-success" [disabled]="isLoading">
+                    @if (isLoading) {
+                    <fa-icon [icon]="faSpinner" animation="spin" />
+                    } @else {
+                      Verify
+                    }
+                  </button>
+                </div>
+                <div class="modal-footer">
+                  @if (error) {
+                    <div>
+                      <p style="color: darkred;"> {{error}}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </form>
+    </div>
   </div>
 </div>
