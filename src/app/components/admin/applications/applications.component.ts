@@ -1,32 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule, NgClass, NgForOf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataTablesModule } from 'angular-datatables';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
   calculateDownPayment,
   calculateMonthlyPayment,
   calculateTotalInterestRate,
 } from '../../../core/utility';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-applications',
   standalone: true,
-  imports: [NgClass, RouterLink, NgForOf, CommonModule, ReactiveFormsModule],
+  imports: [
+    NgClass,
+    RouterLink,
+    NgForOf,
+    CommonModule,
+    ReactiveFormsModule,
+    ModalModule,
+  ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.scss',
 })
 export class ApplicationsComponent {
+  @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
+
+  //baseUrl = 'http://localhost:8080/api/';
+  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+
   applicationForm: FormGroup;
   selectedEntity: any;
 
-  dropdownStates: { [key: string]: boolean } = {
-    dropdown1: false,
-  };
+  showModal() {
+    this.modal?.show();
+  }
 
-  toggleDropdown(dropdownName: string) {
-    this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
+  hideModal() {
+    this.modal?.hide();
   }
 
   openEmailForm(email: string) {
@@ -35,7 +49,7 @@ export class ApplicationsComponent {
 
   data: any;
   constructor(private router: Router, private http: HttpClient) {
-    this.http.get('http://localhost:8080/api/admin/leases').subscribe(
+    this.http.get(this.baseUrl + 'admin/leases').subscribe(
       (data) => {
         this.data = data;
         setTimeout(() => {
@@ -116,12 +130,14 @@ export class ApplicationsComponent {
   }
 
   openModal(id: number) {
-    this.selectedEntity = this.mockData.entities.find(
-      (entity: any) => entity.id === id
+    this.selectedEntity = this.data.leases.find(
+      (entity: any) => entity.applicationId === id
     )!;
+    console.log(this.selectedEntity)
+    this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
-        leasingPeriod: this.selectedEntity.leasingPeriodMonths,
+        leasingPeriod: this.selectedEntity.leasingPeriod*12,
         downPaymentPercentage: this.selectedEntity.downPaymentPercentage,
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
@@ -132,14 +148,32 @@ export class ApplicationsComponent {
 
   saveApplication() {
     console.log('Save data to db, Status => Pending');
+    this.hideModal();
+    const modifiedLease = {
+      ...this.selectedEntity,
+      ...this.applicationForm.value,
+    };
+    console.log(modifiedLease);
   }
 
   approveApplication() {
     console.log('Save data to db, Status => Approve');
+    this.hideModal();
+    const modifiedLease = {
+      ...this.selectedEntity,
+      ...this.applicationForm.value,
+    };
+    console.log(modifiedLease);
   }
 
   rejectApplication() {
     console.log('Save data to db, Status => Reject');
+    this.hideModal();
+    const modifiedLease = {
+      ...this.selectedEntity,
+      ...this.applicationForm.value,
+    };
+    console.log(modifiedLease);
   }
 
   changeEuribor(e: any) {
@@ -152,9 +186,9 @@ export class ApplicationsComponent {
   }
 
   euriborData: { term: string; value: number }[] = [
-    { term: 'Euribor 3-month', value: 3.922 },
-    { term: 'Euribor 6-month', value: 3.893 },
-    { term: 'Euribor 1-year', value: 3.716 },
+    { term: "EURIBOR_3_MONTH", value: 3.922 },
+    { term: "EURIBOR_6_MONTH", value: 3.893 },
+    { term: "EURIBOR_12_MONTH", value: 3.716 },
   ];
 
   mockData = {

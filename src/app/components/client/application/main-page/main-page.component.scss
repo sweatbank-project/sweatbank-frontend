@@ -1,0 +1,45 @@
+.container {
+  min-height: calc(100vh - 190px);
+  margin-bottom: 20px;
+}
+
+.container h3 {
+  font-size: x-large;
+  text-align: center;
+}
+
+.container img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.card a {
+  font-weight: 500;
+}
+
+.card-body a {
+  width: 100%;
+}
+
+@media only screen and (min-width: 992px) {
+  .container {
+    margin-bottom: 0px;
+  }
+
+  .container h3 {
+    font-size: xx-large;
+    text-align: start;
+  }
+
+  .card {
+    width: 25rem;
+  }
+
+  .card p {
+    height: 4rem;
+  }
+
+  .card-body a {
+    width: auto;
+  }
+}

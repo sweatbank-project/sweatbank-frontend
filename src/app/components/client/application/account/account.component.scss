@@ -1,0 +1,28 @@
+.container.main {
+  height: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  padding-block: 20px;
+  padding-inline: 30px;
+  background-color: white;
+}
+
+.container.inner {
+  min-height: auto;
+}
+
+.wrapper {
+  min-height: calc(100vh - 210px);
+}
+
+.field-names p {
+  font-weight: 500;
+}
+
+// Only for mobile and not tablets
+@media only screen and (max-width: 992px) {
+  .wrapper {
+    min-height: calc(100vh - 304px);
+  }
+}

@@ -16,6 +16,7 @@ import {
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { LeaseService } from '../../../services/lease.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-application',
@@ -29,7 +30,9 @@ export class ApplicationComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
   @ViewChildren('activeStepSection') activeStepsSection!: QueryList<ElementRef>;
 
-  leaseService: LeaseService = inject(LeaseService);
+  private readonly leaseService: LeaseService = inject(LeaseService);
+  private readonly router = inject(Router);
+  private readonly datePipe = inject(DatePipe)
 
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
@@ -140,12 +143,12 @@ export class ApplicationComponent {
     };
 
     const serializedForm = JSON.stringify(formAfterCalculation);
-
     console.log('Submitting lease form to server...');
-
+    
     this.leaseService.submit(serializedForm).subscribe(() => {
       console.log('Lease form has been submitted.');
-    });
+      this.router.navigate(['/submission-confirmation']);
+    })
   }
 
   onMakeSelect(event: any) {
@@ -244,6 +247,10 @@ export class ApplicationComponent {
         nativeElement.classList.add('d-none');
       }
     });
+  }
+
+  goBackToHome(): void {
+    this.router.navigate(['/home']);
   }
 
   getCurrentDate() {

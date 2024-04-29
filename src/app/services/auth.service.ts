@@ -2,11 +2,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
-
-interface AuthResponseData {
-  token: string;
-  role: string;
-}
+import { AuthResponseData } from './data';
 
 @Injectable({
   providedIn: 'root',
@@ -15,10 +11,8 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
-  //localUrl = 'http://localhost:8080/api/auth/login';
-  //url = 'https://sweatbank-backend.onrender.com/api/auth/login';
-
-  baseUrl = 'http://localhost:8080/api/auth/'
+  //baseUrl = 'http://localhost:8080/api/';
+  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
   login(
     email: string,
@@ -26,7 +20,7 @@ export class AuthService {
   ): Observable<HttpResponse<AuthResponseData>> {
     return this.client
       .post<AuthResponseData>(
-        this.baseUrl+'login',
+        this.baseUrl+'auth/login',
         {
           username: email,
           password,
@@ -37,7 +31,15 @@ export class AuthService {
         tap((resData) => {
           const token = resData.headers.get('authorization');
           if (token) {
-            this.handleAuthentication(token, resData.body!.role);
+            this.handleAuthentication(token,
+              resData.body!.role,
+              resData.body?.user.firstName || '',
+              resData.body?.user.lastName || '',
+              resData.body?.user.username || '',
+              resData.body?.user.phoneNumber || '',
+              resData.body?.user.address || '',
+              resData.body?.user.birthdate.toString() || '',
+            );
           }
         })
       );
@@ -56,7 +58,7 @@ export class AuthService {
   ): Observable<unknown> {
     return this.client
       .post(
-        this.baseUrl+'register',
+        this.baseUrl+'auth/register',
         {
           username: username,
           phoneNumber: phoneNumber,
@@ -72,8 +74,7 @@ export class AuthService {
       )
   }
 
-  logout() {  
-    console.log('doing')
+  logout() {
     this.router.navigate(['/login']);
     sessionStorage.removeItem('userData');
   }
@@ -86,11 +87,15 @@ export class AuthService {
     return this.getUserData('role');
   }
 
-  private handleAuthentication(token: string, role: string) {
-    sessionStorage.setItem('userData', JSON.stringify({ token, role }));
+  handleAuthentication(token: string, role: string, firstName: string, lastName: string, username: string, phoneNumber: string, address: string, birthDate: string) {
+    sessionStorage.setItem('userData', JSON.stringify({ token, role, firstName, lastName, username, phoneNumber, address, birthDate }));
   }
 
-  private getUserData(key: string): string {
+  getUserName(): string {
+    return this.getUserData('username');
+  }
+  
+  getUserData(key: string): string {
     const data = sessionStorage.getItem('userData');
     if (data) {
       const userData = JSON.parse(data);
