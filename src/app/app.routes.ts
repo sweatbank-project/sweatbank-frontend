@@ -21,7 +21,7 @@ export const routes: Routes = [
     path: '',
     component: ClientComponent,
     children: [
-      { path: '', component: ApplicationComponent },
+      { path: '', component: MainPageComponent, canActivate: [userGuard] },
       {
         path: 'home',
         component: MainPageComponent,
@@ -52,6 +52,7 @@ export const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [loginGuard],
   },
   {
     path: 'admin',
