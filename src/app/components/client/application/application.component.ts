@@ -44,7 +44,7 @@ export class ApplicationComponent {
 
   applicationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private datePipe: DatePipe) {
+  constructor(private fb: FormBuilder) {
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],
