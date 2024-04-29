@@ -57,8 +57,11 @@ export class LoginComponent {
       next: () => {
         this.isLoading = false;
       
-        if(this.authService.getRole() === 'user') this.router.navigate(['home']);
-        else this.router.navigate(['/admin/dashboard']);
+        if(this.authService.getRole() === 'user') {
+          this.router.navigate(['home']);
+        } else {
+          this.router.navigate(['/admin/dashboard']);
+        }
       },
       error: (error) => {
         this.isLoading = false;
