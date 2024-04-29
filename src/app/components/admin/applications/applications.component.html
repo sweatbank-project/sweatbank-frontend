@@ -23,21 +23,25 @@
             <th>Full Name</th>
             <th>Email Address</th>
             <th>Phone No</th>
+            <th>Reviewer</th>
             <th>Message</th>
           </tr>
         </thead>
         <tbody>
           @for (row of data?.leases; track $index) {
           <tr>
-            <th>
-              @if(row.status === 'PENDING') {
-              <span class="badge text-bg-warning p-1">{{row.status}}</span>
-              } @else if (row.status === 'APPROVED') {
-              <span class="badge text-bg-success p-1">{{row.status}}</span>
-              } @else if (row.status === 'REJECTED') {
-              <span class="badge text-bg-danger p-1">{{row.status}}</span>
-              } @else if (row.status === 'NEW') {
-              <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+            <th scope="row">
+              @if (row.status.toUpperCase() === "PENDING") {
+                <span class="badge bg-warning text-dark">{{ row.status }}</span>
+              }
+              @else if (row.status.toUpperCase() === "APPROVED") {
+                <span class="badge bg-success">{{ row.status }}</span>
+              }
+              @else if (row.status.toUpperCase() === "REJECTED") {
+                <span class="badge bg-danger">{{ row.status }}</span>
+              }
+              @else if (row.status.toUpperCase() === "NEW") {
+                <span class="badge bg-info text-dark">{{ row.status }}</span>
               }
             </th>
             <th class="text-start"><ins><a (click)="openModal(row.applicationId)" style="cursor: pointer;">{{row.applicationId}}</a></ins></th>
@@ -46,6 +50,13 @@
             <th class="text-start">{{row.fullName}}</th>
             <th class="text-start">{{row.email}}</th>
             <th class="text-start">{{row.phone}}</th>
+            <th class="text-start">
+              @if(row.automationStatus == 'AUTOMATED') {
+                <i class="bi bi-robot"></i>
+              } @else {
+                <i class="bi bi-person"></i>
+              }
+            </th>
             <th class="text-start"><a class="bi bi-envelope text-dark" [routerLink]="['/admin/inbox', { email: row.email }]"></a></th>
           </tr>
           }
