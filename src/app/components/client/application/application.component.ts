@@ -87,7 +87,7 @@ export class ApplicationComponent {
       mortgageMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
       otherCreditsOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
       otherCreditsMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
-    });
+    }, { validator: this.customValidator });
 
     this.subscribeToFormControlChanges(
       'customerLoansOutstanding',
@@ -109,6 +109,22 @@ export class ApplicationComponent {
       'otherCreditsOutstanding',
       'otherCreditsMonthlyPayment'
     );
+  }
+
+  customValidator(formGroup: FormGroup) {
+    const costOfTheVehicleControl = formGroup.get('costOfTheVehicle');
+    const downPaymentControl = formGroup.get('downPayment');
+
+    if (costOfTheVehicleControl && downPaymentControl) {
+      const costValue = costOfTheVehicleControl.value;
+      const downPaymentValue = downPaymentControl.value;
+
+      if (downPaymentValue && costValue && downPaymentValue > costValue) {
+        downPaymentControl.setErrors({ downPaymentGreaterThanCost: 'asd' });
+      } else {
+        downPaymentControl.setErrors(null);
+      }
+    }
   }
 
   private subscribeToFormControlChanges(
@@ -166,7 +182,9 @@ export class ApplicationComponent {
       },
       error: (error: HttpErrorResponse) => {
         this.isLoading = false;
-        this.error = error.error.errors[0];
+        if(error.error.errors.length > 0) {
+          this.error = error.error.errors[0];
+        }
       }
     });
     
@@ -255,12 +273,12 @@ export class ApplicationComponent {
 
       if (stepNumber === stepAttribute) {
         nativeElement.classList.add('current');
-        nativeElement.classList.remove('active');
+        nativeElement.classList.remove('done');
       } else if (stepNumber > stepAttribute) {
         nativeElement.classList.remove('current');
-        nativeElement.classList.add('active');
+        nativeElement.classList.add('done');
       } else {
-        nativeElement.classList.remove('active');
+        nativeElement.classList.remove('done');
         nativeElement.classList.remove('current');
       }
     });

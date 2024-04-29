@@ -1,13 +1,52 @@
 <div class="container wrapper">
   <div class="container main">
-    <div class="progressbar-wrapper">
-      <ul class="progressbar">
-        <li class="current" #activeStep step="1">Leasing application</li>
-        <li #activeStep step="2">Personal information</li>
-        <li #activeStep step="3">Salary</li>
-        <li #activeStep step="4">Summary</li>
+    <div class="steps">
+      <ul role="tablist">
+        <li #activeStep step="1" class="current">
+          <a>
+            <div class="title">
+              <span class="step-icon">
+                <i class="bi bi-car-front-fill"></i>
+              </span>
+            </div>
+          </a>
+        </li>
+        <li #activeStep step="2">
+          <a>
+            <div class="title">
+              <span class="step-icon">
+                <i class="bi bi-person-vcard-fill"></i>
+              </span>
+            </div>
+          </a>
+        </li>
+        <li #activeStep step="3">
+          <a>
+            <div class="title">
+              <span class="step-icon">
+                <i class="bi bi-cash"></i>
+              </span>
+            </div>
+          </a>
+        </li>
+        <li #activeStep step="4" class="last">
+          <a>
+            <div class="title">
+              <span class="step-icon">
+                <i class="bi bi-book-half"></i>
+              </span>
+            </div>
+          </a>
+        </li>
       </ul>
     </div>
+    
+
+
+
+
+
+
     <div class="tabs_inner">
       <form id="application" name="application" enctype="multipart/form-data" method="POST" [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
         <section #activeStepSection step="1" class="form-step">
@@ -86,6 +125,8 @@
                 <div style="color: red;">Please enter down payment</div>
               } @else if (applicationForm.get('downPayment')?.errors?.['max']) {
                 <div style="color: red;">Maximum value exceeded</div>
+              } @else if (applicationForm.get('downPayment')?.errors?.['downPaymentGreaterThanCost']) {
+                <div style="color: red;">Down payment cannot be greater than the cost of the vehicle</div>
               }
             }
           </div>

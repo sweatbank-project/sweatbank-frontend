@@ -60,6 +60,7 @@ export class ApplicationsComponent {
     this.isLoading = true;
     this.http.get(this.baseUrl + 'admin/leases').subscribe(
       (data) => {
+        this.isLoading = false;
         this.data = data;
         setTimeout(() => {
           $('#applications').DataTable({
@@ -68,7 +69,6 @@ export class ApplicationsComponent {
             processing: true,
             lengthMenu: [10, 25, 50],
           });
-          this.isLoading = false;
           applyStylesToElements();
         }, 1);
       },
