@@ -101,7 +101,7 @@ export class RegisterComponent {
     this.authService.register(username,phoneNumber,personalId,password,firstName,lastName,birthDate,address,confirmPassword).subscribe({
       next: () => {
         this.isLoading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['login']);
       },
       error: (error) => {
         this.isLoading = false;
