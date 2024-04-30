@@ -67,7 +67,6 @@ export class ApplicationsComponent {
       (data) => {
         this.isLoading = false;
         this.data = data;
-        console.log(data);
         setTimeout(() => {
           $('#applications').DataTable({
             pagingType: 'full_numbers',

@@ -10,7 +10,13 @@
               <div class="row alig n-items-start">
                 <div class="col-8">
                   <h5 class="card-title mb-9 fw-semibold"> New Applications </h5>
-                  <h4 class="mb-3">{{cardData['newApplications']}}</h4>
+                  <h4 class="mb-3">
+                    @if (isLoading) {
+                      <fa-icon [icon]="faSpinner" animation="spin" />
+                    } @else {
+                      {{cardData['amountOfNewLeases']}}
+                    }
+                  </h4>
                 </div>
               </div>
             </div>
@@ -22,7 +28,13 @@
               <div class="row align-items-start">
                 <div class="col-8">
                   <h5 class="card-title mb-9 fw-semibold"> Pending Applications </h5>
-                  <h4 class="mb-3">{{cardData['pendingApplications']}}</h4>
+                  <h4 class="mb-3">
+                    @if (isLoading) {
+                      <fa-icon [icon]="faSpinner" animation="spin" />
+                    } @else {
+                      {{cardData['amountOfPendingLeases']}}
+                    }
+                  </h4>
                 </div>
               </div>
             </div>
@@ -34,7 +46,13 @@
               <div class="row alig n-items-start">
                 <div class="col-8">
                   <h5 class="card-title mb-9 fw-semibold"> Approved Applications </h5>
-                  <h4 class="mb-3">{{cardData['approvedApplications']}}</h4>
+                  <h4 class="mb-3">
+                    @if (isLoading) {
+                      <fa-icon [icon]="faSpinner" animation="spin" />
+                    } @else {
+                      {{cardData['amountOfApprovedLeases']}}
+                    }
+                  </h4>
                 </div>
               </div>
             </div>
@@ -46,7 +64,13 @@
               <div class="row alig n-items-start">
                 <div class="col-8">
                   <h5 class="card-title mb-9 fw-semibold"> Rejected Applications </h5>
-                  <h4 class="mb-3">{{cardData['rejectedApplications']}}</h4>
+                  <h4 class="mb-3">
+                    @if (isLoading) {
+                      <fa-icon [icon]="faSpinner" animation="spin" />
+                    } @else {
+                      {{cardData['amountOfRejectedLeases']}}
+                    }
+                  </h4>
                 </div>
               </div>
             </div>
