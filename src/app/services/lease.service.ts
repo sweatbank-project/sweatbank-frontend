@@ -12,7 +12,6 @@ export class LeaseService {
   //baseUrl = 'http://localhost:8080/api/';
   baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
-
   getUserLeases(username: string): Observable<HttpResponse<UserLeasesResponseData>> {
     return this.httpClient.get<UserLeasesResponseData>(
       this.baseUrl + 'user/' + username + '/leases', { observe: 'response', responseType: 'json'}).pipe(timeout(2000));
@@ -28,7 +27,4 @@ export class LeaseService {
       })
     )
   }
-
-
-
 }
