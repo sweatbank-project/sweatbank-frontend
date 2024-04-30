@@ -18,14 +18,6 @@ export class LeaseService {
       this.baseUrl + 'user/' + username + '/leases', { observe: 'response', responseType: 'json'}).pipe(timeout(2000));
   }
 
-  // submit(leaseForm: String): Observable<HttpResponse<any>> {
-  //   const headers = { 'Content-Type': 'application/json' };
-
-  //   // TODO: set URL to localhost or render backend depending on environment.
-  //   return this.httpClient.post<any>(this.baseUrl + 'lease/create', leaseForm, {headers});
-  // }
-
-
   submit(leaseForm: String): Observable<HttpResponse<any>> {
     const headers = { 'Content-Type': 'application/json' };
 
