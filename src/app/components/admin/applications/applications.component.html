@@ -20,31 +20,32 @@
         </thead>
         <tbody>
           @if(isLoading) {
-            <tr>
-              <td colspan="9">
-                <div class="d-flex justify-content-center">
-                  <fa-icon [icon]="faSpinner" animation="spin" />
-                </div>
-              </td>
-            </tr>
+          <tr>
+            <td colspan="9">
+              <div class="d-flex justify-content-center">
+                <fa-icon [icon]="faSpinner" animation="spin" />
+              </div>
+            </td>
+          </tr>
           }
           @for (row of data?.leases; track $index) {
           <tr>
             <td class="text-start">
               @if (row.status.toUpperCase() === "PENDING") {
-                <span class="badge bg-warning text-dark">{{ row.status }}</span>
+              <span class="badge bg-warning text-dark">{{ row.status }}</span>
               }
               @else if (row.status.toUpperCase() === "APPROVED") {
-                <span class="badge bg-success">{{ row.status }}</span>
+              <span class="badge bg-success">{{ row.status }}</span>
               }
               @else if (row.status.toUpperCase() === "REJECTED") {
-                <span class="badge bg-danger">{{ row.status }}</span>
+              <span class="badge bg-danger">{{ row.status }}</span>
               }
               @else if (row.status.toUpperCase() === "NEW") {
-                <span class="badge bg-info text-dark">{{ row.status }}</span>
+              <span class="badge bg-info text-dark">{{ row.status }}</span>
               }
             </td>
-            <td class="text-start"><ins><a (click)="openModal(row.applicationId)" style="cursor: pointer;">{{row.applicationId}}</a></ins></td>
+            <td class="text-start"><ins><a (click)="openModal(row.applicationId)"
+                  style="cursor: pointer;">{{row.applicationId}}</a></ins></td>
             <td class="text-start">{{row.creationDate}}</td>
             <td class="text-start blur">{{row.personalId}}</td>
             <td class="text-start">{{row.fullName}}</td>
@@ -52,12 +53,13 @@
             <td class="text-start">{{row.phone}}</td>
             <td class="text-start">
               @if(row.automationStatus == 'AUTOMATED') {
-                <i class="bi bi-robot"></i>
+              <i class="bi bi-robot"></i>
               } @else {
-                <i class="bi bi-person"></i>
+              <i class="bi bi-person"></i>
               }
             </td>
-            <td class="text-start"><a class="bi bi-envelope text-dark" [routerLink]="['/admin/inbox', { email: row.email }]"></a></td>
+            <td class="text-start"><a class="bi bi-envelope text-dark"
+                [routerLink]="['/admin/inbox', { email: row.email }]"></a></td>
           </tr>
           }
         </tbody>
@@ -74,21 +76,29 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">{{selectedEntity.applicationId}}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.hide()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="modal.hide()"></button>
       </div>
       <div class="modal-body">
         <h4 class="row border-top text-center mb-0  justify-content-center">Car and Financing Conditions</h4>
         <form [formGroup]="applicationForm">
           <div class="row border-bottom border-top">
             <div class="col border-end">Car</div>
-            <div class="col border-end">{{selectedEntity.carBrand}}</div>
+            <div class="col border-end">{{selectedEntity.carBrand}} {{selectedEntity.carModel}}
+              {{selectedEntity.carManufactureYear}}</div>
             <div class="col"></div>
           </div>
           <div class="row border-bottom">
             <div class="col border-end">
               Leasing period (months)</div>
             <div class="col border-end">
-              <input class="form-control" type="number" formControlName="leasingPeriod">
+              <!-- <input class="form-control" type="number" formControlName="leasingPeriod"> -->
+              <select class="form-select" formControlName="leasingPeriod">
+                @for (months of leasingPeriodMonths; track $index) {
+                <option [value]="months">{{months}}</option>
+                }
+
+              </select>
             </div>
             <div class="col"></div>
           </div>
@@ -109,7 +119,7 @@
               <input class="form-control" type="number" formControlName="downPaymentPercentage">
             </div>
             <div class="col">
-              {{selectedEntity.downPaymentAmount}} EUR
+              {{selectedEntity.downPayment}} EUR
             </div>
           </div>
           <div class="row border-bottom">
@@ -118,16 +128,11 @@
             <div class="col">{{selectedEntity.contractFee}} EUR</div>
           </div>
           <div class="row border-bottom">
-            <div class="col border-end">Down payment source</div>
-            <div class="col border-end">{{selectedEntity.downPaymentSource}}</div>
-            <div class="col"></div>
-          </div>
-          <div class="row border-bottom">
             <div class="col border-end">Interest base %</div>
             <div class="col border-end input-group">
               <select class="form-select" formControlName="euriborType" (change)="changeEuribor($event)">
                 @for (singleTerm of euriborData; track singleTerm.term) {
-                <option [value]="singleTerm.term">{{singleTerm.term}}</option>
+                <option [value]="singleTerm.term">{{formatEuriborRes(singleTerm.term)}}</option>
                 }
 
               </select>
@@ -150,7 +155,7 @@
           </div>
           <div class="row border-bottom">
             <div class="col border-end">Monthly payment</div>
-            <div class="col border-end">{{selectedEntity.monthlyPaymentAmount}} EUR</div>
+            <div class="col border-end">{{selectedEntity.monthlyPayment}} EUR</div>
             <div class="col"></div>
           </div>
         </form>

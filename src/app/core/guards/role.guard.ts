@@ -6,8 +6,6 @@ export const roleGuard: (role: string) => CanActivateFn = (role: string) => {
   return () => {
     const authService = inject(AuthService);
     const router = inject(Router);
-    console.log('Checkinu ar turiu cia tokena');
-    console.log('token value:', authService.getToken());
     if (
       authService.getToken() &&
       authService.getToken() !== undefined &&

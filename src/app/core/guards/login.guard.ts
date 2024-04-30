@@ -6,8 +6,6 @@ export const loginGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  console.log('token value:', authService.getToken());
-
   if (authService.getToken()) {
     router.navigate(['home']);
 
