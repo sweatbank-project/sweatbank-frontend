@@ -55,7 +55,11 @@
       </div>
       <div class="row px-5">
         <div>
-          <canvas id="canvas" class="canvas" style="height:40vh;"></canvas>
+          @if (isLoading) {
+            <h4 class="mb-3 text-center"><fa-icon [icon]="faSpinner" animation="spin" /></h4>
+          } @else {
+            <canvas id="canvas" class="canvas" style="height:40vh;"></canvas>
+          }
         </div>
       </div>
     </div>
