@@ -4,7 +4,7 @@ import {RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {Title} from "@angular/platform-browser";
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../../../../environments/environment';
 
 interface Email {
   id: number;
@@ -120,10 +120,8 @@ export class InboxComponent implements OnInit {
       open: false,
       messages: []
     };
-
-    const apiUrl = 'api/emails/send';
-
-    this.http.post(apiUrl, newEmail)
+    
+    this.http.post(environment.apiUrl + 'emails/send', newEmail)
       .subscribe({
         next: (response) => {
           console.log('Email sent successfully', response);
