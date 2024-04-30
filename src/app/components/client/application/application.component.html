@@ -40,21 +40,14 @@
         </li>
       </ul>
     </div>
-    
-
-
-
-
-
-
     <div class="tabs_inner">
       <form id="application" name="application" enctype="multipart/form-data" method="POST" [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
         <section #activeStepSection step="1" class="form-step">
           <div class="form-group mb-2">
             <label for="makes">Choose a car</label>
             <select name="makes" id="makes" (change)="onMakeSelect($event)" class="form-control {{applicationForm.get('makes')?.invalid && applicationForm.get('makes')?.touched ? 'is-invalid' : ''}}" formControlName="makes">
+              <option value="" disabled selected hidden>-</option>
               @for (car of carData.car_makes; track car.make) {
-                <option value="" disabled selected hidden>-</option>
                 <option [value]="car.make">{{car.make}}</option>
               }
             </select>
