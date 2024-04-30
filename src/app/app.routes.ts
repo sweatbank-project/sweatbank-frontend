@@ -62,12 +62,12 @@ export const routes: Routes = [
       {path: 'inbox', component: InboxComponent, canActivate: [adminGuard]},
       {path: 'applications', component: ApplicationsComponent, canActivate: [adminGuard]},
       {path: 'dashboard', component: DashboardComponent, canActivate: [adminGuard]},
-      {path: 'admin/inbox/:email', component: InboxComponent, canActivate: [adminGuard]}
+      {path: 'admin/inbox/:applicationId/:email', component: InboxComponent, canActivate: [adminGuard]}
     ]
   },
   {
-    path: 'submission-confirmation', 
-    component: SubmissionConfirmationComponent, 
+    path: 'submission-confirmation',
+    component: SubmissionConfirmationComponent,
     canActivate: [userGuard]
   }
 ];

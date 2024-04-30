@@ -44,7 +44,7 @@
           <h3>Compose New Email</h3>
           <button class="close-button" (click)="cancelCompose()">&times;</button>
         </div>
-        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient's email" readonly>
+        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient's email">
         <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject">
         <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
         <button (click)="sendNewEmail()">Send</button>

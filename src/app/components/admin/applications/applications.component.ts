@@ -55,8 +55,8 @@ export class ApplicationsComponent {
     this.modal?.hide();
   }
 
-  openEmailForm(email: string) {
-    this.router.navigate(['/admin/inbox', { email: email }]);
+  openEmailForm(applicationId: string) {
+    this.router.navigate(['/admin/inbox', { applicationId: applicationId }]);
   }
 
   data: any;

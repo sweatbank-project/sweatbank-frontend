@@ -3,6 +3,8 @@ import {DatePipe, NgClass, CommonModule} from "@angular/common";
 import {RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {Title} from "@angular/platform-browser";
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 interface Email {
   id: number;
@@ -11,9 +13,9 @@ interface Email {
   subject: string;
   body: string;
   time: Date;
-  read: boolean;
   messages: Message[];
   open: boolean;
+  applicationId: string | null;
 }
 
 interface Message {
@@ -38,37 +40,7 @@ interface Message {
 })
 export class InboxComponent implements OnInit {
   activeCategory: string = 'inbox';
-  emails: Email[] = [
-    {
-      id: 1,
-      recipient: '',
-      sender: 'John Doe',
-      subject: 'Hello',
-      body: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.\n' +
-        '\n' +
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.',
-      time: new Date(),
-      read: false,
-      messages: [
-        { id: 1, sender: 'John Doe', text: 'Hi there!', time: new Date() },
-      ],
-      open: false
-    },
-    {
-      id: 2,
-      recipient: '',
-      sender: 'Jane Smith',
-      subject: 'Meeting Agenda',
-      body: 'Dear Team,\n\nPlease find attached the agenda for our upcoming meeting...\n\nBest regards,\nJane',
-      time: new Date(),
-      read: false,
-      open: false,
-      messages: [
-        { id: 2, sender: 'John Doe', text: 'Thank you!', time: new Date() }
-      ]
-    },
-  ];
-
+  emails: Email[] = [];
   selectedEmail: Email | null = null;
   currentTime = new Date();
   newEmailRecipient: string = '';
@@ -76,6 +48,7 @@ export class InboxComponent implements OnInit {
   newEmailBody: string = '';
   composingEmail: boolean = false;
   searchTerm: string = '';
+  applicationId: string | null = null;
 
 
   get filteredEmails(): Email[] {
@@ -90,12 +63,13 @@ export class InboxComponent implements OnInit {
       );
     });
   }
-  constructor(private route: ActivatedRoute, private titleService:Title) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private titleService:Title) {
     this.titleService.setTitle("Sweatbank Admin Inbox");
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      this.applicationId = params['applicationId'];
       const email = params['email'];
       if (email) {
         this.composeEmailToCustomer(email);
@@ -141,20 +115,29 @@ export class InboxComponent implements OnInit {
       sender: 'Admin',
       subject: this.newEmailSubject,
       body: this.newEmailBody,
+      applicationId: this.applicationId,
       time: new Date(),
-      read: false,
       open: false,
       messages: []
     };
+    
+    this.http.post(environment.apiUrl + 'emails/send', newEmail)
+      .subscribe({
+        next: (response) => {
+          console.log('Email sent successfully', response);
+          this.emails.unshift(newEmail);
+          this.saveEmailsToLocalStorage();
+          this.resetComposeForm();
+        },
+        error: (error) => console.error('Error sending email', error)
+      });
+  }
 
-    this.emails.unshift(newEmail);
-    this.saveEmailsToLocalStorage();
-    this.composingEmail = false;
+  resetComposeForm(): void {
     this.composingEmail = false;
     this.newEmailRecipient = '';
     this.newEmailSubject = '';
     this.newEmailBody = '';
-
   }
   get emailCount(): number {
     return this.emails.length;
@@ -164,11 +147,14 @@ export class InboxComponent implements OnInit {
     const index = this.emails.findIndex(e => e.id === email.id);
     if (index !== -1) {
       this.emails.splice(index, 1);
-      this.saveEmailsToLocalStorage(); // Save updated emails to local storage
+      this.saveEmailsToLocalStorage();
     }
   }
 
   cancelCompose(): void {
     this.composingEmail = false;
+    this.newEmailRecipient = '';
+    this.newEmailSubject = '';
+    this.newEmailBody = '';
   }
 }
