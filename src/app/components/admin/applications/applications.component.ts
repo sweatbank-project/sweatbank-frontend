@@ -13,6 +13,7 @@ import {
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-applications',
@@ -38,9 +39,6 @@ export class ApplicationsComponent {
   faEyeSlash = faEyeSlash;
   faSpinner = faSpinner;
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
-
   applicationForm: FormGroup;
   selectedEntity: any;
 
@@ -59,7 +57,7 @@ export class ApplicationsComponent {
   data: any;
   constructor(private router: Router, private http: HttpClient) {
     this.isLoading = true;
-    this.http.get(this.baseUrl + 'admin/leases').subscribe(
+    this.http.get(environment.apiUrl + 'admin/leases').subscribe(
       (data) => {
         this.isLoading = false;
         this.data = data;

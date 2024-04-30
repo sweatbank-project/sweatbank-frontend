@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -63,7 +64,7 @@ export class DashboardComponent {
       ]
     }
 
-    // this.http.get(this.baseUrl + '').subscribe(
+    // this.http.get(environment.apiUrl + '').subscribe(
     //   (data) => {
             this.cardData = { ...data };
             this.canvas.labels = data.canvas.map(entry => entry.date);
