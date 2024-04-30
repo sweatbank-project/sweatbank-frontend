@@ -15,6 +15,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ClientComponent } from './components/client/client.component';
 import { SubmissionConfirmationComponent } from "./components/client/submission-confirmation/submission-confirmation.component";
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -58,13 +59,15 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      {path: 'inbox', component: InboxComponent},
-      {path: 'applications', component: ApplicationsComponent},
-      {path: 'dashboard', component: DashboardComponent},
-      {path: 'admin/inbox/:email', component: InboxComponent}
+      {path: 'inbox', component: InboxComponent, canActivate: [adminGuard]},
+      {path: 'applications', component: ApplicationsComponent, canActivate: [adminGuard]},
+      {path: 'dashboard', component: DashboardComponent, canActivate: [adminGuard]},
+      {path: 'admin/inbox/:email', component: InboxComponent, canActivate: [adminGuard]}
     ]
   },
   {
-    path: 'submission-confirmation', component: SubmissionConfirmationComponent
+    path: 'submission-confirmation', 
+    component: SubmissionConfirmationComponent, 
+    canActivate: [userGuard]
   }
 ];

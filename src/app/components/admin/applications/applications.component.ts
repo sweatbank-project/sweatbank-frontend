@@ -11,6 +11,8 @@ import {
   calculateTotalInterestRate,
 } from '../../../core/utility';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-applications',
@@ -22,12 +24,18 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     CommonModule,
     ReactiveFormsModule,
     ModalModule,
+    FontAwesomeModule,
   ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.scss',
 })
 export class ApplicationsComponent {
   @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
+
+  isLoading = false;
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faSpinner = faSpinner;
 
   //baseUrl = 'http://localhost:8080/api/';
   baseUrl = 'https://sweatbank-backend.onrender.com/api/';
@@ -49,8 +57,10 @@ export class ApplicationsComponent {
 
   data: any;
   constructor(private router: Router, private http: HttpClient) {
+    this.isLoading = true;
     this.http.get(this.baseUrl + 'admin/leases').subscribe(
       (data) => {
+        this.isLoading = false;
         this.data = data;
         setTimeout(() => {
           $('#applications').DataTable({
@@ -59,7 +69,6 @@ export class ApplicationsComponent {
             processing: true,
             lengthMenu: [10, 25, 50],
           });
-
           applyStylesToElements();
         }, 1);
       },

@@ -7,37 +7,57 @@
       <table class="table table-striped table-bordered table-sm row-border hover" id="applications">
         <thead>
           <tr>
-            <th>Status</th>
-            <th>Id</th>
-            <th>Date</th>
-            <th>Personal Id</th>
-            <th>Full Name</th>
-            <th>Email Address</th>
-            <th>Phone No</th>
-            <th>Message</th>
+            <th class="text-start">Status</th>
+            <th class="text-start">Id</th>
+            <th class="text-start">Date</th>
+            <th class="text-start">Personal Id</th>
+            <th class="text-start">Full Name</th>
+            <th class="text-start">Email Address</th>
+            <th class="text-start">Phone No</th>
+            <th class="text-start">Reviewer</th>
+            <th class="text-start">Message</th>
           </tr>
         </thead>
         <tbody>
+          @if(isLoading) {
+            <tr>
+              <td colspan="9">
+                <div class="d-flex justify-content-center">
+                  <fa-icon [icon]="faSpinner" animation="spin" />
+                </div>
+              </td>
+            </tr>
+          }
           @for (row of data?.leases; track $index) {
           <tr>
-            <th>
-              @if(row.status === 'PENDING') {
-              <span class="badge text-bg-warning p-1">{{row.status}}</span>
-              } @else if (row.status === 'APPROVED') {
-              <span class="badge text-bg-success p-1">{{row.status}}</span>
-              } @else if (row.status === 'REJECTED') {
-              <span class="badge text-bg-danger p-1">{{row.status}}</span>
-              } @else if (row.status === 'NEW') {
-              <span class="badge text-bg-secondary p-1">{{row.status}}</span>
+            <td class="text-start">
+              @if (row.status.toUpperCase() === "PENDING") {
+                <span class="badge bg-warning text-dark">{{ row.status }}</span>
               }
-            </th>
-            <th class="text-start"><ins><a (click)="openModal(row.applicationId)">{{row.applicationId}}</a></ins></th>
-            <th class="text-start">{{row.creationDate}}</th>
-            <th class="text-start blur">{{row.personalId}}</th>
-            <th class="text-start">{{row.fullName}}</th>
-            <th class="text-start">{{row.email}}</th>
-            <th class="text-start">{{row.phone}}</th>
-            <th class="text-start"><a class="bi bi-envelope text-dark" [routerLink]="['/admin/inbox', { email: row.email }]"></a></th>
+              @else if (row.status.toUpperCase() === "APPROVED") {
+                <span class="badge bg-success">{{ row.status }}</span>
+              }
+              @else if (row.status.toUpperCase() === "REJECTED") {
+                <span class="badge bg-danger">{{ row.status }}</span>
+              }
+              @else if (row.status.toUpperCase() === "NEW") {
+                <span class="badge bg-info text-dark">{{ row.status }}</span>
+              }
+            </td>
+            <td class="text-start"><ins><a (click)="openModal(row.applicationId)" style="cursor: pointer;">{{row.applicationId}}</a></ins></td>
+            <td class="text-start">{{row.creationDate}}</td>
+            <td class="text-start blur">{{row.personalId}}</td>
+            <td class="text-start">{{row.fullName}}</td>
+            <td class="text-start">{{row.email}}</td>
+            <td class="text-start">{{row.phone}}</td>
+            <td class="text-start">
+              @if(row.automationStatus == 'AUTOMATED') {
+                <i class="bi bi-robot"></i>
+              } @else {
+                <i class="bi bi-person"></i>
+              }
+            </td>
+            <td class="text-start"><a class="bi bi-envelope text-dark" [routerLink]="['/admin/inbox', { email: row.email }]"></a></td>
           </tr>
           }
         </tbody>
@@ -49,12 +69,12 @@
 <!-- Modal -->
 
 <div class="modal fade" bsModal #modal="bs-modal" tabindex="-1" role="dialog" aria-labelledby="dialog-events-name">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     @if (selectedEntity) {
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">{{selectedEntity.applicationId}}</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modal.hide()"></button>
       </div>
       <div class="modal-body">
         <h4 class="row border-top text-center mb-0  justify-content-center">Car and Financing Conditions</h4>

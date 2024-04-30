@@ -1,9 +1,10 @@
-import { initialCalculation } from './../../../core/utility';
+import { calculateMonthlyPayment, calculateTotalInterestRate, initialCalculation } from './../../../core/utility';
 import { CarData, CarModel, carData } from './data';
 import {
   Component,
   ElementRef,
   QueryList,
+  ViewChild,
   ViewChildren,
   inject,
 } from '@angular/core';
@@ -17,11 +18,16 @@ import {
 import { DatePipe } from '@angular/common';
 import { LeaseService } from '../../../services/lease.service';
 import { Router } from '@angular/router';
+import { AuthService } from "../../../services/auth.service";
+import { ModalDirective, ModalModule } from 'ngx-bootstrap/modal';
+import { HttpErrorResponse } from '@angular/common/http';
+import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-application',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ModalModule, FontAwesomeModule],
   providers: [DatePipe],
   templateUrl: './application.component.html',
   styleUrl: './application.component.scss',
@@ -29,6 +35,9 @@ import { Router } from '@angular/router';
 export class ApplicationComponent {
   @ViewChildren('activeStep') activeSteps!: QueryList<ElementRef>;
   @ViewChildren('activeStepSection') activeStepsSection!: QueryList<ElementRef>;
+  @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
+
+  authService = inject(AuthService);
 
   private readonly leaseService: LeaseService = inject(LeaseService);
   private readonly router = inject(Router);
@@ -36,11 +45,17 @@ export class ApplicationComponent {
 
   carData: CarData = carData;
   selectedMake: CarModel | null = null;
+  error: string | null = null;
+  isLoading = false;
 
-  // extra
-  userPhoneNumber = '+37061111111';
-  userEmail = 'andriuha@gmail.com';
-  userAddress = 'Konstitucijos pr. 20A, LT-09321 Vilnius';
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faSpinner = faSpinner;
+
+  phone = this.authService.getUserData('phoneNumber');
+  email = this.authService.getUserData('username');
+  address = this.authService.getUserData('address');
+  monthlyPayment = 0;
 
   applicationForm: FormGroup;
 
@@ -72,7 +87,7 @@ export class ApplicationComponent {
       mortgageMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
       otherCreditsOutstanding: ['', [Validators.min(1), Validators.max(1000000)]],
       otherCreditsMonthlyPayment: ['', [Validators.min(1), Validators.max(1000000)]],
-    });
+    }, { validator: this.customValidator });
 
     this.subscribeToFormControlChanges(
       'customerLoansOutstanding',
@@ -94,6 +109,22 @@ export class ApplicationComponent {
       'otherCreditsOutstanding',
       'otherCreditsMonthlyPayment'
     );
+  }
+
+  customValidator(formGroup: FormGroup) {
+    const costOfTheVehicleControl = formGroup.get('costOfTheVehicle');
+    const downPaymentControl = formGroup.get('downPayment');
+
+    if (costOfTheVehicleControl && downPaymentControl) {
+      const costValue = costOfTheVehicleControl.value;
+      const downPaymentValue = downPaymentControl.value;
+
+      if (downPaymentValue && costValue && downPaymentValue > costValue) {
+        downPaymentControl.setErrors({ downPaymentGreaterThanCost: 'asd' });
+      } else {
+        downPaymentControl.setErrors(null);
+      }
+    }
   }
 
   private subscribeToFormControlChanges(
@@ -129,6 +160,7 @@ export class ApplicationComponent {
   }
 
   onSubmit(): void {
+    this.isLoading = true;
     const { costOfTheVehicle, downPayment, leasingPeriod } =
       this.applicationForm.getRawValue();
     const calcObj = initialCalculation(
@@ -143,12 +175,20 @@ export class ApplicationComponent {
     };
 
     const serializedForm = JSON.stringify(formAfterCalculation);
-    console.log('Submitting lease form to server...');
     
-    this.leaseService.submit(serializedForm).subscribe(() => {
-      console.log('Lease form has been submitted.');
-      this.router.navigate(['/submission-confirmation']);
-    })
+    this.leaseService.submit(serializedForm).subscribe({
+      next: () => {
+        this.router.navigate(['/submission-confirmation']);
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isLoading = false;
+        if(error.error.errors.length > 0) {
+          this.error = error.error.errors[0];
+        }
+      }
+    });
+    
+    
   }
 
   onMakeSelect(event: any) {
@@ -216,6 +256,14 @@ export class ApplicationComponent {
   }
 
   navigateToStep(stepNumber: number): void {
+    if(stepNumber === 4) {
+      this.monthlyPayment = initialCalculation(
+        this.applicationForm.get('costOfTheVehicle')?.value,
+        this.applicationForm.get('downPayment')?.value,
+        this.applicationForm.get('leasingPeriod')?.value
+      ).monthlyPayment;
+    }
+
     this.activeSteps.forEach((stepElement: ElementRef) => {
       const nativeElement = stepElement.nativeElement as HTMLElement;
       const stepAttribute = parseInt(
@@ -225,12 +273,12 @@ export class ApplicationComponent {
 
       if (stepNumber === stepAttribute) {
         nativeElement.classList.add('current');
-        nativeElement.classList.remove('active');
+        nativeElement.classList.remove('done');
       } else if (stepNumber > stepAttribute) {
         nativeElement.classList.remove('current');
-        nativeElement.classList.add('active');
+        nativeElement.classList.add('done');
       } else {
-        nativeElement.classList.remove('active');
+        nativeElement.classList.remove('done');
         nativeElement.classList.remove('current');
       }
     });
@@ -256,5 +304,13 @@ export class ApplicationComponent {
   getCurrentDate() {
     const currentDate = new Date();
     return this.datePipe.transform(currentDate, 'yyyy-MM-dd');
+  }
+
+  showModal() {
+    this.modal?.show();
+  }
+
+  hideModal() {
+    this.modal?.hide();
   }
 }

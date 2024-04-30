@@ -92,7 +92,7 @@ export class AuthService {
   }
 
   getUserName(): string {
-    return this.getUserData('username');
+    return this.getUserData('firstName') + ' ' + this.getUserData('lastName');
   }
   
   getUserData(key: string): string {

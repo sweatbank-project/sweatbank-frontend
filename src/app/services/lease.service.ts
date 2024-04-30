@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, timeout } from 'rxjs';
+import { Observable, catchError, throwError, timeout } from 'rxjs';
 import { UserLeasesResponseData } from './data';
 
 @Injectable({
@@ -21,7 +21,14 @@ export class LeaseService {
   submit(leaseForm: String): Observable<HttpResponse<any>> {
     const headers = { 'Content-Type': 'application/json' };
 
-    // TODO: set URL to localhost or render backend depending on environment.
-    return this.httpClient.post<any>(this.baseUrl + 'lease/create', leaseForm, {headers});
+    return this.httpClient.post<any>(this.baseUrl + 'lease/create', leaseForm, { headers, observe: 'response' })
+    .pipe(
+      catchError((error: any) => {
+        return throwError(error);
+      })
+    )
   }
+
+
+
 }
