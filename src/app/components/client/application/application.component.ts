@@ -187,8 +187,6 @@ export class ApplicationComponent {
         }
       }
     });
-    
-    
   }
 
   onMakeSelect(event: any) {

@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthResponseData } from './data';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +12,13 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
-
   login(
     email: string,
     password: string
   ): Observable<HttpResponse<AuthResponseData>> {
     return this.client
       .post<AuthResponseData>(
-        this.baseUrl+'auth/login',
+        environment.apiUrl+'auth/login',
         {
           username: email,
           password,
@@ -58,7 +56,7 @@ export class AuthService {
   ): Observable<unknown> {
     return this.client
       .post(
-        this.baseUrl+'auth/register',
+        environment.apiUrl+'auth/register',
         {
           username: username,
           phoneNumber: phoneNumber,

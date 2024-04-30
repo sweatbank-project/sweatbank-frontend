@@ -432,7 +432,7 @@
             <button class="btn btn-primary" type="button" (click)="navigateToStep(3)">
               <i class="bi bi-chevron-left"></i> Back
             </button>
-            <button class="btn btn-success" type="button" (click)="showModal()">
+            <button class="btn btn-success" type="button" (click)="showModal()" [disabled]="this.applicationForm.invalid">
               Submit <i class="bi bi-chevron-right"></i>
             </button>
           </div>
@@ -448,7 +448,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.hide()">Cancel</button>
-                  <button type="submit" class="btn btn-success" [disabled]="isLoading">
+                  <button type="submit" class="btn btn-success" [disabled]="isLoading || this.applicationForm.invalid">
                     @if (isLoading) {
                     <fa-icon [icon]="faSpinner" animation="spin" />
                     } @else {
