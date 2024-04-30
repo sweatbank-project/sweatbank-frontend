@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { AccountData } from '../data';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-account',
@@ -22,6 +23,10 @@ export class AccountComponent implements OnInit {
     phone_number: 'None',
     birth_date: 'None'
   };
+
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("Sweatbank My Account");
+  }
 
   ngOnInit(): void {
     this.accountData = {

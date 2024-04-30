@@ -18,7 +18,7 @@ import { birthDateValidator } from '../../validators/birth-date.validator';
 import { personalIdValidator } from '../../validators/personal-id.validator';
 import { phoneNumberValidator } from '../../validators/phone-number.validator';
 import { passwordValidator } from '../../validators/password.validator';
-
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-register',
@@ -59,6 +59,10 @@ export class RegisterComponent {
     password1: new FormControl('', [Validators.required, passwordValidator()]),
     password2: new FormControl('', [Validators.required, passwordValidator()]),
   });
+
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Register");
+  }
 
   onSubmit(): void {
     const firstnameControl = this.registerForm.get('firstname');

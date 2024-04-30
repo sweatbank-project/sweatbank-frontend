@@ -23,6 +23,7 @@ import { ModalDirective, ModalModule } from 'ngx-bootstrap/modal';
 import { HttpErrorResponse } from '@angular/common/http';
 import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-application',
@@ -59,7 +60,9 @@ export class ApplicationComponent {
 
   applicationForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Application");
+
     this.applicationForm = this.fb.group({
       makes: ['', Validators.required],
       models: ['', Validators.required],

@@ -18,6 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-applications',
@@ -59,7 +60,8 @@ export class ApplicationsComponent {
   }
 
   data: any;
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(private router: Router, private http: HttpClient, private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Admin Applications");
     this.isLoading = true;
     this.http.get(environment.apiUrl + 'admin/leases').subscribe(
       (data) => {

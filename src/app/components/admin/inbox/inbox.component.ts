@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {DatePipe, NgClass, CommonModule} from "@angular/common";
 import {RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
-
+import {Title} from "@angular/platform-browser";
 
 interface Email {
   id: number;
@@ -90,7 +90,9 @@ export class InboxComponent implements OnInit {
       );
     });
   }
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Admin Inbox");
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

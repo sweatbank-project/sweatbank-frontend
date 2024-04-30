@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-leases',
@@ -33,6 +34,10 @@ export class LeasesComponent implements OnInit {
 
   username: string = '';
   leases: LeaseData[] = [];
+
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("Sweatbank My Leases");
+  }
 
   ngOnInit(): void {
     this.isLoading = true;

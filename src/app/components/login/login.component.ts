@@ -14,6 +14,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import {AuthService} from "../../services/auth.service";
 import { passwordValidator } from '../../validators/password.validator';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-login',
@@ -42,6 +43,10 @@ export class LoginComponent {
     }),
     password: new FormControl('', [Validators.required, passwordValidator()]),
   });
+
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Login");
+  }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {

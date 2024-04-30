@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import Chart from 'chart.js/auto';
 import { environment } from '../../../../environments/environment';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,9 +12,6 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
-
   chart: any = [];
   cardData = {
     'newApplications': 0,
@@ -26,7 +24,9 @@ export class DashboardComponent {
     data: [] as number[]
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Admin Dashboard");
+    
     const data= {
       "newApplications": 1,
       "pendingApplications": 2,
