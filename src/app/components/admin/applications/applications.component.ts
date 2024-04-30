@@ -11,7 +11,11 @@ import {
   calculateTotalInterestRate,
 } from '../../../core/utility';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEye,
+  faEyeSlash,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
 
@@ -61,6 +65,7 @@ export class ApplicationsComponent {
       (data) => {
         this.isLoading = false;
         this.data = data;
+        console.log(data);
         setTimeout(() => {
           $('#applications').DataTable({
             pagingType: 'full_numbers',
@@ -116,8 +121,8 @@ export class ApplicationsComponent {
 
     this.applicationForm.valueChanges.subscribe((data) => {
       // Calculate down payment
-      this.selectedEntity.downPaymentAmount = calculateDownPayment(
-        this.selectedEntity.costOfCar,
+      this.selectedEntity.downPayment = calculateDownPayment(
+        this.selectedEntity.carCost,
         data.downPaymentPercentage
       );
 
@@ -128,9 +133,9 @@ export class ApplicationsComponent {
       );
 
       // Calculate monthly payment
-      this.selectedEntity.monthlyPaymentAmount = calculateMonthlyPayment(
-        this.selectedEntity.costOfCar,
-        this.selectedEntity.downPaymentAmount,
+      this.selectedEntity.monthlyPayment = calculateMonthlyPayment(
+        this.selectedEntity.carCost,
+        this.selectedEntity.downPayment,
         this.selectedEntity.interestRate,
         data.leasingPeriod
       );
@@ -141,11 +146,11 @@ export class ApplicationsComponent {
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
-    console.log(this.selectedEntity)
+    console.log(this.selectedEntity);
     this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
-        leasingPeriod: this.selectedEntity.leasingPeriod*12,
+        leasingPeriod: this.selectedEntity.leasingPeriod * 12,
         downPaymentPercentage: this.selectedEntity.downPaymentPercentage,
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
@@ -157,10 +162,14 @@ export class ApplicationsComponent {
   saveApplication() {
     console.log('Save data to db, Status => Pending');
     this.hideModal();
+    // Converting leasing period months back to years
+    const leasingPeriod = this.applicationForm.value.leasingPeriod / 12;
     const modifiedLease = {
       ...this.selectedEntity,
       ...this.applicationForm.value,
+      leasingPeriod,
     };
+
     console.log(modifiedLease);
   }
 
@@ -194,10 +203,34 @@ export class ApplicationsComponent {
   }
 
   euriborData: { term: string; value: number }[] = [
-    { term: "EURIBOR_3_MONTH", value: 3.922 },
-    { term: "EURIBOR_6_MONTH", value: 3.893 },
-    { term: "EURIBOR_12_MONTH", value: 3.716 },
+    { term: 'EURIBOR_3_MONTH', value: 3.922 },
+    { term: 'EURIBOR_6_MONTH', value: 3.893 },
+    { term: 'EURIBOR_12_MONTH', value: 3.716 },
   ];
+  leasingPeriodMonths = [12, 24, 36, 48, 60];
+
+  formatEuriborRes(response: string): string {
+    const parts = response.split('_');
+    const formattedParts: string[] = [];
+
+    parts.forEach((part, index) => {
+      const formattedPart =
+        index === 0
+          ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+          : part.toLowerCase();
+      formattedParts.push(formattedPart);
+    });
+
+    let formattedResponse = formattedParts.join(' ');
+
+    const lastPart = formattedParts[formattedParts.length - 1];
+    if (lastPart === 'month') {
+      formattedResponse =
+        formattedResponse.substring(0, formattedResponse.length) + 's';
+    }
+
+    return formattedResponse;
+  }
 
   mockData = {
     entities: [
@@ -214,7 +247,7 @@ export class ApplicationsComponent {
         euriborRate: 3.922,
         margin: 2.222,
         interestRate: 6.144,
-        monthlyPaymentAmount: 770.04,
+        monthlyPayment: 770.04,
       },
     ],
   };
