@@ -37,8 +37,8 @@ export class ApplicationsComponent {
   faEyeSlash = faEyeSlash;
   faSpinner = faSpinner;
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+  baseUrl = 'http://localhost:8080/api/';
+  //baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
   applicationForm: FormGroup;
   selectedEntity: any;

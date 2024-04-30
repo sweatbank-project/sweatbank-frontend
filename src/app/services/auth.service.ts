@@ -11,8 +11,8 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+  baseUrl = 'http://localhost:8080/api/';
+  //baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
   login(
     email: string,

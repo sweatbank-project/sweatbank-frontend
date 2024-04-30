@@ -9,8 +9,8 @@ import { UserLeasesResponseData } from './data';
 export class LeaseService {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+  baseUrl = 'http://localhost:8080/api/';
+  //baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
 
   getUserLeases(username: string): Observable<HttpResponse<UserLeasesResponseData>> {
