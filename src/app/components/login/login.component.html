@@ -1,16 +1,19 @@
-<div class="content">
-  <div class="container-left">
-    <div class="content-left">
-      <img class="app-logo" src="../../../assets/sweat-bank-logo.png" alt="SweatBank logo">
-      <h1>Calculate Your Vehicle Loan</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed sollicitudin ex. Praesent commodo eget
-        ipsum in scelerisque. Phasellus commodo lacus ipsum, placerat euismod tellus condimentum vel. Duis faucibus orci
-        id posuere tempus.</p>
+<div class="login-wrapper">
+  <div class="card login-card">
+    <div class="row g-0">
+      <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center flex-column left-content">
+            <img class="app-logo" src="../../../assets/sweat-bank-logo.png" alt="SweatBank logo">
+            <h1>Calculate Your Vehicle Loan</h1>
+            <p>Welcome to SweatBank Car Lease Service!</p>
+            <p>At SweatBank, we prioritize your security. Our platform offers a seamless leasing experience, with top-notch encryption to protect your information. Whether you're after a new or used car, trust us to find the perfect lease for you.</p>
+            <p>SweatBank - Secure Car Leasing Made Simple.</p>
+        </div>
     </div>
   </div>
-  <div class="container-right">
-    <div class="content-right">
-      <h2>Sign in</h2>
+
+  <div class="col-lg-6 d-flex align-items-center justify-content-center right-content">
+    <div class="card-body">
+      <h2 class="card-title">Sign in</h2>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email" class="form-label">Email address</label>
