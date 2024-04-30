@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-main-page',
@@ -14,6 +15,10 @@ export class MainPageComponent {
 
   authService = inject(AuthService);
   firstName = this.authService.getUserData('firstName');
+
+  constructor(private titleService:Title) {
+    this.titleService.setTitle("Sweatbank Main");
+  }
 
   goToAccount(): void {
     this.router.navigate(["/account"]);
