@@ -59,10 +59,10 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      {path: 'inbox', component: InboxComponent, canActivate: [adminGuard]},
-      {path: 'applications', component: ApplicationsComponent, canActivate: [adminGuard]},
+      {path: 'inbox', component: InboxComponent},
+      {path: 'applications', component: ApplicationsComponent},
       {path: 'dashboard', component: DashboardComponent, canActivate: [adminGuard]},
-      {path: 'admin/inbox/:applicationId/:email', component: InboxComponent, canActivate: [adminGuard]}
+      {path: 'admin/inbox/:applicationId/:email', component: InboxComponent}
     ]
   },
   {
