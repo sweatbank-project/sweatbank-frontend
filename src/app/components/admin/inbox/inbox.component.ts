@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {DatePipe, NgClass, CommonModule} from "@angular/common";
-import {RouterLink, ActivatedRoute} from "@angular/router";
+import {Router, RouterLink, ActivatedRoute} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {Title} from "@angular/platform-browser";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { MailSendService } from "../../../mail-send.service";
 import { environment } from '../../../../environments/environment';
 
 interface Email {
@@ -49,6 +50,7 @@ export class InboxComponent implements OnInit {
   composingEmail: boolean = false;
   searchTerm: string = '';
   applicationId: string | null = null;
+  error: string | null = null;
 
 
   get filteredEmails(): Email[] {
@@ -63,7 +65,7 @@ export class InboxComponent implements OnInit {
       );
     });
   }
-  constructor(private http: HttpClient, private route: ActivatedRoute, private titleService:Title) {
+  constructor(private http: HttpClient, private route: ActivatedRoute, private titleService: Title, private mailSendService: MailSendService, private router: Router,) {
     this.titleService.setTitle("Sweatbank Admin Inbox");
   }
 
@@ -75,6 +77,7 @@ export class InboxComponent implements OnInit {
         this.composeEmailToCustomer(email);
       }
     });
+    this.loadEmails();
 
     const storedEmails = localStorage.getItem('emails');
     if (storedEmails) {
@@ -120,17 +123,44 @@ export class InboxComponent implements OnInit {
       open: false,
       messages: []
     };
-    
-    this.http.post(environment.apiUrl + 'emails/send', newEmail)
-      .subscribe({
-        next: (response) => {
-          console.log('Email sent successfully', response);
+
+    this.mailSendService.sendNewEmail(newEmail).subscribe({
+        next: () => {
           this.emails.unshift(newEmail);
           this.saveEmailsToLocalStorage();
           this.resetComposeForm();
+          this.router.navigate(['/admin/inbox']);
         },
-        error: (error) => console.error('Error sending email', error)
-      });
+      error: (error: HttpErrorResponse) => {
+        if (error.error.errors.length > 0) {
+          this.error = error.error.errors[0];
+        }
+      }
+    });
+  }
+  approvedEmail(email: Email): void {
+    this.mailSendService.approvedEmail(email).subscribe({
+      next: () => {
+        this.router.navigate(['/admin/inbox']);
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.error.errors.length > 0) {
+          this.error = error.error.errors[0];
+        }
+      }
+    });
+  }
+
+  rejectEmail(email: Email): void {
+    this.mailSendService.rejectEmail(email).subscribe({
+      next: () => {this.router.navigate(['/admin/inbox']);
+        },
+      error: (error: HttpErrorResponse) => {
+        if(error.error.errors.length > 0) {
+          this.error = error.error.errors[0];
+        }
+      }
+    });
   }
 
   resetComposeForm(): void {
@@ -156,5 +186,15 @@ export class InboxComponent implements OnInit {
     this.newEmailRecipient = '';
     this.newEmailSubject = '';
     this.newEmailBody = '';
+  }
+  loadEmails(): void {
+    this.mailSendService.requestEmails().subscribe({
+      next: (data) => {
+        this.emails = data;
+      },
+      error: (error) => {
+        this.error = 'Failed to load emails';
+      }
+    });
   }
 }
