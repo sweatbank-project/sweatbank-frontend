@@ -14,11 +14,16 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import {
   faEye,
   faEyeSlash,
+  faL,
   faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
+import { UpdateRequestBody } from '../../../types';
+import { AdminService } from '../../../services/admin.service';
+import { response } from 'express';
+import { error } from 'jquery';
 
 interface ApplicationFormValue {
   leasingPeriod: number | string;
@@ -27,19 +32,6 @@ interface ApplicationFormValue {
   euriborRate: number | string;
   margin: number | string;
 }
-interface RequestBody {
-  applicationId: string;
-  status: string;
-  downPayment: number;
-  downPaymentPercentage: number;
-  euriborRate: number;
-  euriborType: string;
-  interestRate: number;
-  leasingPeriod: number;
-  margin: number;
-  monthlyPayment: number;
-}
-
 @Component({
   selector: 'app-applications',
   standalone: true,
@@ -65,6 +57,11 @@ export class ApplicationsComponent {
 
   applicationForm: FormGroup;
   selectedEntity: any;
+  loanServiceRate: any;
+
+  dataTable: any;
+
+  private readonly adminService = inject(AdminService)
 
   showModal() {
     this.modal?.show();
@@ -85,44 +82,8 @@ export class ApplicationsComponent {
     private titleService: Title
   ) {
     this.titleService.setTitle('Sweatbank Admin Applications');
-    this.isLoading = true;
-    this.http.get(environment.apiUrl + 'admin/leases').subscribe(
-      (data) => {
-        this.isLoading = false;
-        this.data = data;
-        setTimeout(() => {
-          $('#applications').DataTable({
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            processing: true,
-            lengthMenu: [10, 25, 50],
-          });
-          applyStylesToElements();
-        }, 1);
-      },
-      (error) => console.error(error)
-    );
-
-    function applyStylesToElements() {
-      const styleProperties = {
-        backgroundColor: '#FFF',
-        margin: '5px',
-      };
-
-      const elements = document.getElementsByClassName('dt-input');
-
-      for (let i = 0; i < elements.length; i++) {
-        const element = elements[i] as HTMLElement;
-        Object.assign(element.style, styleProperties);
-      }
-
-      const tableElement = document.getElementById('applications');
-      if (tableElement) {
-        tableElement.style.width = '';
-      } else {
-        console.error(`Element with ID 'applications' not found.`);
-      }
-    }
+    
+    this.fetchLeases()
 
     //---MODAL---
     this.applicationForm = new FormGroup({
@@ -167,9 +128,15 @@ export class ApplicationsComponent {
   }
 
   openModal(id: number) {
+
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
+
+    this.updateFormState();
+
+    const requestBody = this.generateCalculationRequestBody();
+    this.sendCalculateSolvencyRequest(requestBody);
     this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
@@ -179,6 +146,7 @@ export class ApplicationsComponent {
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
         margin: this.selectedEntity.margin,
+        loanServiceRate: this.selectedEntity.loanServiceRate
       });
     }
   }
@@ -187,7 +155,7 @@ export class ApplicationsComponent {
     selectedEntity: any,
     applicationFormValue: ApplicationFormValue,
     statusOverride?: string
-  ): RequestBody {
+  ): UpdateRequestBody {
     // Converting leasing period months back to years
     const leasingPeriod = +applicationFormValue.leasingPeriod / 12;
     const modifiedLease = {
@@ -213,44 +181,46 @@ export class ApplicationsComponent {
       'monthlyPayment',
     ];
 
-    const reqBody: RequestBody = Object.fromEntries(
+    const reqBody: UpdateRequestBody = Object.fromEntries(
       keysToExtract.map((key) => [key, modifiedLease[key]])
-    ) as RequestBody;
+    ) as UpdateRequestBody;
 
     return reqBody;
   }
 
   saveApplication() {
     console.log('Save data to db, Status => Pending');
-    this.hideModal();
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'PENDING'
     );
     console.log(reqBody);
+    this.sendUpdateRequest(reqBody);
   }
 
   approveApplication() {
     console.log('Save data to db, Status => Approve');
-    this.hideModal();
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'APPROVED'
     );
+    this.hideModal();
     console.log(reqBody);
+    this.sendUpdateRequest(reqBody);
   }
 
   rejectApplication() {
     console.log('Save data to db, Status => Reject');
-    this.hideModal();
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'REJECTED'
     );
+    this.hideModal();
     console.log(reqBody);
+    this.sendUpdateRequest(reqBody);
   }
 
   changeEuribor(e: any) {
@@ -311,4 +281,114 @@ export class ApplicationsComponent {
       },
     ],
   };
+
+  initializeDataTable(): void {
+    if (this.dataTable) {
+      this.dataTable.destroy();
+    }
+
+    this.dataTable = $('#applications').DataTable({
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      lengthMenu: [10, 25, 50]
+    });
+    this.applyStylesToElements();
+  }
+
+  fetchLeases() {
+    this.isLoading = true;
+    this.http.get(environment.apiUrl + 'admin/leases').subscribe(
+      (data) => {
+        this.isLoading = false;
+        this.data = data;
+        setTimeout(() => {
+          this.initializeDataTable();
+        }, 1);
+      },
+      (error) => {
+        console.error(error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  applyStylesToElements() {
+    const styleProperties = {
+      backgroundColor: '#FFF',
+      margin: '5px',
+    };
+
+    const elements = document.getElementsByClassName('dt-input');
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i] as HTMLElement;
+      Object.assign(element.style, styleProperties);
+    }
+
+    const tableElement = document.getElementById('applications');
+    if (tableElement) {
+      tableElement.style.width = '';
+    } else {
+      console.error(`Element with ID 'applications' not found.`);
+    }
+  }
+
+  sendUpdateRequest(requestData: UpdateRequestBody): void {
+    this.isLoading = true;
+    this.adminService.updateLease(requestData).subscribe({
+      next: () => {
+        const requestBody = this.generateCalculationRequestBody();
+        this.sendCalculateSolvencyRequest(requestBody);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.log("error mesage: " + error.message);
+      },
+      complete: () => {
+        this.isLoading = false;
+        this.fetchLeases()
+      }
+    })
+  }
+
+  sendCalculateSolvencyRequest(requestData: any): void {
+    this.adminService.calculateSolvency(requestData).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.loanServiceRate = response.loanServiceRate;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.log("error mesage: " + error.message);
+      }
+    })
+  }
+
+  generateCalculationRequestBody() {
+    return {
+      applicationId: this.selectedEntity.applicationId
+    };
+  }  
+ 
+  getLoanServiceRateColor(): string {
+    if (this.loanServiceRate >= 40) {
+      return 'red';
+    } else {
+      return 'green';
+    }
+  }
+
+  private updateFormState(): void {
+    if (this.isApprovedOrRejected()) {
+      this.applicationForm.disable();
+    } else {
+      this.applicationForm.enable();
+    }
+  }
+
+  isApprovedOrRejected(): boolean {
+    return this.selectedEntity && (this.selectedEntity.status === 'APPROVED' || this.selectedEntity.status === 'REJECTED');
+  }
+
 }
