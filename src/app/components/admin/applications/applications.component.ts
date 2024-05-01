@@ -18,7 +18,27 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
-import {Title} from "@angular/platform-browser";
+import { Title } from '@angular/platform-browser';
+
+interface ApplicationFormValue {
+  leasingPeriod: number | string;
+  downPaymentPercentage: number | string;
+  euriborType: string;
+  euriborRate: number | string;
+  margin: number | string;
+}
+interface RequestBody {
+  applicationId: string;
+  status: string;
+  downPayment: number;
+  downPaymentPercentage: number;
+  euriborRate: number;
+  euriborType: string;
+  interestRate: number;
+  leasingPeriod: number;
+  margin: number;
+  monthlyPayment: number;
+}
 
 @Component({
   selector: 'app-applications',
@@ -37,7 +57,6 @@ import {Title} from "@angular/platform-browser";
 })
 export class ApplicationsComponent {
   @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
-
 
   isLoading = false;
   faEye = faEye;
@@ -60,8 +79,12 @@ export class ApplicationsComponent {
   }
 
   data: any;
-  constructor(private router: Router, private http: HttpClient, private titleService:Title) {
-    this.titleService.setTitle("Sweatbank Admin Applications");
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle('Sweatbank Admin Applications');
     this.isLoading = true;
     this.http.get(environment.apiUrl + 'admin/leases').subscribe(
       (data) => {
@@ -147,10 +170,10 @@ export class ApplicationsComponent {
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
-    console.log(this.selectedEntity);
     this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
+        // Converting leasing period years to months
         leasingPeriod: this.selectedEntity.leasingPeriod * 12,
         downPaymentPercentage: this.selectedEntity.downPaymentPercentage,
         euriborType: this.selectedEntity.euriborType,
@@ -160,38 +183,74 @@ export class ApplicationsComponent {
     }
   }
 
-  saveApplication() {
-    console.log('Save data to db, Status => Pending');
-    this.hideModal();
+  extractRequestBody(
+    selectedEntity: any,
+    applicationFormValue: ApplicationFormValue,
+    statusOverride?: string
+  ): RequestBody {
     // Converting leasing period months back to years
-    const leasingPeriod = this.applicationForm.value.leasingPeriod / 12;
+    const leasingPeriod = +applicationFormValue.leasingPeriod / 12;
     const modifiedLease = {
-      ...this.selectedEntity,
-      ...this.applicationForm.value,
+      ...selectedEntity,
+      ...applicationFormValue,
       leasingPeriod,
     };
 
-    console.log(modifiedLease);
+    if (statusOverride) {
+      modifiedLease.status = statusOverride;
+    }
+
+    const keysToExtract = [
+      'applicationId',
+      'status',
+      'downPayment',
+      'downPaymentPercentage',
+      'euriborRate',
+      'euriborType',
+      'interestRate',
+      'leasingPeriod',
+      'margin',
+      'monthlyPayment',
+    ];
+
+    const reqBody: RequestBody = Object.fromEntries(
+      keysToExtract.map((key) => [key, modifiedLease[key]])
+    ) as RequestBody;
+
+    return reqBody;
+  }
+
+  saveApplication() {
+    console.log('Save data to db, Status => Pending');
+    this.hideModal();
+    const reqBody = this.extractRequestBody(
+      this.selectedEntity,
+      this.applicationForm.value,
+      'PENDING'
+    );
+    console.log(reqBody);
   }
 
   approveApplication() {
     console.log('Save data to db, Status => Approve');
     this.hideModal();
-    const modifiedLease = {
-      ...this.selectedEntity,
-      ...this.applicationForm.value,
-    };
-    console.log(modifiedLease);
+    const reqBody = this.extractRequestBody(
+      this.selectedEntity,
+      this.applicationForm.value,
+      'APPROVED'
+    );
+    console.log(reqBody);
   }
 
   rejectApplication() {
     console.log('Save data to db, Status => Reject');
     this.hideModal();
-    const modifiedLease = {
-      ...this.selectedEntity,
-      ...this.applicationForm.value,
-    };
-    console.log(modifiedLease);
+    const reqBody = this.extractRequestBody(
+      this.selectedEntity,
+      this.applicationForm.value,
+      'REJECTED'
+    );
+    console.log(reqBody);
   }
 
   changeEuribor(e: any) {
