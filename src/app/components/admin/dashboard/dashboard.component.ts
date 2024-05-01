@@ -73,6 +73,8 @@ export class DashboardComponent {
           },
         },
       },
-    });
+    })
+    const obligationsChange = document.getElementById('canvas') as HTMLInputElement;
+    obligationsChange.style.backgroundColor = 'white';
   }
 }
