@@ -53,9 +53,13 @@
             <td class="text-start">{{row.phone}}</td>
             <td class="text-start">
               @if(row.automationStatus == 'AUTOMATED') {
-              <i class="bi bi-robot"></i>
+              <div>
+                <i tooltip="Automated" class="bi bi-robot"></i>
+              </div>
               } @else {
-              <i class="bi bi-person"></i>
+              <div>
+                <i tooltip="Admin" class="bi bi-person"></i>
+              </div>
               }
             </td>
             <td class="text-start"><a class="bi bi-envelope text-dark"
@@ -92,7 +96,6 @@
             <div class="col border-end">
               Leasing period (months)</div>
             <div class="col border-end">
-              <!-- <input class="form-control" type="number" formControlName="leasingPeriod"> -->
               <select class="form-select" formControlName="leasingPeriod">
                 @for (months of leasingPeriodMonths; track $index) {
                 <option [value]="months">{{months}}</option>
