@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
 import { loginGuard } from './core/guards/login.guard';
-import {ApplicationComponent} from "./components/client/application/application.component";
-import {LoginComponent} from "./components/login/login.component";
+import { ApplicationComponent } from './components/client/application/application.component';
+import { LoginComponent } from './components/login/login.component';
 
 // admin:
-import {DashboardComponent} from "./components/admin/dashboard/dashboard.component";
-import {ApplicationsComponent} from "./components/admin/applications/applications.component";
-import {InboxComponent} from "./components/admin/inbox/inbox.component";
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { ApplicationsComponent } from './components/admin/applications/applications.component';
+import { InboxComponent } from './components/admin/inbox/inbox.component';
 import { MainPageComponent } from './components/client/application/main-page/main-page.component';
 import { AccountComponent } from './components/client/application/account/account.component';
 import { userGuard } from './core/guards/user.guard';
@@ -14,7 +14,7 @@ import { LeasesComponent } from './components/client/application/leases/leases.c
 import { RegisterComponent } from './components/register/register.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ClientComponent } from './components/client/client.component';
-import { SubmissionConfirmationComponent } from "./components/client/submission-confirmation/submission-confirmation.component";
+import { SubmissionConfirmationComponent } from './components/client/submission-confirmation/submission-confirmation.component';
 import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
@@ -26,22 +26,22 @@ export const routes: Routes = [
       {
         path: 'home',
         component: MainPageComponent,
-        canActivate: [userGuard]
+        canActivate: [userGuard],
       },
       {
         path: 'lease/create',
         component: ApplicationComponent,
-        canActivate: [userGuard]
+        canActivate: [userGuard],
       },
       {
         path: 'leases',
         component: LeasesComponent,
-        canActivate: [userGuard]
+        canActivate: [userGuard],
       },
       {
         path: 'account',
         component: AccountComponent,
-        canActivate: [userGuard]
+        canActivate: [userGuard],
       },
     ],
   },
@@ -59,15 +59,27 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminComponent,
     children: [
-      {path: 'inbox', component: InboxComponent},
-      {path: 'applications', component: ApplicationsComponent},
-      {path: 'dashboard', component: DashboardComponent, canActivate: [adminGuard]},
-      {path: 'admin/inbox/:applicationId/:email', component: InboxComponent}
-    ]
+      { path: 'inbox', component: InboxComponent, canActivate: [adminGuard] },
+      {
+        path: 'applications',
+        component: ApplicationsComponent,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [adminGuard],
+      },
+      {
+        path: 'admin/inbox/:applicationId/:email',
+        component: InboxComponent,
+        canActivate: [adminGuard],
+      },
+    ],
   },
   {
     path: 'submission-confirmation',
     component: SubmissionConfirmationComponent,
-    canActivate: [userGuard]
-  }
+    canActivate: [userGuard],
+  },
 ];

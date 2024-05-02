@@ -12,13 +12,16 @@ export class AuthService {
   private readonly client = inject(HttpClient);
   private readonly router = inject(Router);
 
+  baseUrl = 'http://localhost:8080/api/';
+  //baseUrl = 'https://sweatbank-backend.onrender.com/api/';
+
   login(
     email: string,
     password: string
   ): Observable<HttpResponse<AuthResponseData>> {
     return this.client
       .post<AuthResponseData>(
-        environment.apiUrl+'auth/login',
+        this.baseUrl + 'auth/login',
         {
           username: email,
           password,
@@ -29,14 +32,15 @@ export class AuthService {
         tap((resData) => {
           const token = resData.headers.get('authorization');
           if (token) {
-            this.handleAuthentication(token,
+            this.handleAuthentication(
+              token,
               resData.body!.role,
               resData.body?.user.firstName || '',
               resData.body?.user.lastName || '',
               resData.body?.user.username || '',
               resData.body?.user.phoneNumber || '',
               resData.body?.user.address || '',
-              resData.body?.user.birthdate.toString() || '',
+              resData.body?.user.birthdate.toString() || ''
             );
           }
         })
@@ -54,22 +58,21 @@ export class AuthService {
     address: string,
     confirmPassword: string
   ): Observable<unknown> {
-    return this.client
-      .post(
-        environment.apiUrl+'auth/register',
-        {
-          username: username,
-          phoneNumber: phoneNumber,
-          personalId: personalId,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-          birthDate: birthDate,
-          address: address,
-          confirmPassword: confirmPassword
-        },
-        { observe: 'response' }
-      )
+    return this.client.post(
+      this.baseUrl + 'auth/register',
+      {
+        username: username,
+        phoneNumber: phoneNumber,
+        personalId: personalId,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+        birthDate: birthDate,
+        address: address,
+        confirmPassword: confirmPassword,
+      },
+      { observe: 'response' }
+    );
   }
 
   logout() {
@@ -85,14 +88,35 @@ export class AuthService {
     return this.getUserData('role');
   }
 
-  handleAuthentication(token: string, role: string, firstName: string, lastName: string, username: string, phoneNumber: string, address: string, birthDate: string) {
-    sessionStorage.setItem('userData', JSON.stringify({ token, role, firstName, lastName, username, phoneNumber, address, birthDate }));
+  handleAuthentication(
+    token: string,
+    role: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    phoneNumber: string,
+    address: string,
+    birthDate: string
+  ) {
+    sessionStorage.setItem(
+      'userData',
+      JSON.stringify({
+        token,
+        role,
+        firstName,
+        lastName,
+        username,
+        phoneNumber,
+        address,
+        birthDate,
+      })
+    );
   }
 
   getUserName(): string {
     return this.getUserData('firstName') + ' ' + this.getUserData('lastName');
   }
-  
+
   getUserData(key: string): string {
     const data = sessionStorage.getItem('userData');
     if (data) {
