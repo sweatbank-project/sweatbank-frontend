@@ -11,6 +11,7 @@ import {
   calculateTotalInterestRate,
 } from '../../../core/utility';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import {
   faEye,
   faEyeSlash,
@@ -51,6 +52,7 @@ interface RequestBody {
     ReactiveFormsModule,
     ModalModule,
     FontAwesomeModule,
+    TooltipModule,
   ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.scss',
