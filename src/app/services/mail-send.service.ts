@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { catchError, Observable, throwError, tap, Subject } from 'rxjs';
-import { error } from 'jquery';
-import { environment } from '../../environments/environment';
-import { Message } from '../components/admin/inbox/inbox.component';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MailSendService {
   private apiUrl = environment.apiUrl;
-
-  baseUrl = 'http://localhost:8080/api/';
-  // baseUrl = 'https://sweatbank-backend.onrender.com/api/';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -22,12 +17,15 @@ export class MailSendService {
     message: string,
     applicationId: string
   ): Observable<HttpResponse<any>> {
-    return this.httpClient.post<any>(this.apiUrl + 'admin/send-message', {
-      recipient,
-      subject,
-      body: message,
-      applicationId,
-    });
+    return this.httpClient.post<any>(
+      environment.apiUrl + 'admin/send-message',
+      {
+        recipient,
+        subject,
+        body: message,
+        applicationId,
+      }
+    );
   }
 
   rejectEmail(
@@ -37,7 +35,7 @@ export class MailSendService {
     applicationId: string
   ): Observable<HttpResponse<any>> {
     return this.httpClient.post<any>(
-      this.apiUrl + 'admin/send-message/reject',
+      environment.apiUrl + 'admin/send-message/reject',
       {
         recipient,
         subject,
@@ -56,9 +54,9 @@ export class MailSendService {
     return this.httpClient.post<any>(
       this.apiUrl + 'admin/send-message/approved',
       {
-        // recipient,
-        // subject,
-        // body: message,
+        recipient,
+        subject,
+        body: message,
         applicationId,
       }
     );
