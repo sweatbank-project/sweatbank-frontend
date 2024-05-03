@@ -1,11 +1,12 @@
+@import "../../../../../styles/variables.scss";
+
 .container.main {
   height: auto;
   margin-top: 20px;
   margin-bottom: 20px;
-  border-radius: 6px;
+  border-radius: $border-radius;
   padding-block: 20px;
   padding-inline: 30px;
-  background-color: white;
 }
 
 .container.inner {

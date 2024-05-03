@@ -21,6 +21,17 @@ export class ClientComponent {
 
   toggleDropdown(dropdownName: string) {
     this.dropdownStates[dropdownName] = !this.dropdownStates[dropdownName];
+
+    if(dropdownName == 'dropdown1') {
+      const element = document.getElementById('navbarNav') as HTMLInputElement;
+  
+      const isShowClassPresent = element.classList.contains('show');
+      if(isShowClassPresent) {
+        element.classList.remove('show');
+      } else {
+        element.classList.add('show');
+      }
+    }
   }
 
   logout() {

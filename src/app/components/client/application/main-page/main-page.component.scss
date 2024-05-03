@@ -1,3 +1,4 @@
+@import "../../../../../styles/variables.scss";
 .container {
   min-height: calc(100vh - 190px);
   margin-bottom: 20px;
@@ -13,12 +14,26 @@
   object-fit: cover;
 }
 
+.card {
+  max-height: 500px;
+  border-radius: $border-radius;
+  img {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+  }
+  box-shadow: 5px 5px 5px 4px rgba(0, 0, 0, 0.14);
+}
+
 .card a {
   font-weight: 500;
 }
 
 .card-body a {
   width: 100%;
+}
+
+.card-body a:hover {
+  color: white;
 }
 
 @media only screen and (min-width: 992px) {

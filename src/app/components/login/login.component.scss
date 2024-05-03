@@ -1,90 +1,81 @@
-.content {
-  display: flex;
-  height: 100vh;
-  flex-direction: row;
+@import "../../../styles/styles.scss";
+@import "../../../styles/variables.scss";
+
+.login {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border-radius: $border-radius $border-radius $border-radius $border-radius;
 }
 
-.container-left {
-  display: none;
-  @media (min-width: 1024px) {
-    display: block;
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  box-sizing: border-box;
+  padding: 0;
+
+  .login-card {
+    max-width: 600px;
+    width: 100%;
     background-image: url("/assets/left-banner.png");
     background-size: cover;
     background-position: center;
-    width: 100%;
+    color: white;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: $border-radius 0 0 $border-radius;
   }
-}
 
-.content-left {
-  display: flex;
-  flex-direction: column;
-  color: white;
-  margin-left: auto;
-  margin-right: auto;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  max-width: 28rem;
+  .left-content {
+    flex: 1;
+    color: white;
+    padding: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   h1 {
-    width: 100%;
+    margin-bottom: 2rem;
   }
-  p {
-    font-size: 1.25rem;
-    margin: 0;
+
+  .right-content {
+    padding: 13rem;
+    border-radius: 0 $border-radius $border-radius 0;
+    background-color: white;
+  }
+  @media (max-width: 1024px) {
+    .login-card {
+      flex-direction: column;
+      background-image: none;
+      padding: 0;
+      width: auto;
+    }
+    .right-content {
+      width: 80%;
+      padding: 1rem;
+    }
+    .left-content {
+      display: none;
+    }
+  }
+
+  .card-body {
+    flex: 1;
+    .card-title {
+      margin-bottom: 1.625rem;
+    }
   }
 }
-
-.container-right {
-  width: 100%;
-}
-
-.content-right {
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  max-width: 28rem;
-  margin-right: 1rem;
-  margin-left: 1rem;
-  h2 {
-    width: 100%;
-    margin-top: 0;
-    margin-bottom: 3rem;
-  }
-  @media (min-width: 640px) {
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
 .app-logo {
-  width: 28rem;
+  width: 24rem;
   height: auto;
-}
-
-.submit-button {
-  cursor: pointer;
-  padding: 0.5rem 0.75rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  border-radius: 2rem;
-  display: inline-flex;
-  justify-content: center;
-  border: 0;
-  font-weight: 200;
-  position: relative;
-  overflow: hidden;
-  background-color: rgb(102, 102, 102, 0.35);
-  color: white;
-  width: 15rem;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: rgb(102, 102, 102);
+  padding-bottom: 50px;
+  @media (max-width: 1024px) {
+    display: none;
   }
 }
+
 form {
   width: 100%;
 }
@@ -104,14 +95,14 @@ form {
   appearance: none;
   border-radius: 0.5rem;
   border: 0.0625rem solid rgb(102, 102, 102, 0.35);
-  background-color: white;
   padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
   color: rgb(17, 17, 17);
   font-size: 0.875rem;
   line-height: 1.5rem;
   &:focus {
     border-color: rgb(102, 102, 102);
-    box-shadow: 0 0 0 0.0625rem rgb(102, 102, 102);
+    //box-shadow: 0 0 0 0.0625rem rgb(102, 102, 102);
     outline: 0.13rem solid transparent;
     outline-offset: 0.13rem;
   }
@@ -119,6 +110,7 @@ form {
 
 .input-container {
   position: relative;
+  width: 100%;
 
   fa-icon {
     position: absolute;
@@ -132,6 +124,7 @@ form {
 
 .form-group {
   margin-bottom: 1rem;
+  width: 100%;
   span {
     margin: 0;
     font-size: 0.75rem;
@@ -139,24 +132,11 @@ form {
   }
 }
 
-.forgot-password-link {
-  box-sizing: border-box;
-  width: 100%;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: end;
-  color: rgb(17, 17, 17);
-  width: 100%;
-  :visited {
-    color: rgb(17, 17, 17);
-  }
-}
-
 .signup-message {
   font-size: 0.9rem;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
   a {
-    color: rgb(17, 17, 17);
+    text-decoration: none;
     :visited {
       color: rgb(17, 17, 17);
     }

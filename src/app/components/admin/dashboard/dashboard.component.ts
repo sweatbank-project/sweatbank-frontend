@@ -1,40 +1,68 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import Chart from 'chart.js/auto';
+import { environment } from '../../../../environments/environment';
+import {Title} from "@angular/platform-browser";
+import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [],
+  imports: [FontAwesomeModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
   chart: any = [];
+  cardData = {
+    'amountOfNewLeases': 0,
+    'amountOfPendingLeases': 0,
+    'amountOfApprovedLeases': 0,
+    'amountOfRejectedLeases': 0
+  };
+  canvas = {
+    labels: [] as string[],
+    data: [] as number[]
+  };
 
-  data= {
-    "new": 1,
-    "pending": 2,
-    "approved": 3,
-    "rejected": 4
-  }
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faSpinner = faSpinner;
+  isLoading = false;
+
+  constructor(private http: HttpClient, private titleService:Title) {};
+
+  fetchData(): void {
+    this.http.get<any>(environment.apiUrl + 'admin/dashboard').subscribe(
+      (data) => {
+        this.cardData = { ...data };
+        this.canvas.labels = data.datesWithCounts.map((entry: any) => entry.leaseCreationDate);
+        this.canvas.data = data.datesWithCounts.map((entry: any) => entry.countOfLeases);
+        this.isLoading = false;
+        this.renderChart();
+      },
+      (error) => console.error(error)
+    );
+  };
 
   ngOnInit() {
+    this.titleService.setTitle("Sweatbank Admin Dashboard");
+    this.isLoading = true;
+    this.fetchData();
+  };
+
+  renderChart(): void {
     this.chart = new Chart('canvas', {
       type: 'line',
       data: {
-        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        labels: this.canvas.labels,
         datasets: [
           {
             label: 'New Applications',
-            
-            data: [12, 19, 3, 5, 2, 3, 20],
+            data: this.canvas.data,
             borderWidth: 1,
-          },
-          {
-            label: 'Admin Actions',
-            data: [6, 10, 5, 8, 1, 2, 10],
-            borderWidth: 1,
-          },
+          }
         ],
       },
       options: {
@@ -45,6 +73,8 @@ export class DashboardComponent {
           },
         },
       },
-    });
+    })
+    const obligationsChange = document.getElementById('canvas') as HTMLInputElement;
+    obligationsChange.style.backgroundColor = 'white';
   }
 }

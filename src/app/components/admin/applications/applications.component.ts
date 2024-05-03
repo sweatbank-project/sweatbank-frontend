@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { CommonModule, NgClass, NgForOf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -11,9 +11,28 @@ import {
   calculateTotalInterestRate,
 } from '../../../core/utility';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import {
+  faEye,
+  faEyeSlash,
+  faL,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { environment } from '../../../../environments/environment';
+import { Title } from '@angular/platform-browser';
+import { UpdateRequestBody } from '../../../types';
+import { AdminService } from '../../../services/admin.service';
+import { response } from 'express';
+import { error } from 'jquery';
 
+interface ApplicationFormValue {
+  leasingPeriod: number | string;
+  downPaymentPercentage: number | string;
+  euriborType: string;
+  euriborRate: number | string;
+  margin: number | string;
+}
 @Component({
   selector: 'app-applications',
   standalone: true,
@@ -25,6 +44,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     ModalModule,
     FontAwesomeModule,
+    TooltipModule,
   ],
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.scss',
@@ -37,11 +57,13 @@ export class ApplicationsComponent {
   faEyeSlash = faEyeSlash;
   faSpinner = faSpinner;
 
-  //baseUrl = 'http://localhost:8080/api/';
-  baseUrl = 'https://sweatbank-backend.onrender.com/api/';
-
   applicationForm: FormGroup;
   selectedEntity: any;
+  loanServiceRate: any;
+
+  dataTable: any;
+
+  private readonly adminService = inject(AdminService)
 
   showModal() {
     this.modal?.show();
@@ -51,50 +73,19 @@ export class ApplicationsComponent {
     this.modal?.hide();
   }
 
-  openEmailForm(email: string) {
-    this.router.navigate(['/admin/inbox', { email: email }]);
+  openEmailForm(applicationId: string) {
+    this.router.navigate(['/admin/inbox', { applicationId: applicationId }]);
   }
 
   data: any;
-  constructor(private router: Router, private http: HttpClient) {
-    this.isLoading = true;
-    this.http.get(this.baseUrl + 'admin/leases').subscribe(
-      (data) => {
-        this.isLoading = false;
-        this.data = data;
-        setTimeout(() => {
-          $('#applications').DataTable({
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            processing: true,
-            lengthMenu: [10, 25, 50],
-          });
-          applyStylesToElements();
-        }, 1);
-      },
-      (error) => console.error(error)
-    );
-
-    function applyStylesToElements() {
-      const styleProperties = {
-        backgroundColor: '#FFF',
-        margin: '5px',
-      };
-
-      const elements = document.getElementsByClassName('dt-input');
-
-      for (let i = 0; i < elements.length; i++) {
-        const element = elements[i] as HTMLElement;
-        Object.assign(element.style, styleProperties);
-      }
-
-      const tableElement = document.getElementById('applications');
-      if (tableElement) {
-        tableElement.style.width = '';
-      } else {
-        console.error(`Element with ID 'applications' not found.`);
-      }
-    }
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle('Sweatbank Admin Applications');
+    
+    this.fetchLeases()
 
     //---MODAL---
     this.applicationForm = new FormGroup({
@@ -117,8 +108,8 @@ export class ApplicationsComponent {
 
     this.applicationForm.valueChanges.subscribe((data) => {
       // Calculate down payment
-      this.selectedEntity.downPaymentAmount = calculateDownPayment(
-        this.selectedEntity.costOfCar,
+      this.selectedEntity.downPayment = calculateDownPayment(
+        this.selectedEntity.carCost,
         data.downPaymentPercentage
       );
 
@@ -129,9 +120,9 @@ export class ApplicationsComponent {
       );
 
       // Calculate monthly payment
-      this.selectedEntity.monthlyPaymentAmount = calculateMonthlyPayment(
-        this.selectedEntity.costOfCar,
-        this.selectedEntity.downPaymentAmount,
+      this.selectedEntity.monthlyPayment = calculateMonthlyPayment(
+        this.selectedEntity.carCost,
+        this.selectedEntity.downPayment,
         this.selectedEntity.interestRate,
         data.leasingPeriod
       );
@@ -139,50 +130,99 @@ export class ApplicationsComponent {
   }
 
   openModal(id: number) {
+
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
-    console.log(this.selectedEntity)
+
+    this.updateFormState();
+
+    const requestBody = this.generateCalculationRequestBody();
+    this.sendCalculateSolvencyRequest(requestBody);
     this.showModal();
     if (this.selectedEntity) {
       this.applicationForm.patchValue({
-        leasingPeriod: this.selectedEntity.leasingPeriod*12,
+        // Converting leasing period years to months
+        leasingPeriod: this.selectedEntity.leasingPeriod * 12,
         downPaymentPercentage: this.selectedEntity.downPaymentPercentage,
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
         margin: this.selectedEntity.margin,
+        loanServiceRate: this.selectedEntity.loanServiceRate
       });
     }
   }
 
+  extractRequestBody(
+    selectedEntity: any,
+    applicationFormValue: ApplicationFormValue,
+    statusOverride?: string
+  ): UpdateRequestBody {
+    // Converting leasing period months back to years
+    const leasingPeriod = +applicationFormValue.leasingPeriod / 12;
+    const modifiedLease = {
+      ...selectedEntity,
+      ...applicationFormValue,
+      leasingPeriod,
+    };
+
+    if (statusOverride) {
+      modifiedLease.status = statusOverride;
+    }
+
+    const keysToExtract = [
+      'applicationId',
+      'status',
+      'downPayment',
+      'downPaymentPercentage',
+      'euriborRate',
+      'euriborType',
+      'interestRate',
+      'leasingPeriod',
+      'margin',
+      'monthlyPayment',
+    ];
+
+    const reqBody: UpdateRequestBody = Object.fromEntries(
+      keysToExtract.map((key) => [key, modifiedLease[key]])
+    ) as UpdateRequestBody;
+
+    return reqBody;
+  }
+
   saveApplication() {
     console.log('Save data to db, Status => Pending');
-    this.hideModal();
-    const modifiedLease = {
-      ...this.selectedEntity,
-      ...this.applicationForm.value,
-    };
-    console.log(modifiedLease);
+    const reqBody = this.extractRequestBody(
+      this.selectedEntity,
+      this.applicationForm.value,
+      'PENDING'
+    );
+    console.log(reqBody);
+    this.sendUpdateRequest(reqBody);
   }
 
   approveApplication() {
     console.log('Save data to db, Status => Approve');
+    const reqBody = this.extractRequestBody(
+      this.selectedEntity,
+      this.applicationForm.value,
+      'APPROVED'
+    );
     this.hideModal();
-    const modifiedLease = {
-      ...this.selectedEntity,
-      ...this.applicationForm.value,
-    };
-    console.log(modifiedLease);
+    console.log(reqBody);
+    this.sendUpdateRequest(reqBody);
   }
 
   rejectApplication() {
     console.log('Save data to db, Status => Reject');
+    const reqBody = this.extractRequestBody(
+      this.selectedEntity,
+      this.applicationForm.value,
+      'REJECTED'
+    );
     this.hideModal();
-    const modifiedLease = {
-      ...this.selectedEntity,
-      ...this.applicationForm.value,
-    };
-    console.log(modifiedLease);
+    console.log(reqBody);
+    this.sendUpdateRequest(reqBody);
   }
 
   changeEuribor(e: any) {
@@ -195,10 +235,34 @@ export class ApplicationsComponent {
   }
 
   euriborData: { term: string; value: number }[] = [
-    { term: "EURIBOR_3_MONTH", value: 3.922 },
-    { term: "EURIBOR_6_MONTH", value: 3.893 },
-    { term: "EURIBOR_12_MONTH", value: 3.716 },
+    { term: 'EURIBOR_3_MONTH', value: 3.922 },
+    { term: 'EURIBOR_6_MONTH', value: 3.893 },
+    { term: 'EURIBOR_12_MONTH', value: 3.716 },
   ];
+  leasingPeriodMonths = [12, 24, 36, 48, 60];
+
+  formatEuriborRes(response: string): string {
+    const parts = response.split('_');
+    const formattedParts: string[] = [];
+
+    parts.forEach((part, index) => {
+      const formattedPart =
+        index === 0
+          ? part.charAt(0).toUpperCase() + part.slice(1).toLowerCase()
+          : part.toLowerCase();
+      formattedParts.push(formattedPart);
+    });
+
+    let formattedResponse = formattedParts.join(' ');
+
+    const lastPart = formattedParts[formattedParts.length - 1];
+    if (lastPart === 'month') {
+      formattedResponse =
+        formattedResponse.substring(0, formattedResponse.length) + 's';
+    }
+
+    return formattedResponse;
+  }
 
   mockData = {
     entities: [
@@ -215,8 +279,118 @@ export class ApplicationsComponent {
         euriborRate: 3.922,
         margin: 2.222,
         interestRate: 6.144,
-        monthlyPaymentAmount: 770.04,
+        monthlyPayment: 770.04,
       },
     ],
   };
+
+  initializeDataTable(): void {
+    if (this.dataTable) {
+      this.dataTable.destroy();
+    }
+
+    this.dataTable = $('#applications').DataTable({
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      lengthMenu: [10, 25, 50]
+    });
+    this.applyStylesToElements();
+  }
+
+  fetchLeases() {
+    this.isLoading = true;
+    this.http.get(environment.apiUrl + 'admin/leases').subscribe(
+      (data) => {
+        this.isLoading = false;
+        this.data = data;
+        setTimeout(() => {
+          this.initializeDataTable();
+        }, 1);
+      },
+      (error) => {
+        console.error(error);
+        this.isLoading = false;
+      }
+    );
+  }
+
+  applyStylesToElements() {
+    const styleProperties = {
+      backgroundColor: '#FFF',
+      margin: '5px',
+    };
+
+    const elements = document.getElementsByClassName('dt-input');
+
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i] as HTMLElement;
+      Object.assign(element.style, styleProperties);
+    }
+
+    const tableElement = document.getElementById('applications');
+    if (tableElement) {
+      tableElement.style.width = '';
+    } else {
+      console.error(`Element with ID 'applications' not found.`);
+    }
+  }
+
+  sendUpdateRequest(requestData: UpdateRequestBody): void {
+    this.isLoading = true;
+    this.adminService.updateLease(requestData).subscribe({
+      next: () => {
+        const requestBody = this.generateCalculationRequestBody();
+        this.sendCalculateSolvencyRequest(requestBody);
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.log("error mesage: " + error.message);
+      },
+      complete: () => {
+        this.isLoading = false;
+        this.fetchLeases()
+      }
+    })
+  }
+
+  sendCalculateSolvencyRequest(requestData: any): void {
+    this.adminService.calculateSolvency(requestData).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.loanServiceRate = response.loanServiceRate;
+      },
+      error: (error) => {
+        this.isLoading = false;
+        console.log("error mesage: " + error.message);
+      }
+    })
+  }
+
+  generateCalculationRequestBody() {
+    return {
+      applicationId: this.selectedEntity.applicationId
+    };
+  }  
+ 
+  getLoanServiceRateColor(): string {
+    if (this.loanServiceRate >= 40) {
+      return 'red';
+    } else {
+      return 'green';
+    }
+  }
+
+  private updateFormState(): void {
+    if (this.isApprovedOrRejected()) {
+      this.applicationForm.disable();
+    } else {
+      this.applicationForm.enable();
+    }
+  }
+
+  isApprovedOrRejected(): boolean {
+    return this.selectedEntity && (this.selectedEntity.status === 'APPROVED' || this.selectedEntity.status === 'REJECTED');
+  }
+
 }
