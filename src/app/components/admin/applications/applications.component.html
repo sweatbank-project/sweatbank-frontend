@@ -161,15 +161,22 @@
             <div class="col border-end">{{selectedEntity.monthlyPayment}} EUR</div>
             <div class="col"></div>
           </div>
+            <div class="row border-bottom">
+              <div class="col border-end">Loan service rate</div>
+              <div class="col border-end" [ngStyle]="{ color: getLoanServiceRateColor() }">{{loanServiceRate}} %</div>
+              <div class="col"></div>
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button data-bs-dismiss="modal" (click)="saveApplication()" type="button" class="btn btn-primary">Save</button>
-        <button data-bs-dismiss="modal" (click)="approveApplication()" type="button"
-          class="btn btn-success">Approve</button>
-        <button data-bs-dismiss="modal" (click)="rejectApplication()" type="button"
-          class="btn btn-danger">Reject</button>
-      </div>
+        @if (!isApprovedOrRejected()) {
+          <div class="modal-footer">
+            <button data-bs-dismiss="modal" (click)="saveApplication()" type="button" class="btn btn-primary">Save</button>
+            <button data-bs-dismiss="modal" (click)="approveApplication()" type="button"
+              class="btn btn-success">Approve</button>
+            <button data-bs-dismiss="modal" (click)="rejectApplication()" type="button"
+              class="btn btn-danger">Reject</button>
+          </div>
+        }  
     </div>
     }
   </div>
