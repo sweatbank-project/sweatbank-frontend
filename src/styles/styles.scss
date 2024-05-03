@@ -1,4 +1,6 @@
-@import 'bootstrap';
+$primary: rgba(0, 146, 202, 1);
+$primary-dark: rgb(4, 129, 179);
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
 
 html {
   position: relative;

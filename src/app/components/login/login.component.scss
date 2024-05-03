@@ -1,3 +1,11 @@
+@import "../../../styles/styles.scss";
+@import "../../../styles/variables.scss";
+
+.login {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border-radius: $border-radius $border-radius $border-radius $border-radius;
+}
+
 .login-wrapper {
   display: flex;
   justify-content: center;
@@ -9,7 +17,6 @@
   .login-card {
     max-width: 600px;
     width: 100%;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     background-image: url("/assets/left-banner.png");
     background-size: cover;
     background-position: center;
@@ -17,6 +24,7 @@
     padding: 4rem;
     display: flex;
     flex-direction: column;
+    border-radius: $border-radius 0 0 $border-radius;
   }
 
   .left-content {
@@ -31,11 +39,10 @@
     margin-bottom: 2rem;
   }
 
-
   .right-content {
-    background-color: white;
     padding: 13rem;
-    border-radius: 0 10px 10px 0;
+    border-radius: 0 $border-radius $border-radius 0;
+    background-color: white;
   }
   @media (max-width: 1024px) {
     .login-card {
@@ -54,10 +61,11 @@
   }
 
   .card-body {
-    padding: 2rem;
     flex: 1;
+    .card-title {
+      margin-bottom: 1.625rem;
+    }
   }
-
 }
 .app-logo {
   width: 24rem;
@@ -68,28 +76,6 @@
   }
 }
 
-.submit-button {
-  cursor: pointer;
-  padding: 0.5rem 0.75rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  border-radius: 2rem;
-  display: inline-flex;
-  justify-content: center;
-  border: 0;
-  font-weight: 200;
-  position: relative;
-  overflow: hidden;
-  background-color: rgb(102, 102, 102, 0.35);
-  color: white;
-  width: 100%;
-  max-width: 20rem;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: rgb(102, 102, 102);
-  }
-}
 form {
   width: 100%;
 }
@@ -109,8 +95,8 @@ form {
   appearance: none;
   border-radius: 0.5rem;
   border: 0.0625rem solid rgb(102, 102, 102, 0.35);
-  background-color: white;
   padding: 0.5rem 0.75rem;
+  margin-bottom: 0.5rem;
   color: rgb(17, 17, 17);
   font-size: 0.875rem;
   line-height: 1.5rem;
@@ -146,24 +132,11 @@ form {
   }
 }
 
-.forgot-password-link {
-  box-sizing: border-box;
-  width: 100%;
-  font-size: 0.9rem;
-  display: flex;
-  justify-content: end;
-  color: rgb(17, 17, 17);
-  width: 100%;
-  :visited {
-    color: rgb(17, 17, 17);
-  }
-}
-
 .signup-message {
   font-size: 0.9rem;
-  margin-top: 0.5rem;
+  margin-top: 2rem;
   a {
-    color: rgb(17, 17, 17);
+    text-decoration: none;
     :visited {
       color: rgb(17, 17, 17);
     }

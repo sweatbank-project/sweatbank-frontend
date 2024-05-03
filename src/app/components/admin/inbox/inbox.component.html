@@ -3,23 +3,37 @@
 </section>
 <section class="home">
   <div class="email-categories-sidebar">
-    <div class="email-category" [class.active]="activeCategory === 'inbox'" (click)="filterEmails('inbox')">
+    <div
+      class="email-category"
+      [class.active]="activeCategory === 'inbox'"
+      (click)="filterEmails('inbox')"
+    >
       <i class="bi bi-inbox"></i>
       <span>Inbox</span>
       <span class="category-count">{{ emailCount }}</span>
     </div>
     <div class="compose-btn-container">
-      <button (click)="composeNewEmail()">Compose New Email</button>
+      <button class="btn bg-primary" (click)="composeNewEmail()">
+        Compose New Email
+      </button>
     </div>
   </div>
 
   <div class="inbox-container">
     <div class="search-bar">
-      <input type="text" [(ngModel)]="searchTerm" placeholder="Search messages...">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search messages..."
+      />
     </div>
-    <div *ngFor="let email of filteredEmails" class="message" (click)="toggleEmailDetail(email)">
+    <div
+      *ngFor="let email of filteredEmails"
+      class="message"
+      (click)="toggleEmailDetail(email)"
+    >
       <div class="message-checkbox" (click)="$event.stopPropagation()">
-        <input type="checkbox" [id]="'checkbox' + email.id">
+        <input type="checkbox" [id]="'checkbox' + email.id" />
         <label [for]="'checkbox' + email.id"></label>
       </div>
       <div class="message-star">
@@ -29,8 +43,13 @@
         <div class="message-header">
           <div class="message-sender">{{ email.sender }}</div>
           <div class="message-details">
-            <div class="message-time">{{ email.time | date: 'short' }}</div>
-            <button class="delete-button" (click)="deleteEmail(email); $event.stopPropagation()">Delete</button>
+            <div class="message-time">{{ email.time | date : "short" }}</div>
+            <button
+              class="delete-button"
+              (click)="deleteEmail(email); $event.stopPropagation()"
+            >
+              Delete
+            </button>
           </div>
         </div>
         <div *ngIf="email.open" class="message-body">{{ email.body }}</div>
@@ -40,14 +59,30 @@
 
     <div *ngIf="composingEmail" class="compose-email-modal">
       <div class="compose-email-content">
-        <div class="compose-email-header">
+        <div class="compose-email-header d-flex column">
           <h3>Compose New Email</h3>
-          <button class="close-button" (click)="cancelCompose()">&times;</button>
+          <button class="close-button" (click)="cancelCompose()">
+            <h2>&times;</h2>
+          </button>
         </div>
-        <input type="email" [(ngModel)]="newEmailRecipient" placeholder="Recipient's email">
-        <input type="text" [(ngModel)]="newEmailSubject" placeholder="Subject">
-        <textarea [(ngModel)]="newEmailBody" rows="3" placeholder="Email body..."></textarea>
-        <button (click)="sendNewEmail()">Send</button>
+        <input
+          type="email"
+          [(ngModel)]="newEmailRecipient"
+          placeholder="Recipient's email"
+        />
+        <input
+          type="text"
+          [(ngModel)]="newEmailSubject"
+          placeholder="Subject"
+        />
+        <textarea
+          [(ngModel)]="newEmailBody"
+          rows="3"
+          placeholder="Email body..."
+        ></textarea>
+        <button class="btn btn-primary text-white" (click)="sendNewEmail()">
+          Send
+        </button>
       </div>
     </div>
   </div>
