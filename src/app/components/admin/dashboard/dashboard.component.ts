@@ -37,28 +37,28 @@ export class DashboardComponent {
 
   constructor(private http: HttpClient, private titleService: Title) {}
 
-  // fetchData(): void {
-  //   this.http.get<any>(environment.apiUrl + 'admin/dashboard').subscribe(
-  //     (data) => {
-  //       this.cardData = { ...data };
-  //       this.canvas.labels = data.datesWithCounts.map(
-  //         (entry: any) => entry.leaseCreationDate
-  //       );
-  //       this.canvas.data = data.datesWithCounts.map(
-  //         (entry: any) => entry.countOfLeases
-  //       );
-  //       this.isLoading = false;
-  //       this.renderChart();
-  //     },
-  //     (error) => console.error(error)
-  //   );
-  // }
+  fetchData(): void {
+    this.http.get<any>(environment.apiUrl + 'admin/dashboard').subscribe(
+      (data) => {
+        this.cardData = { ...data };
+        this.canvas.labels = data.datesWithCounts.map(
+          (entry: any) => entry.leaseCreationDate
+        );
+        this.canvas.data = data.datesWithCounts.map(
+          (entry: any) => entry.countOfLeases
+        );
+        this.isLoading = false;
+        this.renderChart();
+      },
+      (error) => console.error(error)
+    );
+  }
 
-  // ngOnInit() {
-  //   this.titleService.setTitle('Sweatbank Admin Dashboard');
-  //   this.isLoading = true;
-  //   this.fetchData();
-  // }
+  ngOnInit() {
+    this.titleService.setTitle('Sweatbank Admin Dashboard');
+    this.isLoading = true;
+    this.fetchData();
+  }
 
   renderChart(): void {
     this.chart = new Chart('canvas', {

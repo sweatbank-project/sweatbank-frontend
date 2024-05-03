@@ -36,24 +36,31 @@ export class MailSendService {
     message: string,
     applicationId: string
   ): Observable<HttpResponse<any>> {
-    return this.httpClient.post<any>(this.apiUrl + 'admin/reject', {
-      recipient,
-      subject,
-      body: message,
-      applicationId,
-    });
+    return this.httpClient.post<any>(
+      this.apiUrl + 'admin/send-message/reject',
+      {
+        recipient,
+        subject,
+        body: message,
+        applicationId,
+      }
+    );
   }
+
   approvedEmail(
     recipient: string,
     subject: string,
     message: string,
     applicationId: string
   ): Observable<HttpResponse<any>> {
-    return this.httpClient.post<any>(this.apiUrl + 'admin/approved', {
-      recipient,
-      subject,
-      body: message,
-      applicationId,
-    });
+    return this.httpClient.post<any>(
+      this.apiUrl + 'admin/send-message/approved',
+      {
+        recipient,
+        subject,
+        body: message,
+        applicationId,
+      }
+    );
   }
 }

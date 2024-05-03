@@ -21,6 +21,7 @@ import {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
+import { MailSendService } from '../../../services/mail-send.service';
 import { UpdateRequestBody } from '../../../types';
 import { AdminService } from '../../../services/admin.service';
 import { response } from 'express';
@@ -63,7 +64,7 @@ export class ApplicationsComponent {
 
   dataTable: any;
 
-  private readonly adminService = inject(AdminService)
+  private readonly adminService = inject(AdminService);
 
   showModal() {
     this.modal?.show();
@@ -76,7 +77,7 @@ export class ApplicationsComponent {
   openEmailForm(email: string, applicationId: string) {
     this.router.navigate(['/admin/inbox', { email, applicationId }]);
   }
-
+  mailService = inject(MailSendService);
   data: any;
   constructor(
     private router: Router,
@@ -84,8 +85,8 @@ export class ApplicationsComponent {
     private titleService: Title
   ) {
     this.titleService.setTitle('Sweatbank Admin Applications');
-    
-    this.fetchLeases()
+
+    this.fetchLeases();
 
     //---MODAL---
     this.applicationForm = new FormGroup({
@@ -130,7 +131,6 @@ export class ApplicationsComponent {
   }
 
   openModal(id: number) {
-
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
@@ -148,7 +148,7 @@ export class ApplicationsComponent {
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
         margin: this.selectedEntity.margin,
-        loanServiceRate: this.selectedEntity.loanServiceRate
+        loanServiceRate: this.selectedEntity.loanServiceRate,
       });
     }
   }
@@ -210,6 +210,23 @@ export class ApplicationsComponent {
     );
     this.hideModal();
     console.log(reqBody);
+
+    this.mailService
+      .rejectEmail(
+        this.selectedEntity.email,
+        'Response to Your Application',
+        'your application was rejected',
+        this.selectedEntity.applicationId
+      )
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          console.log('Approval email sent successfully');
+        },
+        error: (error) => {
+          console.error('Failed to send approval email', error);
+        },
+      });
     this.sendUpdateRequest(reqBody);
   }
 
@@ -222,6 +239,23 @@ export class ApplicationsComponent {
     );
     this.hideModal();
     console.log(reqBody);
+
+    this.mailService
+      .rejectEmail(
+        this.selectedEntity.email,
+        'Response to Your Application',
+        'your application was rejected',
+        this.selectedEntity.applicationId
+      )
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          console.log('Rejection email sent successfully');
+        },
+        error: (error) => {
+          console.error('Failed to send rejection email', error);
+        },
+      });
     this.sendUpdateRequest(reqBody);
   }
 
@@ -293,7 +327,7 @@ export class ApplicationsComponent {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      lengthMenu: [10, 25, 50]
+      lengthMenu: [10, 25, 50],
     });
     this.applyStylesToElements();
   }
@@ -345,13 +379,13 @@ export class ApplicationsComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        console.log("error mesage: " + error.message);
+        console.log('error mesage: ' + error.message);
       },
       complete: () => {
         this.isLoading = false;
-        this.fetchLeases()
-      }
-    })
+        this.fetchLeases();
+      },
+    });
   }
 
   sendCalculateSolvencyRequest(requestData: any): void {
@@ -362,17 +396,17 @@ export class ApplicationsComponent {
       },
       error: (error) => {
         this.isLoading = false;
-        console.log("error mesage: " + error.message);
-      }
-    })
+        console.log('error mesage: ' + error.message);
+      },
+    });
   }
 
   generateCalculationRequestBody() {
     return {
-      applicationId: this.selectedEntity.applicationId
+      applicationId: this.selectedEntity.applicationId,
     };
-  }  
- 
+  }
+
   getLoanServiceRateColor(): string {
     if (this.loanServiceRate >= 40) {
       return 'red';
@@ -390,7 +424,10 @@ export class ApplicationsComponent {
   }
 
   isApprovedOrRejected(): boolean {
-    return this.selectedEntity && (this.selectedEntity.status === 'APPROVED' || this.selectedEntity.status === 'REJECTED');
+    return (
+      this.selectedEntity &&
+      (this.selectedEntity.status === 'APPROVED' ||
+        this.selectedEntity.status === 'REJECTED')
+    );
   }
-
 }
