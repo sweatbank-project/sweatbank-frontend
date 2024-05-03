@@ -59,9 +59,13 @@
             <td class="text-start">{{ row.phone }}</td>
             <td class="text-start">
               @if(row.automationStatus == 'AUTOMATED') {
-              <i class="bi bi-robot"></i>
+              <div>
+                <i tooltip="Automated" class="bi bi-robot"></i>
+              </div>
               } @else {
-              <i class="bi bi-person"></i>
+              <div>
+                <i tooltip="Admin" class="bi bi-person"></i>
+              </div>
               }
             </td>
             <td class="text-start">
@@ -119,7 +123,6 @@
           <div class="row border-bottom">
             <div class="col border-end">Leasing period (months)</div>
             <div class="col border-end">
-              <!-- <input class="form-control" type="number" formControlName="leasingPeriod"> -->
               <select class="form-select" formControlName="leasingPeriod">
                 @for (months of leasingPeriodMonths; track $index) {
                 <option [value]="months">{{ months }}</option>
@@ -204,34 +207,23 @@
             </div>
             <div class="col"></div>
           </div>
+            <div class="row border-bottom">
+              <div class="col border-end">Loan service rate</div>
+              <div class="col border-end" [ngStyle]="{ color: getLoanServiceRateColor() }">{{loanServiceRate}} %</div>
+              <div class="col"></div>
+            </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button
-          data-bs-dismiss="modal"
-          (click)="saveApplication()"
-          type="button"
-          class="btn btn-primary text-white"
-        >
-          Save
-        </button>
-        <button
-          data-bs-dismiss="modal"
-          (click)="approveApplication()"
-          type="button"
-          class="btn btn-success"
-        >
-          Approve
-        </button>
-        <button
-          data-bs-dismiss="modal"
-          (click)="rejectApplication()"
-          type="button"
-          class="btn btn-danger"
-        >
-          Reject
-        </button>
       </div>
+        @if (!isApprovedOrRejected()) {
+          <div class="modal-footer">
+            <button data-bs-dismiss="modal" (click)="saveApplication()" type="button" class="btn btn-primary">Save</button>
+            <button data-bs-dismiss="modal" (click)="approveApplication()" type="button"
+              class="btn btn-success">Approve</button>
+            <button data-bs-dismiss="modal" (click)="rejectApplication()" type="button"
+              class="btn btn-danger">Reject</button>
+          </div>
+        }  
     </div>
     }
   </div>

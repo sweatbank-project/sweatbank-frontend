@@ -212,11 +212,19 @@ export class ApplicationComponent {
       this.setValidators(jobTitleControl, null);
       this.setValidators(timeEmployedControl, null);
       this.setValidators(businessAreaControl, null);
+
+      jobTitleControl?.setValue('no job title');
+      timeEmployedControl?.setValue(0);
+      businessAreaControl?.setValue('none');
     } else {
       this.showInputs('.jobTitleInput');
       this.setValidators(jobTitleControl, [Validators.required]);
       this.setValidators(timeEmployedControl, [Validators.required]);
       this.setValidators(businessAreaControl, [Validators.required]);
+
+      jobTitleControl?.setValue(null);
+      timeEmployedControl?.setValue(null);
+      businessAreaControl?.setValue(null);
     }
   }
 

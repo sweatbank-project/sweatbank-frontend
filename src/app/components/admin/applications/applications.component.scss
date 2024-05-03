@@ -60,3 +60,8 @@
   color: black;
   text-shadow: 0 0 0px rgba(0, 0, 0, 0);
 }
+
+input:disabled, select:disabled{
+  background-image: none;
+  background-color: #fff;
+}
