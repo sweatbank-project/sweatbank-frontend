@@ -80,6 +80,7 @@ export class InboxComponent implements OnInit {
     const storedEmails = localStorage.getItem('emails');
     if (storedEmails) {
       this.emails = JSON.parse(storedEmails);
+      this.emails.forEach((email) => (email.open = false));
     }
   }
   composeEmailToCustomer(email: string): void {
@@ -130,10 +131,15 @@ export class InboxComponent implements OnInit {
       )
       .subscribe({
         next: () => {
+          console.log('Email sent successfully');
           this.emails.unshift(newEmail);
           this.saveEmailsToLocalStorage();
           this.resetComposeForm();
           this.router.navigate(['/admin/inbox']);
+        },
+        error: (error) => {
+          console.error('Error sending email:', error);
+          this.error = 'Failed to send email. Please try again.';
         },
       });
   }
@@ -164,32 +170,32 @@ export class InboxComponent implements OnInit {
       });
   }
 
-  // rejectEmail(): void {
-  //   const newEmail: Email = {
-  //     id: Math.max(...this.emails.map((e) => e.id)) + 1,
-  //     recipient: this.newEmailRecipient,
-  //     sender: 'Admin',
-  //     subject: this.newEmailSubject,
-  //     body: this.newEmailBody,
-  //     applicationId: this.applicationId,
-  //     time: new Date(),
-  //     open: false,
-  //     messages: [],
-  //   };
+  rejectEmail(): void {
+    const newEmail: Email = {
+      id: Math.max(...this.emails.map((e) => e.id)) + 1,
+      recipient: this.newEmailRecipient,
+      sender: 'Admin',
+      subject: this.newEmailSubject,
+      body: this.newEmailBody,
+      applicationId: this.applicationId,
+      time: new Date(),
+      open: false,
+      messages: [],
+    };
 
-  //   this.mailSendService
-  //     .rejectEmail(
-  //       newEmail.recipient,
-  //       newEmail.subject,
-  //       newEmail.body,
-  //       newEmail.applicationId!
-  //     )
-  //     .subscribe({
-  //       next: () => {
-  //         this.router.navigate(['/admin/inbox']);
-  //       },
-  //     });
-  // }
+    this.mailSendService
+      .rejectEmail(
+        newEmail.recipient,
+        newEmail.subject,
+        newEmail.body,
+        newEmail.applicationId!
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/admin/inbox']);
+        },
+      });
+  }
 
   resetComposeForm(): void {
     this.composingEmail = false;
