@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, throwError, timeout } from 'rxjs';
 import { UserLeasesResponseData } from './data';
@@ -12,7 +12,7 @@ export class LeaseService {
 
   getUserLeases(username: string): Observable<HttpResponse<UserLeasesResponseData>> {
     return this.httpClient.get<UserLeasesResponseData>(
-      environment.apiUrl + 'user/' + username + '/leases', { observe: 'response', responseType: 'json'}).pipe(timeout(2000));
+      environment.apiUrl + 'user/leases', { observe: 'response', responseType: 'json', params: new HttpParams().set('username', username)}).pipe(timeout(2000));
   }
 
   submit(leaseForm: String): Observable<HttpResponse<any>> {
