@@ -56,9 +56,9 @@ export class MailSendService {
     return this.httpClient.post<any>(
       this.apiUrl + 'admin/send-message/approved',
       {
-        recipient,
-        subject,
-        body: message,
+        // recipient,
+        // subject,
+        // body: message,
         applicationId,
       }
     );
