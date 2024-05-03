@@ -1,129 +1,235 @@
 <div class="register-wrapper">
-  <div class="card register-card">
-    <div class="row g-0">
-      <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center flex-column left-content">
-
-      <img class="app-logo" src="../../../assets/sweat-bank-logo.png" alt="SweatBank logo">
-        <h1>Calculate Your Vehicle Loan</h1>
-        <p>Welcome to SweatBank Car Lease Service!</p>
-        <p>At SweatBank, we prioritize your security. Our platform offers a seamless leasing experience, with top-notch encryption to protect your information. Whether you're after a new or used car, trust us to find the perfect lease for you.</p>
-        <p>SweatBank - Secure Car Leasing Made Simple.</p>
+  <div class="container register">
+    <div class="row register-row">
+      <div class="col-6 card register-card">
+        <div class="row g-0">
+          <div
+            class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center flex-column left-content"
+          >
+            <img
+              class="app-logo"
+              src="../../../assets/sweat-bank-logo.png"
+              alt="SweatBank logo"
+            />
+            <h1>Welcome to SweatBank Car Lease Service!</h1>
+            <p>
+              At SweatBank, we prioritize your security. Our platform offers a
+              seamless leasing experience, with top-notch encryption to protect
+              your information. Whether you're after a new or used car, trust us
+              to find the perfect lease for you.
+            </p>
+            <p>SweatBank - Secure Car Leasing Made Simple.</p>
+          </div>
         </div>
+      </div>
+      <div
+        class="col-6 d-flex align-items-center justify-content-center right-content"
+      >
+        <div class="background-wrapper" style="background-color: white">
+          <div class="card-body right-content">
+            <h2 class="card-title">Sign up</h2>
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+              <div class="form-group">
+                <label for="firstname" class="form-label">Firstname</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="firstname"
+                  name="firstname"
+                  formControlName="firstname"
+                  appCapitalizeFirstLetter
+                />
+                @if(registerForm.get('firstname')?.invalid &&
+                registerForm.get('firstname')?.touched) {
+                <span>Please enter firstname</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="lastname" class="form-label">Lastname</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="lastname"
+                  name="lastname"
+                  formControlName="lastname"
+                  appCapitalizeFirstLetter
+                />
+                @if(registerForm.get('lastname')?.invalid &&
+                registerForm.get('lastname')?.touched) {
+                <span>Please enter lastname</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="phone" class="form-label">Phone No</label>
+                <input
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  type="text"
+                  class="form-input"
+                  id="phone"
+                  name="phone"
+                  formControlName="phone"
+                  placeholder="+3706*******"
+                />
+                @if(registerForm.get('phone')?.touched) {
+                @if(registerForm.get('phone')?.errors?.['required']) {
+                <span>Please enter a valid phone number</span>
+                } @else if
+                (registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat'])
+                {
+                <span
+                  >{{ registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat'] }}</span
+                >
+                } }
+              </div>
+              <div class="form-group">
+                <label for="birthDate" class="form-label">Birth Date</label>
+                <input
+                  type="date"
+                  class="form-input"
+                  id="birthDate"
+                  name="birthDate"
+                  formControlName="birthDate"
+                />
+                @if(registerForm.get('birthDate')?.touched) {
+                @if(registerForm.get('birthDate')?.errors?.['required']) {
+                <span>Please enter a valid birth date</span>
+                } @else if
+                (registerForm.get('birthDate')?.errors?.['invalidBirthDate']) {
+                <span
+                  >{{ registerForm.get('birthDate')?.errors?.['invalidBirthDate'] }}</span
+                >
+                } }
+              </div>
+              <div class="form-group">
+                <label for="address" class="form-label">Address</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  id="address"
+                  name="address"
+                  formControlName="address"
+                  placeholder="Konstitucijos pr. 20A, Vilnius"
+                />
+                @if(registerForm.get('address')?.invalid &&
+                registerForm.get('address')?.touched) {
+                <span>Please enter address</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="personalId" class="form-label">Personal Id</label>
+                <input
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  type="text"
+                  class="form-input"
+                  id="personalId"
+                  name="personalId"
+                  formControlName="personalId"
+                />
+                @if(registerForm.get('personalId')?.touched) {
+                @if(registerForm.get('personalId')?.errors?.['required']) {
+                <span>Please enter a valid personal id</span>
+                } @else if
+                (registerForm.get('personalId')?.errors?.['invalidPersonalIdFormat'])
+                {
+                <span
+                  >{{ registerForm.get('personalId')?.errors?.['invalidPersonalIdFormat'] }}</span
+                >
+                } @else if
+                (registerForm.get('personalId')?.errors?.['invalidPersonalIdLength'])
+                {
+                <span
+                  >{{ registerForm.get('personalId')?.errors?.['invalidPersonalIdLength'] }}</span
+                >
+                } }
+              </div>
+              <div class="form-group">
+                <label for="email" class="form-label">Email address</label>
+                <input
+                  type="email"
+                  class="form-input"
+                  id="email"
+                  name="email"
+                  formControlName="email"
+                />
+                @if(registerForm.get('email')?.invalid &&
+                registerForm.get('email')?.touched) {
+                <span>Please enter a valid email address</span>
+                }
+              </div>
+              <div class="form-group">
+                <label for="password1" class="form-label">Your password</label>
+                <div class="input-container">
+                  <input
+                    [type]="passwordVisible['password1'] ? 'text' : 'password'"
+                    class="form-input"
+                    id="password1"
+                    name="password1"
+                    formControlName="password1"
+                  />
+                  <fa-icon
+                    [icon]="passwordVisible['password1'] ? faEye : faEyeSlash"
+                    (click)="togglePasswordVisibility('password1')"
+                  ></fa-icon>
+                </div>
+                @if(registerForm.get('password1')?.touched) {
+                @if(registerForm.get('password1')?.errors?.['required']) {
+                <span>Please enter password</span>
+                } @else if
+                (registerForm.get('password1')?.errors?.['passwordLength']) {
+                <span
+                  >{{ registerForm.get('password1')?.errors?.['passwordLength'] }}</span
+                >
+                } }
+              </div>
+              <div class="form-group">
+                <label for="password2" class="form-label"
+                  >Repeat your password</label
+                >
+                <div class="input-container">
+                  <input
+                    [type]="passwordVisible['password2'] ? 'text' : 'password'"
+                    class="form-input"
+                    id="password2"
+                    name="password2"
+                    formControlName="password2"
+                  />
+                  <fa-icon
+                    [icon]="passwordVisible['password2'] ? faEye : faEyeSlash"
+                    (click)="togglePasswordVisibility('password2')"
+                  ></fa-icon>
+                </div>
+                @if(registerForm.get('password2')?.touched) {
+                @if(registerForm.get('password2')?.errors?.['required']) {
+                <span>Please enter password</span>
+                } @else if
+                (registerForm.get('password2')?.errors?.['passwordLength']) {
+                <span
+                  >{{ registerForm.get('password2')?.errors?.['passwordLength'] }}</span
+                >
+                } }
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary w-100 text-white"
+                [disabled]="registerForm.invalid || isLoading"
+              >
+                @if (isLoading) {
+                <fa-icon [icon]="faSpinner" animation="spin" />
+                } @else { Sign up }
+              </button>
+              @if (error) {
+              <div>
+                <p style="color: darkred">{{ error }}</p>
+              </div>
+              }
+              <p class="signup-message">
+                Already have an account?
+                <a class="text-primary" routerLink="/login">Sign in</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="col-lg-6 d-flex align-items-center justify-content-center right-content">
-    <div class="background-wrapper" style="background-color: white;">
-    <div class="card-body right-content">
-      <h2 class="card-title">Sign up</h2>
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-                <div class="form-group">
-                    <label for="firstname" class="form-label">Firstname</label>
-                    <input type="text" class="form-input" id="firstname" name="firstname" formControlName="firstname" appCapitalizeFirstLetter>
-                    @if(registerForm.get('firstname')?.invalid && registerForm.get('firstname')?.touched) {
-                        <span>Please enter firstname</span>
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="lastname" class="form-label">Lastname</label>
-                    <input type="text" class="form-input" id="lastname" name="lastname" formControlName="lastname" appCapitalizeFirstLetter>
-                    @if(registerForm.get('lastname')?.invalid && registerForm.get('lastname')?.touched) {
-                        <span>Please enter lastname</span>
-                    }
-                </div>
-                <div class="form-group">
-                  <label for="phone" class="form-label">Phone No</label>
-                  <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="text" class="form-input" id="phone" name="phone" formControlName="phone" placeholder="+3706*******">
-                  @if(registerForm.get('phone')?.touched) {
-                    @if(registerForm.get('phone')?.errors?.['required']) {
-                      <span>Please enter a valid phone number</span>
-                    } @else if (registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat']) {
-                      <span>{{ registerForm.get('phone')?.errors?.['invalidPhoneNumberFormat'] }}</span>
-                    }
-                  }
-                </div>
-                <div class="form-group">
-                    <label for="birthDate" class="form-label">Birth Date</label>
-                    <input type="date" class="form-input" id="birthDate" name="birthDate" formControlName="birthDate">
-                    @if(registerForm.get('birthDate')?.touched) {
-                        @if(registerForm.get('birthDate')?.errors?.['required']) {
-                          <span>Please enter a valid birth date</span>
-                        } @else if (registerForm.get('birthDate')?.errors?.['invalidBirthDate']) {
-                          <span>{{ registerForm.get('birthDate')?.errors?.['invalidBirthDate'] }}</span>
-                        }
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="address" class="form-label">Address</label>
-                    <input type="text" class="form-input" id="address" name="address" formControlName="address" placeholder="Konstitucijos pr. 20A, Vilnius">
-                    @if(registerForm.get('address')?.invalid && registerForm.get('address')?.touched) {
-                        <span>Please enter address</span>
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="personalId" class="form-label">Personal Id</label>
-                    <input oninput="this.value = this.value.replace(/[^0-9]/g, '')" type="text" class="form-input" id="personalId" name="personalId" formControlName="personalId">
-                    @if(registerForm.get('personalId')?.touched) {
-                        @if(registerForm.get('personalId')?.errors?.['required']) {
-                          <span>Please enter a valid personal id</span>
-                        } @else if (registerForm.get('personalId')?.errors?.['invalidPersonalIdFormat']) {
-                          <span>{{ registerForm.get('personalId')?.errors?.['invalidPersonalIdFormat'] }}</span>
-                        } @else if (registerForm.get('personalId')?.errors?.['invalidPersonalIdLength']) {
-                            <span>{{ registerForm.get('personalId')?.errors?.['invalidPersonalIdLength'] }}</span>
-                        }
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-input" id="email" name="email" formControlName="email">
-                    @if(registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-                        <span>Please enter a valid email address</span>
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="password1" class="form-label">Your password</label>
-                    <div class="input-container">
-                        <input [type]="passwordVisible['password1'] ? 'text': 'password'" class="form-input" id="password1" name="password1"
-                            formControlName="password1">
-                        <fa-icon [icon]="passwordVisible['password1'] ? faEye : faEyeSlash" (click)="togglePasswordVisibility('password1')"></fa-icon>
-                    </div>
-                    @if(registerForm.get('password1')?.touched) {
-                        @if(registerForm.get('password1')?.errors?.['required']) {
-                          <span>Please enter password</span>
-                        } @else if (registerForm.get('password1')?.errors?.['passwordLength']) {
-                          <span>{{ registerForm.get('password1')?.errors?.['passwordLength'] }}</span>
-                        }
-                    }
-                </div>
-                <div class="form-group">
-                    <label for="password2" class="form-label">Repeat your password</label>
-                    <div class="input-container">
-                        <input [type]="passwordVisible['password2'] ? 'text': 'password'" class="form-input" id="password2" name="password2"
-                            formControlName="password2">
-                        <fa-icon [icon]="passwordVisible['password2'] ? faEye : faEyeSlash" (click)="togglePasswordVisibility('password2')"></fa-icon>
-                    </div>
-                    @if(registerForm.get('password2')?.touched) {
-                        @if(registerForm.get('password2')?.errors?.['required']) {
-                          <span>Please enter password</span>
-                        } @else if (registerForm.get('password2')?.errors?.['passwordLength']) {
-                          <span>{{ registerForm.get('password2')?.errors?.['passwordLength'] }}</span>
-                        }
-                    }
-                </div>
-                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid || isLoading">
-                    @if (isLoading) {
-                        <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else {
-                        Sign up
-                    }
-                </button>
-                @if (error) {
-                    <div>
-                        <p style="color: darkred;"> {{error}}</p>
-                    </div>
-                }
-                <p class="signup-message">Already have an account? <a routerLink="/login">Sign in</a></p>
-            </form>
-    </div>
-        </div>
-    </div>
 </div>

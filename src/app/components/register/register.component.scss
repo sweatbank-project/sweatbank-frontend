@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .register-wrapper {
   display: flex;
   justify-content: center;
@@ -5,169 +7,173 @@
   height: 100vh;
   box-sizing: border-box;
 
-  .register-card {
-    max-width: 600px;
+  .register {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-    background-image: url("/assets/left-banner.png");
-    background-position: center;
-    color: white;
-    padding: 4rem;
-    display: flex;
-    flex-direction: column;
-    height: 80vh;
-    overflow: hidden;
+    border-radius: $border-radius $border-radius $border-radius $border-radius;
 
-    .left-content {
-      flex: 1;
-      color: white;
-      padding: 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .right-content {
+    &-row {
       background-color: white;
-      border-radius: 0 10px 10px 0;
-      overflow-y: auto;
-    }
-  }
-  .col-lg-6.d-flex.align-items-center.justify-content-center .right-content {
-    background-color: white;
-    border-radius: 0 10px 10px 0;
-    overflow-y: auto;
-    padding: 2rem;
-    height: 80vh;
-  }
+      border-radius: $border-radius $border-radius $border-radius $border-radius;
 
-  @media (max-width: 912px) {
-    .register-card {
-      flex-direction: column;
-      background-image: none;
-      padding: 0;
-      width: auto;
-      height: auto;
-    }
+      .register-card {
+        max-width: 700px;
+        background-image: url("/assets/left-banner.png");
+        border-radius: $border-radius 0 0 $border-radius;
+        background-position: center;
+        color: white;
+        padding: 4rem;
+        display: flex;
+        flex-direction: column;
+        height: 80vh;
+        overflow: hidden;
 
-    .right-content {
-      width: 100%;
-      padding: 1rem;
+        .left-content {
+          flex: 1;
+          color: white;
+          padding: 4rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .right-content {
+          background-color: white;
+          border-radius: 0 10px 10px 0;
+          overflow-y: hidden;
+          width: 90%;
+        }
+      }
+
+      .col-6.d-flex.align-items-center.justify-content-center .right-content {
+        background-color: white;
+        border-radius: 0 10px 10px 0;
+        overflow-y: scroll;
+        height: 80vh;
+        padding-inline: 12rem;
+        padding-block: 5rem;
+
+        .card-title {
+          margin-bottom: 1.625rem;
+        }
+      }
+
+      @media (max-width: 912px) {
+        .register-card {
+          flex-direction: column;
+          background-image: none;
+          padding: 0;
+          width: auto;
+          height: auto;
+        }
+
+        .right-content {
+          width: 100%;
+          padding: 1rem;
+        }
+      }
+      .background-wrapper {
+        background-color: white;
+        width: 100%;
+        height: 100%;
+      }
+      h1 {
+        margin-bottom: 2rem;
+      }
     }
-  }
-  .background-wrapper {
-    background-color: white;
-    width: 100%;
-    height: 100%;
-  }
-  h1 {
-    margin-bottom: 2rem;
   }
 }
 
 .app-logo {
-    width: 24rem;
-    height: auto;
-    padding-bottom: 50px;
-  }
+  width: 24rem;
+  height: auto;
+  padding-bottom: 50px;
+}
 
-  .submit-button {
-    cursor: pointer;
-    padding: 0.5rem 0.75rem;
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    border-radius: 2rem;
-    display: inline-flex;
-    justify-content: center;
-    border: 0;
-    font-weight: 200;
-    position: relative;
-    overflow: hidden;
-    background-color: rgb(102, 102, 102, 0.35);
-    color: white;
-    width: 15rem;
-    transition: background-color 0.3s;
+.submit-button {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  border-radius: 2rem;
+  display: inline-flex;
+  justify-content: center;
+  border: 0;
+  font-weight: 200;
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(102, 102, 102, 0.35);
+  color: white;
+  width: 15rem;
+  transition: background-color 0.3s;
 
-    &:hover {
-      background-color: rgb(102, 102, 102);
-    }
+  &:hover {
+    background-color: rgb(102, 102, 102);
   }
-  form {
-    width: 100%;
-  }
+}
+form {
+  width: 100%;
+}
 
-  .form-label {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    font-size: 0.875rem;
+.form-label {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 0.875rem;
+  color: rgb(102, 102, 102);
+}
+
+.form-input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  appearance: none;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid rgb(102, 102, 102, 0.35);
+  background-color: white;
+  padding: 0.5rem 0.75rem;
+  color: rgb(17, 17, 17);
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  &:focus {
+    border-color: rgb(102, 102, 102);
+    box-shadow: 0 0 0 0.0625rem rgb(102, 102, 102);
+    outline: 0.13rem solid transparent;
+    outline-offset: 0.13rem;
+  }
+}
+
+.input-container {
+  position: relative;
+
+  fa-icon {
+    position: absolute;
+    top: 0.625rem;
+    right: 1rem;
+    stroke: rgb(102, 102, 102);
     color: rgb(102, 102, 102);
+    cursor: pointer;
   }
+}
 
-  .form-input {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    appearance: none;
-    border-radius: 0.5rem;
-    border: 0.0625rem solid rgb(102, 102, 102, 0.35);
-    background-color: white;
-    padding: 0.5rem 0.75rem;
-    color: rgb(17, 17, 17);
-    font-size: 0.875rem;
-    line-height: 1.5rem;
-    &:focus {
-      border-color: rgb(102, 102, 102);
-      box-shadow: 0 0 0 0.0625rem rgb(102, 102, 102);
-      outline: 0.13rem solid transparent;
-      outline-offset: 0.13rem;
-    }
+.form-group {
+  margin-bottom: 1rem;
+  span {
+    margin: 0;
+    font-size: 0.75rem;
+    color: rgb(238, 29, 82);
   }
+}
 
-  .input-container {
-    position: relative;
-
-    fa-icon {
-      position: absolute;
-      top: 0.625rem;
-      right: 1rem;
-      stroke: rgb(102, 102, 102);
-      color: rgb(102, 102, 102);
-      cursor: pointer;
-    }
-  }
-
-  .form-group {
-    margin-bottom: 1rem;
-    span {
-      margin: 0;
-      font-size: 0.75rem;
-      color: rgb(238, 29, 82);
-    }
-  }
-
-  .forgot-password-link {
-    box-sizing: border-box;
-    width: 100%;
-    font-size: 0.9rem;
-    display: flex;
-    justify-content: end;
-    color: rgb(17, 17, 17);
-    width: 100%;
+.signup-message {
+  font-size: 0.9rem;
+  margin-top: 2rem;
+  a {
+    text-decoration: none;
     :visited {
       color: rgb(17, 17, 17);
     }
   }
-
-  .signup-message {
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-    a {
-      color: rgb(17, 17, 17);
-      :visited {
-        color: rgb(17, 17, 17);
-      }
-    }
-  }
-  body.login-page .main-content {
-    padding-bottom: 0;
-  }
+}
+body.login-page .main-content {
+  padding-bottom: 0;
+}

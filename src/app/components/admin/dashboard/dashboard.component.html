@@ -1,89 +1,97 @@
 <section class="home">
-    <div class="container-fluid">
-      <div class="text">Dashboard</div>
-    </div>
-    <div class="container-fluid">
-      <div class="row px-5">
-        <div class="col-lg-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="row alig n-items-start">
-                <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold"> New Applications </h5>
-                  <h4 class="mb-3">
-                    @if (isLoading) {
-                      <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else {
-                      {{cardData['amountOfNewLeases']}}
-                    }
-                  </h4>
-                </div>
-              </div>
-            </div>
+  <div class="container-fluid">
+    <div class="text">Dashboard</div>
+  </div>
+  <div class="container-fluid">
+    <div class="row px-5">
+      <div
+        class="col-3 text-center d-flex row justify-content-center align-items-center mb-5"
+      >
+        <span class="card rounded-circle new-applications">
+          <div
+            class="card-body text-center d-flex justify-content-center align-items-center"
+          >
+            <h2 class="text-white">
+              @if (isLoading) {
+              <fa-icon [icon]="faSpinner" animation="spin" />
+              } @else {
+              {{ cardData["amountOfNewLeases"] }}
+              }
+            </h2>
           </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="row align-items-start">
-                <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold"> Pending Applications </h5>
-                  <h4 class="mb-3">
-                    @if (isLoading) {
-                      <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else {
-                      {{cardData['amountOfPendingLeases']}}
-                    }
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="row alig n-items-start">
-                <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold"> Approved Applications </h5>
-                  <h4 class="mb-3">
-                    @if (isLoading) {
-                      <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else {
-                      {{cardData['amountOfApprovedLeases']}}
-                    }
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="row alig n-items-start">
-                <div class="col-8">
-                  <h5 class="card-title mb-9 fw-semibold"> Rejected Applications </h5>
-                  <h4 class="mb-3">
-                    @if (isLoading) {
-                      <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else {
-                      {{cardData['amountOfRejectedLeases']}}
-                    }
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </span>
+        <h6 class="card-title mb-9 fw-semibold text-white">New Applications</h6>
       </div>
-      <div class="row px-5">
-        <div>
-          @if (isLoading) {
-            <h4 class="mb-3 text-center"><fa-icon [icon]="faSpinner" animation="spin" /></h4>
-          }
-          <canvas id="canvas" class="canvas" style="height:40vh;"></canvas>
-        </div>
+      <div
+        class="col-3 text-center d-flex row justify-content-center align-items-center mb-5"
+      >
+        <span class="card rounded-circle pending-applications">
+          <div
+            class="card-body text-center d-flex justify-content-center align-items-center"
+          >
+            <h2 class="text-white">
+              @if (isLoading) {
+              <fa-icon [icon]="faSpinner" animation="spin" />
+              } @else {
+              {{ cardData["amountOfPendingLeases"] }}
+              }
+            </h2>
+          </div>
+        </span>
+        <h6 class="card-title mb-9 fw-semibold text-white">
+          Pending Applications
+        </h6>
+      </div>
+      <div
+        class="col-3 text-center d-flex row justify-content-center align-items-center mb-5"
+      >
+        <span class="card rounded-circle approved-applications">
+          <div
+            class="card-body text-center d-flex justify-content-center align-items-center"
+          >
+            <h2 class="text-white">
+              @if (isLoading) {
+              <fa-icon [icon]="faSpinner" animation="spin" />
+              } @else {
+              {{ cardData["amountOfApprovedLeases"] }}
+              }
+            </h2>
+          </div>
+        </span>
+        <h6 class="card-title mb-9 fw-semibold text-white">
+          Approved Applications
+        </h6>
+      </div>
+      <div
+        class="col-3 text-center d-flex row justify-content-center align-items-center mb-5"
+      >
+        <span class="card rounded-circle rejected-applications">
+          <div
+            class="card-body text-center d-flex justify-content-center align-items-center"
+          >
+            <h2 class="text-white">
+              @if (isLoading) {
+              <fa-icon [icon]="faSpinner" animation="spin" />
+              } @else {
+              {{ cardData["amountOfRejectedLeases"] }}
+              }
+            </h2>
+          </div>
+        </span>
+        <h6 class="card-title mb-9 fw-semibold text-white">
+          Rejected Applications
+        </h6>
       </div>
     </div>
-  </section>
+    <div class="row px-5">
+      <div>
+        @if (isLoading) {
+        <h4 class="mb-3 text-center">
+          <fa-icon [icon]="faSpinner" animation="spin" />
+        </h4>
+        }
+        <canvas id="canvas" class="canvas" style="height: 40vh"></canvas>
+      </div>
+    </div>
+  </div>
+</section>

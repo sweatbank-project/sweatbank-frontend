@@ -1,14 +1,21 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 .wrapper {
   min-height: calc(100vh - 210px);
 }
 
 footer {
-  background-color: white;
   padding: 20px 0;
   margin-top: 20px;
   width: 100%;
   position: relative;
   bottom: 0;
+  background-color: $body-bg;
+
+  .hours {
+    p {
+      width: 300px;
+    }
+  }
 }
 
 #contacts .container {
@@ -30,5 +37,17 @@ footer {
 }
 
 header {
-  box-shadow: 10px 10px 26px -7px rgba(0,0,0,0.54);
+  box-shadow: 10px 10px 26px -7px rgba(0, 0, 0, 0.54);
+  display: flex;
+  justify-content: space-evenly;
+  background-color: $body-bg;
+
+  .navbar-brand {
+    position: relative;
+    left: 3rem;
+  }
+
+  #navbarNav {
+    margin-right: 3.5rem;
+  }
 }
