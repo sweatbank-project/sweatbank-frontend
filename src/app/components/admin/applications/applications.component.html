@@ -71,7 +71,7 @@
             <td class="text-start">
               <a
                 class="bi bi-envelope text-dark"
-                (click)="openEmailForm(row.email, row.applicationId)"
+                [routerLink]="['/admin/inbox', { email: row.email }]"
               ></a>
             </td>
           </tr>
@@ -207,8 +207,19 @@
             </div>
             <div class="col"></div>
           </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Loan service rate</div>
+            <div
+              class="col border-end"
+              [ngStyle]="{ color: getLoanServiceRateColor() }"
+            >
+              {{ loanServiceRate }} %
+            </div>
+            <div class="col"></div>
+          </div>
         </form>
       </div>
+      @if (!isApprovedOrRejected()) {
       <div class="modal-footer">
         <button
           data-bs-dismiss="modal"
@@ -235,6 +246,7 @@
           Reject
         </button>
       </div>
+      }
     </div>
     }
   </div>

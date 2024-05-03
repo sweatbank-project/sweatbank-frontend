@@ -1,58 +1,90 @@
 <div class="login-wrapper">
-  <div class="card login-card">
-    <div class="row g-0">
-      <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center flex-column left-content">
-            <img class="app-logo" src="../../../assets/sweat-bank-logo.png" alt="SweatBank logo">
-            <h1>Calculate Your Vehicle Loan</h1>
-            <p>Welcome to SweatBank Car Lease Service!</p>
-            <p>At SweatBank, we prioritize your security. Our platform offers a seamless leasing experience, with top-notch encryption to protect your information. Whether you're after a new or used car, trust us to find the perfect lease for you.</p>
-            <p>SweatBank - Secure Car Leasing Made Simple.</p>
+  <div class="login d-flex flex-row">
+    <div class="login-card">
+      <div class="row g-0">
+        <div
+          class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center flex-column left-content"
+        >
+          <img
+            class="app-logo"
+            src="../../../assets/sweat-bank-logo.png"
+            alt="SweatBank logo"
+          />
+          <h1>Welcome to SweatBank Car Lease Service!</h1>
+          <p>
+            At SweatBank, we prioritize your security. Our platform offers a
+            seamless leasing experience, with top-notch encryption to protect
+            your information. Whether you're after a new or used car, trust us
+            to find the perfect lease for you.
+          </p>
+          <p>SweatBank - Secure Car Leasing Made Simple.</p>
         </div>
+      </div>
     </div>
-  </div>
 
-  <div class="col-lg-6 d-flex align-items-center justify-content-center right-content">
-    <div class="card-body">
-      <h2 class="card-title">Sign in</h2>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="email" class="form-label">Email address</label>
-          <input type="email" class="form-input" id="email" name="email" formControlName="email">
-          @if(loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
-          {
-          <span>Please enter a valid email address</span>
-          }
-        </div>
-        <div class="form-group">
-          <label for="password" class="form-label">Your password</label>
-          <div class="input-container">
-            <input [type]="passwordVisible ? 'text': 'password'" class="form-input" id="password" name="password"
-              formControlName="password">
-            <fa-icon [icon]="passwordVisible ? faEye : faEyeSlash" (click)="togglePasswordVisibility()"></fa-icon>
-          </div>
-          @if(loginForm.get('password')?.touched) {
-            @if(loginForm.get('password')?.errors?.['required']) {
-              <span>Please enter password</span>
-            } @else if (loginForm.get('password')?.errors?.['passwordLength']) {
-              <span>{{ loginForm.get('password')?.errors?.['passwordLength'] }}</span>
+    <div class="d-flex align-items-center justify-content-center right-content">
+      <div class="card-body">
+        <h2 class="card-title">Sign in</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-input"
+              id="email"
+              name="email"
+              formControlName="email"
+            />
+            @if(loginForm.get('email')?.invalid &&
+            loginForm.get('email')?.touched) {
+            <span>Please enter a valid email address</span>
             }
-        }
-          <!-- <a class="forgot-password-link" href="/">Forget your password</a> -->
-        </div>
-        <button type="submit" class="btn btn-success" [disabled]="loginForm.invalid || isLoading">
-          @if (isLoading) {
-          <fa-icon [icon]="faSpinner" animation="spin" />
-          } @else {
-          Sign in
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Your password</label>
+            <div class="input-container">
+              <input
+                [type]="passwordVisible ? 'text' : 'password'"
+                class="form-input"
+                id="password"
+                name="password"
+                formControlName="password"
+              />
+              <fa-icon
+                [icon]="passwordVisible ? faEye : faEyeSlash"
+                (click)="togglePasswordVisibility()"
+              ></fa-icon>
+            </div>
+            @if(loginForm.get('password')?.touched) {
+            @if(loginForm.get('password')?.errors?.['required']) {
+            <span>Please enter password</span>
+            } @else if (loginForm.get('password')?.errors?.['passwordLength']) {
+            <span
+              >{{ loginForm.get('password')?.errors?.['passwordLength'] }}</span
+            >
+            } }
+            <!-- <a class="forgot-password-link" href="/">Forget your password</a> -->
+          </div>
+          <button
+            type="submit"
+            class="btn btn-primary w-100 text-white"
+            [disabled]="loginForm.invalid || isLoading"
+          >
+            @if (isLoading) {
+            <fa-icon [icon]="faSpinner" animation="spin" />
+            } @else { Sign in }
+          </button>
+          @if (error) {
+          <div>
+            <p style="color: darkred">{{ error }}</p>
+          </div>
           }
-        </button>
-        @if (error) {
-        <div>
-          <p style="color: darkred;"> {{error}}</p>
-        </div>
-        }
-        <p class="signup-message">Don't have an account? <a routerLink="/register">Sign up</a></p>
-      </form>
+          <p class="signup-message">
+            Don't have an account?
+            <a class="text-primary" routerLink="/register">Sign up</a>
+          </p>
+        </form>
+      </div>
     </div>
   </div>
 </div>

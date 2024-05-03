@@ -1,3 +1,5 @@
+@import "../../../styles/styles.scss";
+
 header {
   background-color: #fff;
 }
@@ -129,7 +131,7 @@ header .image-text .profession {
   transition: all 0.3s ease;
 }
 .sidebar li a:hover {
-  background-color: #695cfe;
+  background-color: $primary;
 }
 .sidebar li a:hover .icon,
 .sidebar li a:hover .text {
@@ -237,4 +239,8 @@ header .image-text .profession {
   .toggle-button-phone {
     display: none;
   }
+}
+
+.outlet {
+  background-color: rgba(141, 180, 196, 0.5);
 }

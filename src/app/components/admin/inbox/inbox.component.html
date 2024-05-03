@@ -13,7 +13,9 @@
       <span class="category-count">{{ emailCount }}</span>
     </div>
     <div class="compose-btn-container">
-      <button (click)="composeNewEmail()">Compose New Email</button>
+      <button class="btn bg-primary" (click)="composeNewEmail()">
+        Compose New Email
+      </button>
     </div>
   </div>
 
@@ -57,17 +59,16 @@
 
     <div *ngIf="composingEmail" class="compose-email-modal">
       <div class="compose-email-content">
-        <div class="compose-email-header">
+        <div class="compose-email-header d-flex column">
           <h3>Compose New Email</h3>
           <button class="close-button" (click)="cancelCompose()">
-            &times;
+            <h2>&times;</h2>
           </button>
         </div>
         <input
           type="email"
           [(ngModel)]="newEmailRecipient"
           placeholder="Recipient's email"
-          readonly
         />
         <input
           type="text"
@@ -79,7 +80,9 @@
           rows="3"
           placeholder="Email body..."
         ></textarea>
-        <button (click)="sendNewEmail()">Send</button>
+        <button class="btn btn-primary text-white" (click)="sendNewEmail()">
+          Send
+        </button>
       </div>
     </div>
   </div>
