@@ -948,7 +948,7 @@
               (click)="showModal()"
               [disabled]="this.applicationForm.invalid"
             >
-              Submit <i class="bi bi-chevron-right"></i>
+              Verify <i class="bi bi-chevron-right"></i>
             </button>
           </div>
           <div
@@ -974,7 +974,7 @@
                   ></button>
                 </div>
                 <div class="modal-body">
-                  <p>Please verify that provided data is correct.</p>
+                  <p>Are you sure your provided data is correct?</p>
                 </div>
                 <div class="modal-footer">
                   <button
@@ -983,7 +983,7 @@
                     data-dismiss="modal"
                     (click)="modal.hide()"
                   >
-                    Cancel
+                    No
                   </button>
                   <button
                     type="submit"
@@ -992,7 +992,7 @@
                   >
                     @if (isLoading) {
                     <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else { Verify }
+                    } @else { Yes }
                   </button>
                 </div>
                 <div class="modal-footer">
