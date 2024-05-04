@@ -361,7 +361,6 @@ export class ApplicationsComponent {
   sendCalculateSolvencyRequest(requestData: any): void {
     this.adminService.calculateSolvency(requestData).subscribe({
       next: (response) => {
-        console.log(response);
         this.solvencyResponse = response;
       },
       error: (error) => {

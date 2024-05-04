@@ -120,11 +120,10 @@ export class InboxComponent implements OnInit {
       open: false,
       messages: []
     };
-    
+
     this.http.post(environment.apiUrl + 'emails/send', newEmail)
       .subscribe({
         next: (response) => {
-          console.log('Email sent successfully', response);
           this.emails.unshift(newEmail);
           this.saveEmailsToLocalStorage();
           this.resetComposeForm();
