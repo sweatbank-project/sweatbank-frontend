@@ -4,7 +4,7 @@ export const calculateDownPayment = (
 ): number => {
   const downPaymentDecimal = downPaymentPercentage / 100;
   const downPayment = costOfCar * downPaymentDecimal;
-  return downPayment;
+  return parseFloat(downPayment.toFixed(2));
 };
 
 const calculateDownPaymentPercentage = (

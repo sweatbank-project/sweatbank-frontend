@@ -2,6 +2,7 @@
 
 header {
   background-color: rgba(141, 180, 196, 0.5);
+  height: 85px;
 }
 
 ::selection {
@@ -33,9 +34,9 @@ header {
 
 .sidebar {
   position: fixed;
-  top: 82px;
+  top: 85px;
   left: 0;
-  height: 91%;
+  height: calc(100vh - 85px);
   width: 250px;
   padding: 10px 14px;
   background: rgba(126, 160, 173, 0.5);

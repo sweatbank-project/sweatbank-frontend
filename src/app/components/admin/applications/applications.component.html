@@ -126,7 +126,7 @@
       </div>
       <div class="modal-body p-5">
         <form [formGroup]="applicationForm">
-          <h4 class="row text-center mb-0 justify-content-start pb-2">
+          <h4 class="row text-center mb-0 justify-content-start pb-2 text-primary">
             Personal Information
           </h4>
           <div class="row border-bottom">
@@ -157,10 +157,10 @@
             </div>
             <div class="col"></div>
           </div>
-          <h4 class="row text-center mb-0 justify-content-start pt-4 pb-2">
+          <h4 class="row text-center mb-0 justify-content-start pt-4 pb-2 text-primary">
             Car and Financing Conditions
           </h4>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Car</div>
             <div class="col border-end">
               {{ selectedEntity.carBrand }} {{ selectedEntity.carModel }}
@@ -168,9 +168,9 @@
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Leasing period (months)</div>
-            <div class="col border-end">
+            <div class="col border-end py-1">
               <select class="form-select" formControlName="leasingPeriod">
                 @for (months of leasingPeriodMonths; track $index) {
                 <option [value]="months">{{ months }}</option>
@@ -179,21 +179,21 @@
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Cost of car</div>
             <div class="col border-end">
               {{ selectedEntity.carCost }} {{ currency }}
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Currency</div>
             <div class="col border-end">{{ currency }}</div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Down Payment %</div>
-            <div class="col border-end">
+            <div class="col border-end py-1">
               <input
                 class="form-control"
                 type="number"
@@ -204,16 +204,16 @@
               {{ selectedEntity.downPayment }} {{ currency }}
             </div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Contract fee %</div>
             <div class="col border-end">1</div>
             <div class="col">
               {{ selectedEntity.contractFee }} {{ currency }}
             </div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Interest base %</div>
-            <div class="col border-end input-group">
+            <div class="col border-end input-group py-1">
               <select
                 class="form-select"
                 formControlName="euriborType"
@@ -226,7 +226,7 @@
                 }
               </select>
             </div>
-            <div class="col">
+            <div class="col py-1">
               <input
                 class="form-control"
                 type="number"
@@ -235,9 +235,9 @@
               />
             </div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Margin %</div>
-            <div class="col border-end input-group">
+            <div class="col border-end input-group py-1">
               <input
                 class="form-control"
                 type="number"
@@ -247,21 +247,21 @@
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Interest rate %</div>
             <div class="col border-end">
               {{ selectedEntity.interestRate | number }}
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Monthly payment</div>
             <div class="col border-end">
               {{ selectedEntity.monthlyPayment }} {{ currency }}
             </div>
             <div class="col"></div>
           </div>
-          <h4 class="row text-center mb-0 justify-content-start pt-4 pb-3">
+          <h4 class="row text-center mb-0 justify-content-start pt-4 pb-3 text-primary">
             Solvency Assessment
           </h4>
           @if(isSolvencyLoading) {
@@ -333,7 +333,7 @@
           data-bs-dismiss="modal"
           (click)="saveApplication()"
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary text-white"
         >
           Save
         </button>
