@@ -5,22 +5,25 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [],
   templateUrl: './submission-confirmation.component.html',
-  styleUrl: './submission-confirmation.component.scss'
+  styleUrl: './submission-confirmation.component.scss',
 })
 export class SubmissionConfirmationComponent implements OnInit {
   countdown = 5;
+  interval: NodeJS.Timeout | undefined;
 
   constructor(private router: Router) {}
+
   ngOnInit(): void {
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       this.countdown--;
       if (this.countdown === 0) {
-        clearInterval(interval);
+        clearInterval(this.interval);
         this.router.navigate(['home']);
       }
     }, 1000);
   }
   redirectToNow(): void {
+    clearInterval(this.interval);
     this.router.navigate(['home']);
   }
 }
