@@ -21,8 +21,7 @@ import {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-import { MailSendService } from '../../../services/mail-send.service';
-import { UpdateRequestBody } from '../../../types';
+import { SolvencyCalculationResponse, UpdateRequestBody } from '../../../types';
 import { AdminService } from '../../../services/admin.service';
 import { response } from 'express';
 import { error } from 'jquery';
@@ -54,13 +53,15 @@ export class ApplicationsComponent {
   @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
 
   isLoading = false;
+  isSolvencyLoading = false;
+  currency = 'EUR';
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   faSpinner = faSpinner;
 
   applicationForm: FormGroup;
   selectedEntity: any;
-  loanServiceRate: any;
+  solvencyResponse: any;
 
   dataTable: any;
 
@@ -74,10 +75,10 @@ export class ApplicationsComponent {
     this.modal?.hide();
   }
 
-  openEmailForm(email: string, applicationId: string) {
-    this.router.navigate(['/admin/inbox', { email, applicationId }]);
+  openEmailForm(applicationId: string) {
+    this.router.navigate(['/admin/inbox', { applicationId: applicationId }]);
   }
-  mailService = inject(MailSendService);
+
   data: any;
   constructor(
     private router: Router,
@@ -210,23 +211,6 @@ export class ApplicationsComponent {
     );
     this.hideModal();
     console.log(reqBody);
-
-    this.mailService
-      .rejectEmail(
-        this.selectedEntity.email,
-        'Response to Your Application',
-        'your application was rejected',
-        this.selectedEntity.applicationId
-      )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-          console.log('Approval email sent successfully');
-        },
-        error: (error) => {
-          console.error('Failed to send approval email', error);
-        },
-      });
     this.sendUpdateRequest(reqBody);
   }
 
@@ -239,23 +223,6 @@ export class ApplicationsComponent {
     );
     this.hideModal();
     console.log(reqBody);
-
-    this.mailService
-      .rejectEmail(
-        this.selectedEntity.email,
-        'Response to Your Application',
-        'your application was rejected',
-        this.selectedEntity.applicationId
-      )
-      .subscribe({
-        next: (data) => {
-          console.log(data);
-          console.log('Rejection email sent successfully');
-        },
-        error: (error) => {
-          console.error('Failed to send rejection email', error);
-        },
-      });
     this.sendUpdateRequest(reqBody);
   }
 
@@ -296,6 +263,17 @@ export class ApplicationsComponent {
     }
 
     return formattedResponse;
+  }
+
+  formatMaritalStatus(maritalStatus: string) {
+    if (!maritalStatus) {
+      return '';
+    }
+
+    const formattedStatus =
+      maritalStatus.charAt(0) + maritalStatus.slice(1).toLowerCase();
+
+    return formattedStatus;
   }
 
   mockData = {
@@ -371,18 +349,16 @@ export class ApplicationsComponent {
   }
 
   sendUpdateRequest(requestData: UpdateRequestBody): void {
-    this.isLoading = true;
+    this.isSolvencyLoading = true;
     this.adminService.updateLease(requestData).subscribe({
       next: () => {
         const requestBody = this.generateCalculationRequestBody();
         this.sendCalculateSolvencyRequest(requestBody);
       },
       error: (error) => {
-        this.isLoading = false;
         console.log('error mesage: ' + error.message);
       },
       complete: () => {
-        this.isLoading = false;
         this.fetchLeases();
       },
     });
@@ -392,11 +368,13 @@ export class ApplicationsComponent {
     this.adminService.calculateSolvency(requestData).subscribe({
       next: (response) => {
         console.log(response);
-        this.loanServiceRate = response.loanServiceRate;
+        this.solvencyResponse = response;
       },
       error: (error) => {
-        this.isLoading = false;
         console.log('error mesage: ' + error.message);
+      },
+      complete: () => {
+        this.isSolvencyLoading = false;
       },
     });
   }
@@ -408,7 +386,7 @@ export class ApplicationsComponent {
   }
 
   getLoanServiceRateColor(): string {
-    if (this.loanServiceRate >= 40) {
+    if (this.solvencyResponse && this.solvencyResponse.loanServiceRate >= 40) {
       return 'red';
     } else {
       return 'green';
