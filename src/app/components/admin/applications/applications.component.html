@@ -329,9 +329,6 @@
       </div>
       <div class="modal-footer">
         @if (!isApprovedOrRejected()) {
-      </div>
-      @if (!isApprovedOrRejected()) {
-      <div class="modal-footer">
         <button
           data-bs-dismiss="modal"
           (click)="saveApplication()"
@@ -356,8 +353,8 @@
         >
           Reject
         </button>
+        }
       </div>
-      }
     </div>
     }
   </div>
