@@ -21,8 +21,12 @@
         </div>
       </div>
     </div>
-
-    <div class="d-flex align-items-center justify-content-center right-content">
+    <div class="d-flex flex-column align-items-center justify-content-center right-content">
+      <img
+            class="app-logo-mobile"
+            src="../../../assets/sweat-bank-logo.png"
+            alt="SweatBank logo"
+          />
       <div class="card-body">
         <h2 class="card-title">Sign in</h2>
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
