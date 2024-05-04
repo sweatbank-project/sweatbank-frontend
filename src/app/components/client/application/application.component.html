@@ -257,6 +257,9 @@
               Forward <i class="bi bi-chevron-right"></i>
             </button>
           </div>
+          @if(this.pageError[2]) {
+            <div class="text-end mt-2" style="color: red">You must fill in all fields.</div>
+          }
         </section>
         <section #activeStepSection step="2" class="form-step d-none">
           <div class="form-group mb-2">
@@ -493,6 +496,9 @@
               Forward <i class="bi bi-chevron-right"></i>
             </button>
           </div>
+          @if(this.pageError[3]) {
+            <div class="text-end mt-2" style="color: red">You must fill in all fields.</div>
+          }
         </section>
         <section #activeStepSection step="3" class="form-step d-none">
           <div class="form-group mb-2">
@@ -874,6 +880,9 @@
               Forward <i class="bi bi-chevron-right"></i>
             </button>
           </div>
+          @if(this.pageError[4]) {
+            <div class="text-end mt-2" style="color: red">You must fill in all fields.</div>
+          }
         </section>
         <section #activeStepSection step="4" class="form-step d-none">
           <div class="alert alert-info" role="alert">
@@ -983,7 +992,7 @@
                     data-dismiss="modal"
                     (click)="modal.hide()"
                   >
-                    No
+                    Back
                   </button>
                   <button
                     type="submit"
@@ -992,14 +1001,14 @@
                   >
                     @if (isLoading) {
                     <fa-icon [icon]="faSpinner" animation="spin" />
-                    } @else { Yes }
+                    } @else { Submit }
                   </button>
                 </div>
                 <div class="modal-footer">
-                  @if (error) {
-                  <div>
-                    <p style="color: darkred">{{ error }}</p>
-                  </div>
+                  @if(this.pageError['modal']) {
+                    <div class="text-end mt-2" style="color: red">You cannot submit the application because you haven't filled in all fields.</div>
+                  } @else if (error) {
+                    <div class="text-end mt-2" style="color: red">{{ error }}</div>
                   }
                 </div>
               </div>
