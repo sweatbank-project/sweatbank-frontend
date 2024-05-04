@@ -100,3 +100,19 @@ thead {
   color: black;
   text-shadow: 0 0 0px rgba(0, 0, 0, 0);
 }
+
+input:disabled,
+select:disabled {
+  background-image: none;
+  background-color: #fff !important;
+  border: none !important;
+  padding: 0px !important;
+}
+
+input,
+select {
+  border: 1px solid #2e93ff !important;
+  background-color: #f8f9fa !important;
+  padding: 5px !important;
+  transition: border-color 0.2s ease-in-out !important;
+}
