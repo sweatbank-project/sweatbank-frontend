@@ -6,7 +6,7 @@
   width: calc(100% - 250px);
   transition: all 0.3s ease;
   margin-top: 85px;
-  background-color: rgba(141, 180, 196, 0.5);
+  background-color: white;
   height: 90.75%;
 }
 .home .text {
@@ -29,8 +29,17 @@
   height: 120px;
 }
 
+.card-title {
+  color: #707070;
+  font-size: 16px;
+}
+
 .new-applications {
   background-color: #87dbec6b;
+}
+
+.application-count {
+  color: #707070;
 }
 
 .pending-applications {
@@ -48,4 +57,5 @@
 #canvas {
   border-radius: $border-radius;
   padding: 20px 30px;
+  box-shadow: 5px 5px 5px 4px rgba(0, 0, 0, 0.14);
 }

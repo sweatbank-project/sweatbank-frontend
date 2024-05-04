@@ -3,25 +3,25 @@
     <div class="text">Application List</div>
   </div>
   <div class="container-fluid">
-    <div class="table-responsive p-5">
+    <div class="table-container table-responsive p-5">
       <table
-        class="table table-striped table-bordered table-sm row-border hover"
+        class="applications table table-striped table-bordered hover"
         id="applications"
       >
-        <thead>
-          <tr>
-            <th class="text-start">Status</th>
-            <th class="text-start">Id</th>
-            <th class="text-start">Date</th>
-            <th class="text-start">Personal Id</th>
-            <th class="text-start">Full Name</th>
-            <th class="text-start">Email Address</th>
-            <th class="text-start">Phone No</th>
-            <th class="text-start">Reviewer</th>
-            <th class="text-start">Message</th>
+        <thead class="head">
+          <tr class="text-row">
+            <th scope="col" class="text-start">Status</th>
+            <th scope="col" class="text-start">Id</th>
+            <th scope="col" class="text-start">Date</th>
+            <th scope="col" class="text-start">Personal Id</th>
+            <th scope="col" class="text-start">Full Name</th>
+            <th scope="col" class="text-start">Email Address</th>
+            <th scope="col" class="text-start">Phone No</th>
+            <th scope="col" class="text-start">Reviewer</th>
+            <th scope="col" s class="text-start">Message</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="body">
           @if(isLoading) {
           <tr>
             <td colspan="9">
@@ -31,8 +31,8 @@
             </td>
           </tr>
           } @for (row of data?.leases; track $index) {
-          <tr>
-            <td class="text-start">
+          <tr class="data-row">
+            <td class="data-text">
               @if (row.status.toUpperCase() === "PENDING") {
               <span class="badge bg-warning text-dark">{{ row.status }}</span>
               } @else if (row.status.toUpperCase() === "APPROVED") {
@@ -68,9 +68,9 @@
               </div>
               }
             </td>
-            <td class="text-start">
+            <td class="data-message text-start">
               <a
-                class="bi bi-envelope text-dark"
+                class="mail-icon bi bi-envelope"
                 [routerLink]="['/admin/inbox', { email: row.email }]"
               ></a>
             </td>
@@ -207,23 +207,72 @@
             </div>
             <div class="col"></div>
           </div>
-            <div class="row border-bottom">
-              <div class="col border-end">Loan service rate</div>
-              <div class="col border-end" [ngStyle]="{ color: getLoanServiceRateColor() }">{{loanServiceRate}} %</div>
-              <div class="col"></div>
+          <div class="row border-bottom">
+            <div class="col border-end">Loan service rate</div>
+            <div
+              class="col border-end"
+              [ngStyle]="{ color: getLoanServiceRateColor() }"
+            >
+              {{ loanServiceRate }} %
             </div>
+            <div class="col"></div>
+          </div>
         </form>
       </div>
+      <div class="modal-footer">
+        <button
+          data-bs-dismiss="modal"
+          (click)="saveApplication()"
+          type="button"
+          class="btn btn-primary"
+        >
+          Save
+        </button>
+        <button
+          data-bs-dismiss="modal"
+          (click)="approveApplication()"
+          type="button"
+          class="btn btn-success"
+        >
+          Approve
+        </button>
+        <button
+          data-bs-dismiss="modal"
+          (click)="rejectApplication()"
+          type="button"
+          class="btn btn-danger"
+        >
+          Reject
+        </button>
       </div>
-        @if (!isApprovedOrRejected()) {
-          <div class="modal-footer">
-            <button data-bs-dismiss="modal" (click)="saveApplication()" type="button" class="btn btn-primary">Save</button>
-            <button data-bs-dismiss="modal" (click)="approveApplication()" type="button"
-              class="btn btn-success">Approve</button>
-            <button data-bs-dismiss="modal" (click)="rejectApplication()" type="button"
-              class="btn btn-danger">Reject</button>
-          </div>
-        }  
+      @if (!isApprovedOrRejected()) {
+      <div class="modal-footer">
+        <button
+          data-bs-dismiss="modal"
+          (click)="saveApplication()"
+          type="button"
+          class="btn btn-primary"
+        >
+          Save
+        </button>
+        <button
+          data-bs-dismiss="modal"
+          (click)="approveApplication()"
+          type="button"
+          class="btn btn-success"
+        >
+          Approve
+        </button>
+        <button
+          data-bs-dismiss="modal"
+          (click)="rejectApplication()"
+          type="button"
+          class="btn btn-danger"
+        >
+          Reject
+        </button>
+      </div>
+      }
     </div>
     }
   </div>
