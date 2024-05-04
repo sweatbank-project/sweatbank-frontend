@@ -62,7 +62,7 @@ export const initialCalculation = (
   const contractFee = calculateContractFee(costOfCar);
 
   //---MAGIC NUMBERS!---
-  const euriborType = 'Euribor 6-month';
+  const euriborType = 'EURIBOR_6_MONTH';
   const euriborRate = 3.893;
   const margin = 2;
   //---MAGIC NUMBERS!---
