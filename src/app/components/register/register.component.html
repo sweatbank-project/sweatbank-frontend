@@ -23,8 +23,13 @@
         </div>
       </div>
       <div
-        class="col-6 d-flex align-items-center justify-content-center right-content"
+        class="col-6 d-flex flex-column align-items-center justify-content-center right-content"
       >
+        <img
+              class="app-logo-mobile"
+              src="../../../assets/sweat-bank-logo.png"
+              alt="SweatBank logo"
+            />
         <div class="background-wrapper" style="background-color: white">
           <div class="card-body right-content">
             <h2 class="card-title">Sign up</h2>
@@ -68,7 +73,7 @@
                   id="phone"
                   name="phone"
                   formControlName="phone"
-                  placeholder="+3706*******"
+                  placeholder="86*******"
                 />
                 @if(registerForm.get('phone')?.touched) {
                 @if(registerForm.get('phone')?.errors?.['required']) {

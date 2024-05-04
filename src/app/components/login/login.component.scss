@@ -6,6 +6,12 @@
   border-radius: $border-radius $border-radius $border-radius $border-radius;
 }
 
+@media (max-width: 992px) {
+  .login {
+    width: 90%;
+  }
+}
+
 .login-wrapper {
   display: flex;
   justify-content: center;
@@ -44,24 +50,42 @@
     border-radius: 0 $border-radius $border-radius 0;
     background-color: white;
   }
-  @media (max-width: 1024px) {
+
+  .app-logo-mobile {
+    display: none;
+  }
+
+  @media (max-width: 992px) {
     .login-card {
       flex-direction: column;
       background-image: none;
       padding: 0;
       width: auto;
     }
+
     .right-content {
-      width: 80%;
+      border-radius: $border-radius;
+      width: 100%;
       padding: 1rem;
     }
+
     .left-content {
       display: none;
     }
+
+    .app-logo-mobile {
+      display: block;
+      margin-bottom: 3rem;
+      margin-top: 0.5rem;
+      width: 95%;
+    }
+
   }
 
   .card-body {
+    width: 90%;
     flex: 1;
+
     .card-title {
       margin-bottom: 1.625rem;
     }
