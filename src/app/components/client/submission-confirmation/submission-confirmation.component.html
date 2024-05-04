@@ -1,7 +1,11 @@
 <!-- submission-confirmation.component.html -->
 <div class="confirmation">
-  <p>Submission successful! You will be redirected in {{ countdown }} seconds...</p>
-  <button (click)="redirectToNow()">Go to Home Now</button>
+  <p>
+    Submission <span class="text-success fw-semibold">successful</span>! You
+    will be redirected in
+    <span class="text-primary">{{ countdown }}</span> seconds...
+  </p>
+  <button class="btn btn-primary text-white" (click)="redirectToNow()">
+    Go to Home Now
+  </button>
 </div>
-
-

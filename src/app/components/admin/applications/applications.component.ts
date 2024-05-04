@@ -192,37 +192,31 @@ export class ApplicationsComponent {
   }
 
   saveApplication() {
-    console.log('Save data to db, Status => Pending');
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'PENDING'
     );
-    console.log(reqBody);
     this.sendUpdateRequest(reqBody);
   }
 
   approveApplication() {
-    console.log('Save data to db, Status => Approve');
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'APPROVED'
     );
     this.hideModal();
-    console.log(reqBody);
     this.sendUpdateRequest(reqBody);
   }
 
   rejectApplication() {
-    console.log('Save data to db, Status => Reject');
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'REJECTED'
     );
     this.hideModal();
-    console.log(reqBody);
     this.sendUpdateRequest(reqBody);
   }
 
@@ -367,7 +361,6 @@ export class ApplicationsComponent {
   sendCalculateSolvencyRequest(requestData: any): void {
     this.adminService.calculateSolvency(requestData).subscribe({
       next: (response) => {
-        console.log(response);
         this.solvencyResponse = response;
       },
       error: (error) => {

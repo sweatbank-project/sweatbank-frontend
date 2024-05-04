@@ -8,8 +8,8 @@
   transition: all 0.3s ease;
   margin-top: 85px;
   display: flex;
-  background-color: rgba(141, 180, 196, 0.5);
-  height: 90.75%;
+  background-color: white;
+  height: calc(100vh - 85px);
 }
 .home .text {
   font-size: 30px;
@@ -19,13 +19,13 @@
 }
 
 .email-categories-sidebar {
-  background-color: rgba(142, 185, 202, 0.247);
+  background-color: whitesmoke;
   width: 350px;
   padding: 20px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: 100%;
 }
 
 .email-category {

@@ -64,11 +64,13 @@ export const routes: Routes = [
         path: 'applications',
         component: ApplicationsComponent,
         canActivate: [adminGuard],
+        pathMatch: 'full',
       },
       {
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [adminGuard],
+        pathMatch: 'full',
       },
       {
         path: 'admin/inbox/:applicationId/:email',

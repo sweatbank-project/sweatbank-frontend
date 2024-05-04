@@ -1,6 +1,17 @@
 <header class="p-3 mb-3">
   <div class="container-fluid">
-    <div class="d-flex flex-wrap align-items-center justify-content-end me-5">
+    <div
+      class="d-flex flex-wrap align-items-center justify-content-between me-5"
+    >
+      <div class="logo-image-text">
+        <span class="image">
+          <img src="favicon.ico" alt="" />
+        </span>
+        <div class="text logo-text">
+          <span class="name">SweatBank</span>
+          <span class="profession">Admin Panel</span>
+        </div>
+      </div>
       <div class="d-flex align-items-center justify-content-end">
         <img
           src="../../../../assets/adminUser.png"
@@ -10,7 +21,7 @@
           class="rounded-circle me-2"
         />
         <div>
-          <div>{{ this.username }}</div>
+          <div class="fw-semibold">{{ this.username }}</div>
           <div class="text-muted">{{ this.role }}</div>
         </div>
       </div>
@@ -18,17 +29,6 @@
   </div>
 </header>
 <nav class="sidebar">
-  <header>
-    <div class="image-text">
-      <span class="image">
-        <img src="favicon.ico" alt="" />
-      </span>
-      <div class="text logo-text">
-        <span class="name">SweatBank</span>
-        <span class="profession">Admin Panel</span>
-      </div>
-    </div>
-  </header>
   <div
     class="menu-bar"
     data-np-autofill-form-type="other"
@@ -37,19 +37,34 @@
   >
     <div class="menu">
       <li class="nav-link">
-        <a routerLink="/admin/dashboard">
+        <a
+          class="nav-item"
+          aria-current="page"
+          routerLink="/admin/dashboard"
+          routerLinkActive="active"
+        >
           <i class="bi bi-building icon icon"></i>
           <span class="text nav-text">Dashboard</span>
         </a>
       </li>
       <li class="nav-link">
-        <a routerLink="/admin/applications">
+        <a
+          class="nav-item"
+          aria-current="page"
+          routerLink="/admin/applications"
+          routerLinkActive="active"
+        >
           <i class="bi bi-clipboard2-check icon"></i>
           <span class="text nav-text">Applications</span>
         </a>
       </li>
-      <li class="nav-link">
-        <a routerLink="/admin/inbox">
+      <li class="nav-link" routerLinkActive="active">
+        <a
+          class="nav-item"
+          aria-current="page"
+          routerLink="/admin/inbox"
+          routerLinkActive="active"
+        >
           <i class="bi bi-envelope icon"></i>
           <span class="text nav-text">Inbox</span>
         </a>
@@ -66,5 +81,5 @@
   </div>
 </nav>
 <div class="outlet">
-  <router-outlet></router-outlet>
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>
