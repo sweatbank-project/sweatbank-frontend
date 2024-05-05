@@ -21,7 +21,7 @@ import {
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { environment } from '../../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-import { UpdateRequestBody } from '../../../types';
+import { SolvencyCalculationResponse, UpdateRequestBody } from '../../../types';
 import { AdminService } from '../../../services/admin.service';
 import { response } from 'express';
 import { error } from 'jquery';
@@ -53,17 +53,19 @@ export class ApplicationsComponent {
   @ViewChild(ModalDirective, { static: false }) modal?: ModalDirective;
 
   isLoading = false;
+  isSolvencyLoading = false;
+  currency = 'EUR';
   faEye = faEye;
   faEyeSlash = faEyeSlash;
   faSpinner = faSpinner;
 
   applicationForm: FormGroup;
   selectedEntity: any;
-  loanServiceRate: any;
+  solvencyResponse: any;
 
   dataTable: any;
 
-  private readonly adminService = inject(AdminService)
+  private readonly adminService = inject(AdminService);
 
   showModal() {
     this.modal?.show();
@@ -84,8 +86,8 @@ export class ApplicationsComponent {
     private titleService: Title
   ) {
     this.titleService.setTitle('Sweatbank Admin Applications');
-    
-    this.fetchLeases()
+
+    this.fetchLeases();
 
     //---MODAL---
     this.applicationForm = new FormGroup({
@@ -130,7 +132,6 @@ export class ApplicationsComponent {
   }
 
   openModal(id: number) {
-
     this.selectedEntity = this.data.leases.find(
       (entity: any) => entity.applicationId === id
     )!;
@@ -148,7 +149,7 @@ export class ApplicationsComponent {
         euriborType: this.selectedEntity.euriborType,
         euriborRate: this.selectedEntity.euriborRate,
         margin: this.selectedEntity.margin,
-        loanServiceRate: this.selectedEntity.loanServiceRate
+        loanServiceRate: this.selectedEntity.loanServiceRate,
       });
     }
   }
@@ -191,37 +192,31 @@ export class ApplicationsComponent {
   }
 
   saveApplication() {
-    console.log('Save data to db, Status => Pending');
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'PENDING'
     );
-    console.log(reqBody);
     this.sendUpdateRequest(reqBody);
   }
 
   approveApplication() {
-    console.log('Save data to db, Status => Approve');
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'APPROVED'
     );
     this.hideModal();
-    console.log(reqBody);
     this.sendUpdateRequest(reqBody);
   }
 
   rejectApplication() {
-    console.log('Save data to db, Status => Reject');
     const reqBody = this.extractRequestBody(
       this.selectedEntity,
       this.applicationForm.value,
       'REJECTED'
     );
     this.hideModal();
-    console.log(reqBody);
     this.sendUpdateRequest(reqBody);
   }
 
@@ -264,6 +259,17 @@ export class ApplicationsComponent {
     return formattedResponse;
   }
 
+  formatMaritalStatus(maritalStatus: string) {
+    if (!maritalStatus) {
+      return '';
+    }
+
+    const formattedStatus =
+      maritalStatus.charAt(0) + maritalStatus.slice(1).toLowerCase();
+
+    return formattedStatus;
+  }
+
   mockData = {
     entities: [
       {
@@ -293,7 +299,7 @@ export class ApplicationsComponent {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      lengthMenu: [10, 25, 50]
+      lengthMenu: [10, 25, 50],
     });
     this.applyStylesToElements();
   }
@@ -337,44 +343,43 @@ export class ApplicationsComponent {
   }
 
   sendUpdateRequest(requestData: UpdateRequestBody): void {
-    this.isLoading = true;
+    this.isSolvencyLoading = true;
     this.adminService.updateLease(requestData).subscribe({
       next: () => {
         const requestBody = this.generateCalculationRequestBody();
         this.sendCalculateSolvencyRequest(requestBody);
       },
       error: (error) => {
-        this.isLoading = false;
-        console.log("error mesage: " + error.message);
+        console.log('error mesage: ' + error.message);
       },
       complete: () => {
-        this.isLoading = false;
-        this.fetchLeases()
-      }
-    })
+        this.fetchLeases();
+      },
+    });
   }
 
   sendCalculateSolvencyRequest(requestData: any): void {
     this.adminService.calculateSolvency(requestData).subscribe({
       next: (response) => {
-        console.log(response);
-        this.loanServiceRate = response.loanServiceRate;
+        this.solvencyResponse = response;
       },
       error: (error) => {
-        this.isLoading = false;
-        console.log("error mesage: " + error.message);
-      }
-    })
+        console.log('error mesage: ' + error.message);
+      },
+      complete: () => {
+        this.isSolvencyLoading = false;
+      },
+    });
   }
 
   generateCalculationRequestBody() {
     return {
-      applicationId: this.selectedEntity.applicationId
+      applicationId: this.selectedEntity.applicationId,
     };
-  }  
- 
+  }
+
   getLoanServiceRateColor(): string {
-    if (this.loanServiceRate >= 40) {
+    if (this.solvencyResponse && this.solvencyResponse.loanServiceRate >= 40) {
       return 'red';
     } else {
       return 'green';
@@ -390,7 +395,10 @@ export class ApplicationsComponent {
   }
 
   isApprovedOrRejected(): boolean {
-    return this.selectedEntity && (this.selectedEntity.status === 'APPROVED' || this.selectedEntity.status === 'REJECTED');
+    return (
+      this.selectedEntity &&
+      (this.selectedEntity.status === 'APPROVED' ||
+        this.selectedEntity.status === 'REJECTED')
+    );
   }
-
 }

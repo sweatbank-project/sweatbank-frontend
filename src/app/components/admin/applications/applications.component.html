@@ -3,36 +3,38 @@
     <div class="text">Application List</div>
   </div>
   <div class="container-fluid">
-    <div class="table-responsive p-5">
+    <div class="table-container table-responsive p-5">
       <table
-        class="table table-striped table-bordered table-sm row-border hover"
+        class="applications table table-striped table-bordered hover"
         id="applications"
       >
-        <thead>
-          <tr>
-            <th class="text-start">Status</th>
-            <th class="text-start">Id</th>
-            <th class="text-start">Date</th>
-            <th class="text-start">Personal Id</th>
-            <th class="text-start">Full Name</th>
-            <th class="text-start">Email Address</th>
-            <th class="text-start">Phone No</th>
-            <th class="text-start">Reviewer</th>
-            <th class="text-start">Message</th>
+        <thead class="head">
+          <tr class="text-row">
+            <th scope="col" class="text-start">Status</th>
+            <th scope="col" class="text-start">Id</th>
+            <th scope="col" class="text-start">Date</th>
+            <th scope="col" class="text-start">Personal Id</th>
+            <th scope="col" class="text-start">Full Name</th>
+            <th scope="col" class="text-start">Email Address</th>
+            <th scope="col" class="text-start">Phone No</th>
+            <th scope="col" class="text-start">Reviewer</th>
+            <th scope="col" s class="text-start">Message</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="body">
           @if(isLoading) {
           <tr>
             <td colspan="9">
-              <div class="d-flex justify-content-center">
-                <fa-icon [icon]="faSpinner" animation="spin" />
+              <div class="d-flex justify-content-center align-items-center p-2">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
               </div>
             </td>
           </tr>
           } @for (row of data?.leases; track $index) {
-          <tr>
-            <td class="text-start">
+          <tr class="data-row">
+            <td class="data-text">
               @if (row.status.toUpperCase() === "PENDING") {
               <span class="badge bg-warning text-dark">{{ row.status }}</span>
               } @else if (row.status.toUpperCase() === "APPROVED") {
@@ -68,9 +70,9 @@
               </div>
               }
             </td>
-            <td class="text-start">
+            <td class="data-message text-start">
               <a
-                class="bi bi-envelope text-dark"
+                class="mail-icon bi bi-envelope"
                 [routerLink]="['/admin/inbox', { email: row.email }]"
               ></a>
             </td>
@@ -97,8 +99,23 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel">
-          {{ selectedEntity.applicationId }}
+          #{{ selectedEntity.applicationId }}
         </h1>
+        <div class="ps-3">
+          @if (selectedEntity.status.toUpperCase() === "PENDING") {
+          <span class="badge bg-warning text-dark">{{
+            selectedEntity.status
+          }}</span>
+          } @else if (selectedEntity.status.toUpperCase() === "APPROVED") {
+          <span class="badge bg-success">{{ selectedEntity.status }}</span>
+          } @else if (selectedEntity.status.toUpperCase() === "REJECTED") {
+          <span class="badge bg-danger">{{ selectedEntity.status }}</span>
+          } @else if (selectedEntity.status.toUpperCase() === "NEW") {
+          <span class="badge bg-info text-dark">{{
+            selectedEntity.status
+          }}</span>
+          }
+        </div>
         <button
           type="button"
           class="btn-close"
@@ -107,12 +124,43 @@
           (click)="modal.hide()"
         ></button>
       </div>
-      <div class="modal-body">
-        <h4 class="row border-top text-center mb-0 justify-content-center">
-          Car and Financing Conditions
-        </h4>
+      <div class="modal-body p-5">
         <form [formGroup]="applicationForm">
-          <div class="row border-bottom border-top">
+          <h4 class="row text-center mb-0 justify-content-start pb-2 text-primary">
+            Personal Information
+          </h4>
+          <div class="row border-bottom">
+            <div class="col border-end">Job title</div>
+            <div class="col">
+              {{ selectedEntity.jobTitle }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Time employed (years)</div>
+            <div class="col">
+              {{ selectedEntity.timeEmployed }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Marital status</div>
+            <div class="col">
+              {{ formatMaritalStatus(selectedEntity.maritalStatus) }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Number of children</div>
+            <div class="col">
+              {{ selectedEntity.numberOfChildren }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <h4 class="row text-center mb-0 justify-content-start pt-4 pb-2 text-primary">
+            Car and Financing Conditions
+          </h4>
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Car</div>
             <div class="col border-end">
               {{ selectedEntity.carBrand }} {{ selectedEntity.carModel }}
@@ -120,9 +168,9 @@
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Leasing period (months)</div>
-            <div class="col border-end">
+            <div class="col border-end py-1">
               <select class="form-select" formControlName="leasingPeriod">
                 @for (months of leasingPeriodMonths; track $index) {
                 <option [value]="months">{{ months }}</option>
@@ -131,35 +179,41 @@
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Cost of car</div>
-            <div class="col border-end">{{ selectedEntity.carCost }} EUR</div>
-            <div class="col"></div>
-          </div>
-          <div class="row border-bottom">
-            <div class="col border-end">Currency</div>
-            <div class="col border-end">EUR</div>
-            <div class="col"></div>
-          </div>
-          <div class="row border-bottom">
-            <div class="col border-end">Down Payment %</div>
             <div class="col border-end">
+              {{ selectedEntity.carCost }} {{ currency }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom align-items-center">
+            <div class="col border-end">Currency</div>
+            <div class="col border-end">{{ currency }}</div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom align-items-center">
+            <div class="col border-end">Down Payment %</div>
+            <div class="col border-end py-1">
               <input
                 class="form-control"
                 type="number"
                 formControlName="downPaymentPercentage"
               />
             </div>
-            <div class="col">{{ selectedEntity.downPayment }} EUR</div>
+            <div class="col">
+              {{ selectedEntity.downPayment }} {{ currency }}
+            </div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Contract fee %</div>
             <div class="col border-end">1</div>
-            <div class="col">{{ selectedEntity.contractFee }} EUR</div>
+            <div class="col">
+              {{ selectedEntity.contractFee }} {{ currency }}
+            </div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Interest base %</div>
-            <div class="col border-end input-group">
+            <div class="col border-end input-group py-1">
               <select
                 class="form-select"
                 formControlName="euriborType"
@@ -172,7 +226,7 @@
                 }
               </select>
             </div>
-            <div class="col">
+            <div class="col py-1">
               <input
                 class="form-control"
                 type="number"
@@ -181,9 +235,9 @@
               />
             </div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Margin %</div>
-            <div class="col border-end input-group">
+            <div class="col border-end input-group py-1">
               <input
                 class="form-control"
                 type="number"
@@ -193,39 +247,93 @@
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Interest rate %</div>
             <div class="col border-end">
               {{ selectedEntity.interestRate | number }}
             </div>
             <div class="col"></div>
           </div>
-          <div class="row border-bottom">
+          <div class="row border-bottom align-items-center">
             <div class="col border-end">Monthly payment</div>
             <div class="col border-end">
-              {{ selectedEntity.monthlyPayment }} EUR
+              {{ selectedEntity.monthlyPayment }} {{ currency }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <h4 class="row text-center mb-0 justify-content-start pt-4 pb-3 text-primary">
+            Solvency Assessment
+          </h4>
+          @if(isSolvencyLoading) {
+          <div class="d-flex justify-content-center align-items-center p-2">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          } @else {
+          <div class="row border-bottom">
+            <div class="col border-end">Net income</div>
+            <div class="col">
+              {{ solvencyResponse?.netIncome }} {{ currency }}
             </div>
             <div class="col"></div>
           </div>
           <div class="row border-bottom">
-            <div class="col border-end">Loan service rate</div>
-            <div
-              class="col border-end"
-              [ngStyle]="{ color: getLoanServiceRateColor() }"
-            >
-              {{ loanServiceRate }} %
+            <div class="col border-end">
+              Monthly payment of the considered loan
+            </div>
+            <div class="col">
+              {{ solvencyResponse?.currentMonthlyPayment }} {{ currency }}
             </div>
             <div class="col"></div>
           </div>
+          <div class="row border-bottom">
+            <div class="col border-end">
+              Monthly payment of existing obligations
+            </div>
+            <div class="col">
+              {{ solvencyResponse?.otherMonthlyPayments }} {{ currency }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">New monthly payment</div>
+            <div class="col">
+              {{ solvencyResponse?.newMonthlyPayment }} {{ currency }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Household expenditure</div>
+            <div class="col">
+              {{ solvencyResponse?.householdExpenditure }} {{ currency }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Monthly living expenses</div>
+            <div class="col">
+              {{ solvencyResponse?.monthlyLivingExpenses }} {{ currency }}
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row border-bottom">
+            <div class="col border-end">Loan service rate %</div>
+            <div class="col" [ngStyle]="{ color: getLoanServiceRateColor() }">
+              {{ solvencyResponse?.loanServiceRate }}
+            </div>
+            <div class="col"></div>
+          </div>
+          }
         </form>
       </div>
-      @if (!isApprovedOrRejected()) {
       <div class="modal-footer">
+        @if (!isApprovedOrRejected()) {
         <button
           data-bs-dismiss="modal"
           (click)="saveApplication()"
           type="button"
-          class="btn btn-primary"
+          class="btn btn-primary text-white"
         >
           Save
         </button>
@@ -245,8 +353,8 @@
         >
           Reject
         </button>
+        }
       </div>
-      }
     </div>
     }
   </div>

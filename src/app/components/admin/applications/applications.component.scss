@@ -1,5 +1,9 @@
 @import "../../../../styles/styles.scss";
 @import "../../../../styles/variables.scss";
+
+thead {
+  padding: 200px;
+}
 .home {
   position: absolute;
   top: 0;
@@ -7,7 +11,7 @@
   width: calc(100% - 250px);
   transition: all 0.3s ease;
   margin-top: 85px;
-  background-color: rgba(141, 180, 196, 0.5);
+  background-color: white;
   height: 90.75%;
 }
 .home .text {
@@ -15,6 +19,42 @@
   font-weight: 500;
   color: #707070;
   padding: 12px 60px;
+}
+
+.applications {
+  box-shadow: 5px 5px 5px 4px rgba(0, 0, 0, 0.14);
+  border-color: transparent;
+  border-radius: $border-radius;
+
+  .head {
+    border-radius: $border-radius;
+  }
+
+  .body {
+    border-radius: $border-radius;
+    .data-row {
+      border-radius: $border-radius;
+      .data-text {
+        border-bottom-left-radius: $border-radius;
+      }
+      .data-message {
+        border-bottom-right-radius: $border-radius;
+      }
+    }
+  }
+}
+
+.data-row {
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
+.mail-icon {
+  color: black;
+}
+
+.mail-icon:hover {
+  color: $primary;
 }
 
 @media (max-width: 768px) {
@@ -61,7 +101,18 @@
   text-shadow: 0 0 0px rgba(0, 0, 0, 0);
 }
 
-input:disabled, select:disabled{
+input:disabled,
+select:disabled {
   background-image: none;
-  background-color: #fff;
+  background-color: #fff !important;
+  border: none !important;
+  padding: 0px !important;
+}
+
+input,
+select {
+  border: 1px solid #2e93ff !important;
+  background-color: #f8f9fa !important;
+  padding: 5px !important;
+  transition: border-color 0.2s ease-in-out !important;
 }

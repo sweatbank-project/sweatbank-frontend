@@ -1,31 +1,26 @@
 <header class="navbar navbar-expand-lg navbar-light">
-  <a class="navbar-brand" href="#">
+  <a class="ms-4 d-lg-none" href="#" aria-expanded="false">
+    <img src="favicon.ico" alt="Logo" width="37px" />
+  </a>
+  <a class="collapse ms-4 d-lg-block" href="#">
     <img src="assets/SweatBank-Logo.png" alt="Logo" width="200px" />
   </a>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <div class="navbar-nav ms-auto">
-      <div class="dropdown" (click)="toggleDropdown('second')">
-        <a
-          class="nav-link dropdown-toggle"
-          role="button"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          <i class="bi bi-person text-primary"></i
-          ><span class="ms-2 text-primary">{{ username }}</span>
+  <button class="navbar-toggler me-4" (click)="toggleDropdown('dropdown1')">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse ms-4" id="navbarNav">
+    <ul class="navbar-nav ms-auto">
+      <li class="nav-item dropdown" (click)="toggleDropdown('dropdown2')">
+        <a class="nav-link dropdown-toggle" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+          <i class="bi bi-person text-primary"></i><span class="ms-2 text-primary">{{ username }}</span>
         </a>
-        <ul
-          class="dropdown-menu dropdown-menu-end"
-          [ngClass]="{ show: dropdownStates['second'] }"
-        >
+        <ul class="dropdown-menu dropdown-menu-end" [ngClass]="{ 'show': dropdownStates['dropdown2'] }">
           <li style="cursor: pointer">
-            <a class="dropdown-item text-primary" (click)="logout()"
-              ><i class="bi bi-box-arrow-right"></i> Log Out</a
-            >
+            <a class="dropdown-item text-primary" href="#" (click)="logout()"><i class="bi bi-box-arrow-right"></i> Log Out</a>
           </li>
         </ul>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </header>
 <div class="wrapper">
