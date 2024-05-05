@@ -3,9 +3,13 @@ import { DatePipe, NgClass, CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { MailSendService } from '../../../services/mail-send.service';
-import { environment } from '../../../../environments/environment';
+import {
+  faEye,
+  faEyeSlash,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 interface Email {
   id: number;
@@ -29,7 +33,7 @@ export interface Message {
 @Component({
   selector: 'app-inbox',
   standalone: true,
-  imports: [NgClass, RouterLink, DatePipe, CommonModule, FormsModule],
+  imports: [NgClass, RouterLink, DatePipe, CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './inbox.component.html',
   styleUrls: ['./inbox.component.scss'],
 })
@@ -46,6 +50,11 @@ export class InboxComponent implements OnInit {
   applicationId: string | null = null;
   error: string | null = null;
 
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faSpinner = faSpinner;
+  isSendingEmail = false;
+
   get filteredEmails(): Email[] {
     if (!this.searchTerm) return this.emails;
 
@@ -59,7 +68,6 @@ export class InboxComponent implements OnInit {
     });
   }
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
     private titleService: Title,
     private mailSendService: MailSendService,
@@ -111,38 +119,50 @@ export class InboxComponent implements OnInit {
   }
 
   sendNewEmail(): void {
-    const newEmail: Email = {
-      id: Math.max(...this.emails.map((e) => e.id)) + 1,
-      recipient: this.newEmailRecipient,
-      sender: 'Admin',
-      subject: this.newEmailSubject,
-      body: this.newEmailBody,
-      applicationId: this.applicationId,
-      time: new Date(),
-      open: false,
-      messages: [],
-    };
-    this.mailSendService
-      .sendNewEmail(
-        newEmail.recipient,
-        newEmail.subject,
-        newEmail.body,
-        newEmail.applicationId!
-      )
-      .subscribe({
-        next: () => {
-          console.log('Email sent successfully');
-          this.emails.unshift(newEmail);
-          this.saveEmailsToLocalStorage();
-          this.resetComposeForm();
-          this.router.navigate(['/admin/inbox']);
-        },
-        error: (error) => {
-          console.error('Error sending email:', error);
-          this.error = 'Failed to send email. Please try again.';
-        },
-      });
+    if (!this.isSendingEmail) {
+      const newEmail: Email = {
+        id: Math.max(...this.emails.map((e) => e.id)) + 1,
+        recipient: this.newEmailRecipient,
+        sender: 'Admin',
+        subject: this.newEmailSubject,
+        body: this.newEmailBody,
+        applicationId: this.applicationId,
+        time: new Date(),
+        open: false,
+        messages: [],
+      };
+
+      if (!this.newEmailRecipient || !this.newEmailSubject || !this.newEmailBody) {
+        return;
+      }
+
+      this.isSendingEmail = true;
+
+      this.mailSendService
+        .sendNewEmail(
+          newEmail.recipient,
+          newEmail.subject,
+          newEmail.body,
+          newEmail.applicationId!
+        )
+        .subscribe({
+          next: () => {
+            this.emails.unshift(newEmail);
+            this.saveEmailsToLocalStorage();
+            this.resetComposeForm();
+            this.router.navigate(['/admin/inbox']);
+          },
+          error: (error) => {
+            console.error('Error sending email:', error);
+            this.error = 'Failed to send email. Please try again.';
+          },
+          complete: () => {
+            this.isSendingEmail = false;
+          }
+        });
+    }
   }
+
   approvedEmail(): void {
     const newEmail: Email = {
       id: Math.max(...this.emails.map((e) => e.id)) + 1,
@@ -216,6 +236,7 @@ export class InboxComponent implements OnInit {
   }
 
   cancelCompose(): void {
+    this.isSendingEmail = false;
     this.composingEmail = false;
     this.newEmailRecipient = '';
     this.newEmailSubject = '';

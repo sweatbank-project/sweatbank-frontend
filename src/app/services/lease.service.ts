@@ -10,16 +10,13 @@ import { environment } from '../../environments/environment';
 export class LeaseService {
   private readonly httpClient: HttpClient = inject(HttpClient);
 
-  baseUrl = 'http://localhost:8080/api/';
-  // baseUrl = 'https://sweatbank-backend.onrender.com/api/';
-
   getUserLeases(
     username: string
   ): Observable<HttpResponse<UserLeasesResponseData>> {
     return this.httpClient
       .get<UserLeasesResponseData>(
-        this.baseUrl + 'user/' + username + '/leases',
-        { observe: 'response', responseType: 'json' }
+        environment.apiUrl + 'user/leases',
+        { observe: 'response', responseType: 'json', params: new HttpParams().set("username", username) }
       )
       .pipe(timeout(2000));
   }
@@ -28,7 +25,7 @@ export class LeaseService {
     const headers = { 'Content-Type': 'application/json' };
 
     return this.httpClient
-      .post<any>(this.baseUrl + 'lease/create', leaseForm, {
+      .post<any>(environment.apiUrl + 'lease/create', leaseForm, {
         headers,
         observe: 'response',
       })
