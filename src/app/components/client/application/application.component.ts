@@ -164,32 +164,35 @@ export class ApplicationComponent {
 
   onSubmit(): void {
     this.isLoading = true;
-    const { costOfTheVehicle, downPayment, leasingPeriod } =
-      this.applicationForm.getRawValue();
-    const calcObj = initialCalculation(
-      costOfTheVehicle,
-      downPayment,
-      +leasingPeriod
-    );
+    if(!this.applicationForm.invalid) {
+      const { costOfTheVehicle, downPayment, leasingPeriod } = this.applicationForm.getRawValue();
+      const calcObj = initialCalculation(
+        costOfTheVehicle,
+        downPayment,
+        +leasingPeriod
+      );
 
-    const formAfterCalculation = {
-      ...this.applicationForm.getRawValue(),
-      ...calcObj,
-    };
+      const formAfterCalculation = {
+        ...this.applicationForm.getRawValue(),
+        ...calcObj,
+      };
 
-    const serializedForm = JSON.stringify(formAfterCalculation);
-    
-    this.leaseService.submit(serializedForm).subscribe({
-      next: () => {
-        this.router.navigate(['/submission-confirmation']);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.isLoading = false;
-        if(error.error.errors.length > 0) {
-          this.error = error.error.errors[0];
+      const serializedForm = JSON.stringify(formAfterCalculation);
+      
+      this.leaseService.submit(serializedForm).subscribe({
+        next: () => {
+          this.router.navigate(['/submission-confirmation']);
+        },
+        error: (error: HttpErrorResponse) => {
+          if(error.error.errors.length > 0) {
+            this.error = error.error.errors[0];
+          }
         }
-      }
-    });
+      });
+    } else {
+      this.pageError['modal'] = true;
+    }
+    this.isLoading = false;
   }
 
   onMakeSelect(event: any) {
@@ -264,7 +267,20 @@ export class ApplicationComponent {
     }
   }
 
+  pageError: { [key: string]: boolean } = {
+    2: false,
+    3: false,
+    4: false,
+    'modal': false
+  };
+
   navigateToStep(stepNumber: number): void {
+    const requiredSections: any = {
+      2: ['makes', 'models', 'yearOfManufacture', 'costOfTheVehicle', 'leasingPeriod', 'downPayment', 'sellerName'],
+      3: ['education', 'positionHeld', 'jobTitle', 'timeEmployed', 'businessAreaOfYourEmployer', 'maritalStatus', 'numberOfChildren'],
+      4: ['obligations', 'monthlyIncomeAfterTaxes', 'customerLoansOutstanding', 'customerLoansMonthlyPayment', 'carLeaseOutstanding', 'carLeaseMonthlyPayment', 'creditCardOutstanding', 'creditCardMonthlyPayment', 'mortgageOutstanding', 'mortgageMonthlyPayment', 'otherCreditsOutstanding', 'otherCreditsMonthlyPayment']
+    };
+
     if(stepNumber === 4) {
       this.monthlyPayment = initialCalculation(
         this.applicationForm.get('costOfTheVehicle')?.value,
@@ -272,6 +288,12 @@ export class ApplicationComponent {
         this.applicationForm.get('leasingPeriod')?.value
       ).monthlyPayment;
     }
+
+    if (requiredSections[stepNumber] && !this.sectionValidator(requiredSections[stepNumber])) {
+      this.pageError[stepNumber] = true;
+      return;
+    }
+
 
     this.activeSteps.forEach((stepElement: ElementRef) => {
       const nativeElement = stepElement.nativeElement as HTMLElement;
