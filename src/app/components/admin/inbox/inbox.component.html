@@ -81,7 +81,11 @@
           placeholder="Email body..."
         ></textarea>
         <button class="btn btn-primary text-white" (click)="sendNewEmail()">
-          Send
+          @if (isSendingEmail) {
+            <fa-icon [icon]="faSpinner" animation="spin" />
+          } @else {
+            Send
+          }
         </button>
       </div>
     </div>

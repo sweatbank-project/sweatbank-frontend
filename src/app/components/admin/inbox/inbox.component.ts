@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {DatePipe, NgClass, CommonModule} from "@angular/common";
-import {RouterLink, ActivatedRoute} from "@angular/router";
-import {FormsModule} from "@angular/forms";
-import {Title} from "@angular/platform-browser";
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import { DatePipe, NgClass, CommonModule } from '@angular/common';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { MailSendService } from '../../../services/mail-send.service';
+import {
+  faEye,
+  faEyeSlash,
+  faSpinner,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 interface Email {
   id: number;
@@ -18,7 +23,7 @@ interface Email {
   applicationId: string | null;
 }
 
-interface Message {
+export interface Message {
   id: number;
   sender: string;
   text: string;
@@ -28,15 +33,9 @@ interface Message {
 @Component({
   selector: 'app-inbox',
   standalone: true,
-  imports: [
-    NgClass,
-    RouterLink,
-    DatePipe,
-    CommonModule,
-    FormsModule,
-  ],
+  imports: [NgClass, RouterLink, DatePipe, CommonModule, FormsModule, FontAwesomeModule],
   templateUrl: './inbox.component.html',
-  styleUrls: ['./inbox.component.scss']
+  styleUrls: ['./inbox.component.scss'],
 })
 export class InboxComponent implements OnInit {
   activeCategory: string = 'inbox';
@@ -49,12 +48,17 @@ export class InboxComponent implements OnInit {
   composingEmail: boolean = false;
   searchTerm: string = '';
   applicationId: string | null = null;
+  error: string | null = null;
 
+  faEye = faEye;
+  faEyeSlash = faEyeSlash;
+  faSpinner = faSpinner;
+  isSendingEmail = false;
 
   get filteredEmails(): Email[] {
     if (!this.searchTerm) return this.emails;
 
-    return this.emails.filter(email => {
+    return this.emails.filter((email) => {
       const term = this.searchTerm.toLowerCase();
       return (
         email.sender.toLowerCase().includes(term) ||
@@ -63,12 +67,17 @@ export class InboxComponent implements OnInit {
       );
     });
   }
-  constructor(private http: HttpClient, private route: ActivatedRoute, private titleService:Title) {
-    this.titleService.setTitle("Sweatbank Admin Inbox");
+  constructor(
+    private route: ActivatedRoute,
+    private titleService: Title,
+    private mailSendService: MailSendService,
+    private router: Router
+  ) {
+    this.titleService.setTitle('Sweatbank Admin Inbox');
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.applicationId = params['applicationId'];
       const email = params['email'];
       if (email) {
@@ -79,6 +88,7 @@ export class InboxComponent implements OnInit {
     const storedEmails = localStorage.getItem('emails');
     if (storedEmails) {
       this.emails = JSON.parse(storedEmails);
+      this.emails.forEach((email) => (email.open = false));
     }
   }
   composeEmailToCustomer(email: string): void {
@@ -89,7 +99,8 @@ export class InboxComponent implements OnInit {
   }
 
   filterEmails(category: string): void {
-    this.activeCategory = category;}
+    this.activeCategory = category;
+  }
 
   toggleEmailDetail(email: Email): void {
     if (this.selectedEmail?.id === email.id && email.open) {
@@ -107,10 +118,54 @@ export class InboxComponent implements OnInit {
     localStorage.setItem('emails', JSON.stringify(this.emails));
   }
 
-
   sendNewEmail(): void {
+    if (!this.isSendingEmail) {
+      const newEmail: Email = {
+        id: Math.max(...this.emails.map((e) => e.id)) + 1,
+        recipient: this.newEmailRecipient,
+        sender: 'Admin',
+        subject: this.newEmailSubject,
+        body: this.newEmailBody,
+        applicationId: this.applicationId,
+        time: new Date(),
+        open: false,
+        messages: [],
+      };
+
+      if (!this.newEmailRecipient || !this.newEmailSubject || !this.newEmailBody) {
+        return;
+      }
+
+      this.isSendingEmail = true;
+
+      this.mailSendService
+        .sendNewEmail(
+          newEmail.recipient,
+          newEmail.subject,
+          newEmail.body,
+          newEmail.applicationId!
+        )
+        .subscribe({
+          next: () => {
+            this.emails.unshift(newEmail);
+            this.saveEmailsToLocalStorage();
+            this.resetComposeForm();
+            this.router.navigate(['/admin/inbox']);
+          },
+          error: (error) => {
+            console.error('Error sending email:', error);
+            this.error = 'Failed to send email. Please try again.';
+          },
+          complete: () => {
+            this.isSendingEmail = false;
+          }
+        });
+    }
+  }
+
+  approvedEmail(): void {
     const newEmail: Email = {
-      id: Math.max(...this.emails.map(e => e.id)) + 1,
+      id: Math.max(...this.emails.map((e) => e.id)) + 1,
       recipient: this.newEmailRecipient,
       sender: 'Admin',
       subject: this.newEmailSubject,
@@ -118,17 +173,47 @@ export class InboxComponent implements OnInit {
       applicationId: this.applicationId,
       time: new Date(),
       open: false,
-      messages: []
+      messages: [],
     };
 
-    this.http.post(environment.apiUrl + 'emails/send', newEmail)
+    this.mailSendService
+      .approvedEmail(
+        newEmail.recipient,
+        newEmail.subject,
+        newEmail.body,
+        newEmail.applicationId!
+      )
       .subscribe({
-        next: (response) => {
-          this.emails.unshift(newEmail);
-          this.saveEmailsToLocalStorage();
-          this.resetComposeForm();
+        next: () => {
+          this.router.navigate(['/admin/inbox']);
         },
-        error: (error) => console.error('Error sending email', error)
+      });
+  }
+
+  rejectEmail(): void {
+    const newEmail: Email = {
+      id: Math.max(...this.emails.map((e) => e.id)) + 1,
+      recipient: this.newEmailRecipient,
+      sender: 'Admin',
+      subject: this.newEmailSubject,
+      body: this.newEmailBody,
+      applicationId: this.applicationId,
+      time: new Date(),
+      open: false,
+      messages: [],
+    };
+
+    this.mailSendService
+      .rejectEmail(
+        newEmail.recipient,
+        newEmail.subject,
+        newEmail.body,
+        newEmail.applicationId!
+      )
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/admin/inbox']);
+        },
       });
   }
 
@@ -143,7 +228,7 @@ export class InboxComponent implements OnInit {
   }
 
   deleteEmail(email: Email): void {
-    const index = this.emails.findIndex(e => e.id === email.id);
+    const index = this.emails.findIndex((e) => e.id === email.id);
     if (index !== -1) {
       this.emails.splice(index, 1);
       this.saveEmailsToLocalStorage();
@@ -151,6 +236,7 @@ export class InboxComponent implements OnInit {
   }
 
   cancelCompose(): void {
+    this.isSendingEmail = false;
     this.composingEmail = false;
     this.newEmailRecipient = '';
     this.newEmailSubject = '';
