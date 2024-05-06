@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MailSendService {
-  private apiUrl = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -52,7 +51,7 @@ export class MailSendService {
     applicationId: string
   ): Observable<HttpResponse<any>> {
     return this.httpClient.post<any>(
-      this.apiUrl + 'admin/send-message/approved',
+      environment.apiUrl + 'admin/send-message/approved',
       {
         recipient,
         subject,
