@@ -57,7 +57,7 @@
             </th>
             <td>{{ leaseData.applicationId }}</td>
             <td>{{ leaseData.applicationDate.toString() }}</td>
-            <td>{{ leaseData.interestBase }}</td>
+            <td>{{ formatEuribor(leaseData.interestBase.toString()) }}</td>
             <td>{{ leaseData.leaseMargin }}%</td>
             <td>{{ leaseData.monthlyPayment }}€</td>
             <td>{{ leaseData.borrowedAmount }}€</td>
