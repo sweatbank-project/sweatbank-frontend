@@ -182,17 +182,18 @@ export class ApplicationComponent {
       this.leaseService.submit(serializedForm).subscribe({
         next: () => {
           this.router.navigate(['/submission-confirmation']);
+          this.isLoading = false;
         },
         error: (error: HttpErrorResponse) => {
           if(error.error.errors.length > 0) {
             this.error = error.error.errors[0];
           }
+          this.isLoading = false;
         }
       });
     } else {
       this.pageError['modal'] = true;
     }
-    this.isLoading = false;
   }
 
   onMakeSelect(event: any) {
