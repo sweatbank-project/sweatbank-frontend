@@ -40,6 +40,10 @@ export class DashboardComponent {
   fetchData(): void {
     this.http.get<any>(environment.apiUrl + 'admin/dashboard').subscribe(
       (data) => {
+        data.datesWithCounts.sort((a: any, b: any) => {
+          return new Date(a.leaseCreationDate).getTime() - new Date(b.leaseCreationDate).getTime();
+        });
+        
         this.cardData = { ...data };
         this.canvas.labels = data.datesWithCounts.map(
           (entry: any) => entry.leaseCreationDate
